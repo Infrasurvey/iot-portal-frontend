@@ -13,6 +13,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "eslint": "^7.22.0",
+    "moment": "^2.29.1",
     "vue": "^2.6.12",
     "vue-router": "^3.5.1",
     "vuex": "^3.6.2"

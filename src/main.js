@@ -6,6 +6,7 @@ import Base from './components/Base'
 import router from './router'
 import { store } from './store/store'
 import './assets/scss/index.scss'
+import './assets/js/tools.js';
 
 Vue.config.productionTip = false
 
