@@ -1,4 +1,5 @@
 <template>
+
   <div id="app">
     <div class="nav">
         <div class="nav-title">Geomon IoT Portal</div>

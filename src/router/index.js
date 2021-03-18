@@ -5,6 +5,7 @@ import Home from '@/components/Home'
 import Login from '@/components/auth/Login'
 import Logout from '@/components/auth/Logout'
 import Register from '@/components/auth/Register'
+import Overview from '@/components/installation/installation_overview'
 
 Vue.use(Router)
 
@@ -42,6 +43,14 @@ export default new Router({
       path: '/logout',
       name: 'Logout',
       component: Logout,
+      meta: {
+        requiresAuth: true,
+      }
+    },
+    {
+      path: '/overview',
+      name: 'Overview',
+      component: Overview,
       meta: {
         requiresAuth: true,
       }

@@ -1,7 +1,8 @@
 <template>
+<router-link class="basic-link " :to="{ name: 'Overview' }">
     <div class="station-tile">
         <div class="station-infos">
-            <h3>{{name}}</h3>
+            <h3> {{name}}</h3>
             <p class="station-details">
                 Installed rovers : {{nbRovers}} <br>
                 Battery voltage : {{battery_voltage}} V <br>
@@ -15,6 +16,7 @@
         </div>
         
     </div>
+    </router-link> 
 </template>
 
 <script>

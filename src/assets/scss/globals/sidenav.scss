@@ -1,0 +1,115 @@
+
+.main-install{
+    display: inline-block;
+}
+.sidenav-install {
+    width: 250px; 
+    background: $tile-color;
+    height: 100%;
+    display: inline-block;}
+.sidenav-install a {
+	color: rgb(8, 8, 8);
+	display: block;
+	padding: 0 0 0 0;
+}
+//.sidenav-install-ul label ul {display: none;}
+
+.sidenav-install-ul {
+    margin: 10px;
+    padding-inline-start: 0;
+}
+
+.sidenav-install-ul ul{
+    margin-left:  10px;
+    padding-inline-start: 0;
+}
+
+
+
+
+.sidenav-install > ul > li > a { 
+    text-decoration: none;
+}
+
+.sidenav-install > ul > li {
+    list-style: none;
+}
+
+.sidenav-install li  {
+    list-style: none;
+}
+
+
+label {
+    display: block;
+}
+
+label > ul > li {
+    font-size: 0.8em;
+}
+
+.nav-group {
+    font-size: 1em;
+    font-weight: bold;
+
+}
+.sidenav-install > ul > li {
+    margin-bottom: 50px;
+}
+#btn,#btn1,#btn2 {
+    display: none;
+}
+/*
+#btn:checked + label > ul{
+    list-style: none;
+    display: block;
+}
+#btn:checked + label > .sub-arrow1:after{
+    content: '\2039';
+}
+
+.sidenav-install .sub-arrow1:after {
+	content: '\203A';
+	float: right;
+	margin-right: 10px;
+	transform: rotate(90deg);
+	-webkit-transform: rotate(90deg);
+	-moz-transform: rotate(90deg);
+}
+
+
+
+#btn1:checked + label > ul{
+    list-style: none;
+    display: block;
+}
+#btn1:checked + label > .sub-arrow2:after{
+    content: '\2039';
+}
+
+.sidenav-install .sub-arrow2:after {
+	content: '\203A';
+	float: right;
+	margin-right: 10px;
+	transform: rotate(90deg);
+	-webkit-transform: rotate(90deg);
+	-moz-transform: rotate(90deg);
+}
+
+#btn2:checked + label > ul{
+    list-style: none;
+    display: block;
+}
+#btn2:checked + label > .sub-arrow3:after{
+    content: '\2039';
+}
+
+.sidenav-install .sub-arrow3:after {
+	content: '\203A';
+	float: right;
+	margin-right: 10px;
+	transform: rotate(90deg);
+	-webkit-transform: rotate(90deg);
+	-moz-transform: rotate(90deg);
+}
+*/
