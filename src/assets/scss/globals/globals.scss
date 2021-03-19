@@ -26,8 +26,7 @@
   }
 
   .nav-title{
-    float: left;
-    display: block;
+    display: inline-block;
     padding: 15px 30px 15px 30px;
     color: white;
     background-color: $secondary-color;
@@ -56,4 +55,30 @@
   label {
     display: block;
     margin-bottom: 4px;
+  }
+
+  .breadcrumb > ul > li:not(:last-child)::after {
+    content: ' > ';
+    font-size: 0.8em;
+    margin: 0 .5em;
+    cursor: default;
+  }
+
+  .breadcrumb > ul > li {
+    float: left;
+    font-size: 0.8em;
+  }
+  .breadcrumb {
+    display: inline-block;
+    width: fit-content;
+    height: fit-content;
+    text-align: center;
+    vertical-align: middle;
+    margin-left: 15px;
+    color: white;
+  }
+  .breadcrumb > ul {
+    list-style-type: none;
+    margin-block-start: 0;
+    padding-inline-start: 0;
   }

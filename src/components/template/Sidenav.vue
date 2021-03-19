@@ -7,9 +7,9 @@
                 <label for="btn" class="show">
                 <div class="nav-group">Installation<span class="sub-arrow1"> </span></div> 
                 <ul>
-                    <li><router-link class="basic-link" :to="{ name: 'Overview' }">Overview</router-link> </li>
-                    <li><router-link class="basic-link" :to="{ name: 'Manage' }">Manage</router-link></li>
-                    <li><router-link class="basic-link" :to="{ name: 'Event' }">Event log</router-link></li>
+                    <li><router-link class="basic-link" :to="{ name: 'Overview', query: { id: this.stationid } }">Overview</router-link> </li>
+                    <li><router-link class="basic-link" :to="{ name: 'Manage', query: { id: this.stationid } }">Manage</router-link></li>
+                    <li><router-link class="basic-link" :to="{ name: 'Event', query: { id: this.stationid } }">Event log</router-link></li>
                 </ul>
                 </label>
             </li>
@@ -18,8 +18,8 @@
                 <label for="btn1" class="show">
                 <div class="nav-group">Base station<span class="sub-arrow2"> </span></div>
                 <ul>
-                    <li><router-link class="basic-link" :to="{ name: 'OverviewStation' }">Overview</router-link></li>
-                    <li><router-link class="basic-link" :to="{ name: 'Configuration' }">Configuration</router-link></li>
+                    <li><router-link class="basic-link" :to="{ name: 'OverviewStation', query: { id: this.stationid } }">Overview</router-link></li>
+                    <li><router-link class="basic-link" :to="{ name: 'ConfigurationStation', query: { id: this.stationid } }">Configuration</router-link></li>
                 </ul>
                 </label>
             </li>
@@ -41,7 +41,12 @@
 <script>
 
 export default {
-    name: 'sidenav'
-
+    name: 'sidenav',
+    props:{
+      stationid: {
+          type: String,
+          required : true
+      }
+    }
 }
 </script>

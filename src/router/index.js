@@ -6,54 +6,108 @@ import Login from '@/components/auth/Login'
 import Logout from '@/components/auth/Logout'
 import Register from '@/components/auth/Register'
 import Overview from '@/components/installation/installation_overview'
+import Manage from '@/components/installation/installation_manage'
+import OverviewStation from '@/components/base_station/basestation_overview'
+import ConfigurationStation from '@/components/base_station/basestation_config'
+
 
 Vue.use(Router)
 
+var OverviewRoute =  {
+  path: '/overview',
+  name: 'Overview',
+  component: Overview,
+  meta: {
+    requiresAuth: true,
+    breadcrumb:[{name: 'Home', link: '/' },{name:'Overview'}] 
+  }
+}
+
+var ManageRoute =  {
+  path: '/manage',
+  name: 'Manage',
+  component: Manage,
+  meta: {
+    requiresAuth: true,
+    breadcrumb:[{name: 'Home', link: '/' },{name:'Manage'}] 
+  }
+}
+
+var OverviewStationRoute =  {
+  path: '/basestation/overview',
+  name: 'OverviewStation',
+  component: OverviewStation,
+  meta: {
+    requiresAuth: true,
+    breadcrumb:[{name: 'Home', link: '/' },{name:'Overview'}] 
+  }
+}
+
+var ConfigStationRoute =  {
+  path: '/basestation/configuration',
+  name: 'ConfigurationStation',
+  component: ConfigurationStation,
+  meta: {
+    requiresAuth: true,
+    breadcrumb:[{name: 'Home', link: '/' },{name:'Configuration'}] 
+  }
+}
+
+var HomeRoute = {
+  path: '/',
+  name: 'home',
+  component: Home,
+  meta: {
+    requiresAuth: true,
+    breadcrumb:[{name:'Home'}] 
+  }
+}
+
+var LoginRoute = {
+  path: '/login',
+  name: 'Login',
+  component: Login,
+ 
+}
+
+var RegisterRoute = 
+{
+  path: '/register',
+  name: 'Register',
+  component: Register,
+ 
+}
+
+var LogoutRoute = {
+  path: '/logout',
+  name: 'Logout',
+  component: Logout,
+  meta: {
+    requiresAuth: true,
+  }
+}
+
+
+
+var GetRoverRoute =     {
+  path: '/getrover',
+  name: 'GetRover',
+  component: GetRover,
+  meta: {
+    requiresAuth: true,
+  }
+}
+
 export default new Router({
   routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: Home,
-      meta: {
-        requiresAuth: true,
-      }
-    },
-    {
-      path: '/getrover',
-      name: 'GetRover',
-      component: GetRover,
-      meta: {
-        requiresAuth: true,
-      }
-    },
-    {
-      path: '/login',
-      name: 'Login',
-      component: Login,
-     
-    },
-    {
-      path: '/register',
-      name: 'Register',
-      component: Register,
-     
-    },
-    {
-      path: '/logout',
-      name: 'Logout',
-      component: Logout,
-      meta: {
-        requiresAuth: true,
-      }
-    },
-    {
-      path: '/overview',
-      name: 'Overview',
-      component: Overview,
-      meta: {
-        requiresAuth: true,
-      }
-    }
+    HomeRoute,
+    ManageRoute,
+    OverviewRoute,
+    OverviewStationRoute,
+    ConfigStationRoute,
+    LoginRoute,
+    RegisterRoute,
+    LogoutRoute,
+    GetRoverRoute
   ]
 })

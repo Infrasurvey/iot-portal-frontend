@@ -15,7 +15,6 @@ library.add([faBatteryEmpty,faBatteryHalf,faBatteryFull,faBatteryQuarter,faBatte
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
-
 Vue.config.productionTip = false
 
 
