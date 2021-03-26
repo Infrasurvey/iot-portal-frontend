@@ -2,7 +2,7 @@
   <div id="app">
     <ul class="nav">
       <li><router-link :to="{ name: 'home' }">Home</router-link></li>
-      <li v-if="!loggedIn"><router-link :to="{ name: 'Login' }">Login</router-link></li>
+      <li v-if="!loggedIn"><router-link :to="{ name: 'login' }">Login</router-link></li>
       <li v-if="!loggedIn"><router-link :to="{ name: 'Register' }">Register</router-link></li>
       <li v-if="loggedIn"><router-link :to="{ name: 'Logout' }">Logout</router-link></li>
 

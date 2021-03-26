@@ -27,21 +27,30 @@
 
   .nav-title{
     display: inline-block;
-    padding: 15px 30px 15px 30px;
     color: white;
     background-color: $secondary-color;
+    height: inherit;
+    vertical-align: middle;
+    line-height: 70px;
+    padding: 0 20px;
   }
 
   .nav-list{
     float: right;
     display: block;
-    padding: 15px 0 15px 0;
+    height: inherit;
+    line-height: 65px;
+  }
+
+  .nav-logo *{
+    height: inherit;
   }
 
   .nav {
     background: $primary-color;
     border-bottom: 1px solid lightgrey;
     overflow: hidden;
+    height: 70px;
   }
   .nav a {
     color: white;

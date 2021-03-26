@@ -7,8 +7,8 @@
     <form action="#" @submit.prevent="login">
 
       <div class="form-control">
-        <label for="username">Username</label>
-        <input type="text" name="username" id="username" class="login-input" v-model="username">
+        <label for="email">E-mail</label>
+        <input type="text" name="email" id="email" class="login-input" v-model="email" >
       </div>
 
       <div class="form-control mb-more">
@@ -39,7 +39,7 @@ export default {
   name: 'login',
   data() {
     return {
-      username: '',
+      email: '',
       password: '',
     }
   },
@@ -48,11 +48,11 @@ export default {
     login() {
 
       this.$store.dispatch('retrieveToken', {
-        username: this.username,
+        email: this.email,
         password: this.password,
       })
         .then(response => {
-          this.$router.push({ name: 'GetRover' })
+          this.$router.push({ name: 'home' })
         })
         
     }

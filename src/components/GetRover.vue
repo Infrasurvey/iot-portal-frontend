@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import {HTTP} from '../http-constants'
+import API from '../http-constants'
 export default {
   name: 'GetRover',
   data () {
@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     getRover: function () {
-      HTTP.get('/device/rover/all')
+      API.get('/api/device/rover/all')
         .then(response => {
           //console.log(response.data)
           this.rover =response.data

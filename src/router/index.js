@@ -19,7 +19,7 @@ var OverviewRoute =  {
   component: Overview,
   meta: {
     requiresAuth: true,
-    breadcrumb:[{name: 'Home', link: '/' },{name:'Overview'}] 
+    breadcrumb:[{name: 'Home', link: '/' },{name:'Installation'},{name:'Overview'}] 
   }
 }
 
@@ -29,7 +29,7 @@ var ManageRoute =  {
   component: Manage,
   meta: {
     requiresAuth: true,
-    breadcrumb:[{name: 'Home', link: '/' },{name:'Manage'}] 
+    breadcrumb:[{name: 'Home', link: '/' },{name:'Installation'},{name:'Manage'}] 
   }
 }
 
@@ -39,7 +39,7 @@ var OverviewStationRoute =  {
   component: OverviewStation,
   meta: {
     requiresAuth: true,
-    breadcrumb:[{name: 'Home', link: '/' },{name:'Overview'}] 
+    breadcrumb:[{name: 'Home', link: '/' },{name:'Base station'},{name:'Overview'}] 
   }
 }
 
@@ -49,7 +49,7 @@ var ConfigStationRoute =  {
   component: ConfigurationStation,
   meta: {
     requiresAuth: true,
-    breadcrumb:[{name: 'Home', link: '/' },{name:'Configuration'}] 
+    breadcrumb:[{name: 'Home', link: '/' },{name:'Base station'},{name:'Configuration'}] 
   }
 }
 
@@ -65,7 +65,7 @@ var HomeRoute = {
 
 var LoginRoute = {
   path: '/login',
-  name: 'Login',
+  name: 'login',
   component: Login,
  
 }

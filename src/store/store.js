@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {HTTP} from '../http-constants'
+import API from '../http-constants'
 Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
-    token: localStorage.getItem('access_token') || null,
+    token: localStorage.getItem('token') || null,
   },
   getters: {
     loggedIn(state) {
@@ -24,10 +24,11 @@ export const store = new Vuex.Store({
     register(context, data) {
       return new Promise((resolve, reject) => {
 
-        HTTP.post('/register', {
+        API.post('/api/register', {
           name: data.name,
           email: data.email,
           password: data.password,
+          c_password: data.c_password,
         })
           .then(response => {
             resolve(response)
@@ -38,20 +39,18 @@ export const store = new Vuex.Store({
       })
     },
     destroyToken(context) {
-      //axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
+      API.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
 
       if (context.getters.loggedIn) {
         return new Promise((resolve, reject) => {
-            HTTP.post('/logout')
+          API.post('/api/logout')
             .then(response => {
-              localStorage.removeItem('access_token')
+              localStorage.removeItem('token')
               context.commit('destroyToken')
               resolve(response)
-              // console.log(response);
-              // context.commit('addTodo', response.data)
             })
             .catch(error => {
-              localStorage.removeItem('access_token')
+              localStorage.removeItem('token')
               context.commit('destroyToken')
               reject(error)
             })
@@ -62,37 +61,23 @@ export const store = new Vuex.Store({
 
       return new Promise((resolve, reject) => {
 
-        
-          if(credentials.username=="nino",credentials.password=="admin")
-          {
-            const token = "montokkken"
-
-            localStorage.setItem('access_token', token)
-            context.commit('retrieveToken', token)
-            resolve(true)
-          }
-          else{
-            reject(false)
-          }
-            
-          /*
-        HTTP.post('/login', {
-          username: credentials.username,
-          password: credentials.password,
-        })
-          .then(response => {
-            const token = response.data.access_token
-
-            localStorage.setItem('access_token', token)
-            context.commit('retrieveToken', token)
-            resolve(response)
-            // console.log(response);
-            // context.commit('addTodo', response.data)
-          })
-          .catch(error => {
-            console.log(error)
-            reject(error)
-          })*/
+          API.get('/sanctum/csrf-cookie').then(response => {
+            API.post('/api/login', {
+              email: credentials.email,
+              password: credentials.password,
+            })
+              .then(response => {
+                const token = response.data.token
+                localStorage.setItem('token', token)
+                context.commit('retrieveToken', token)
+                API.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
+                resolve(response)
+              })
+              .catch(error => {
+                console.log(error)
+                reject(error)
+              })
+        });
         })
     }
   }

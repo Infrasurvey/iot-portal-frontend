@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import {HTTP} from '../http-constants'
+import API from '../http-constants'
 import StationTile from './StationTile'
 export default {
 
@@ -28,7 +28,7 @@ export default {
   },
   methods: {
     getStations: function () {
-      HTTP.get('/device/basestation/all')
+      API.get('/api/device/basestation/all')
         .then(response => {
           this.stations =response.data
         })

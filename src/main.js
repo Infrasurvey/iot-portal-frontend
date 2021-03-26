@@ -8,21 +8,37 @@ import { store } from './store/store'
 import './assets/scss/index.scss'
 import './assets/js/tools.js';
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faBatteryEmpty,faBatteryHalf,faBatteryFull,faBatteryQuarter,faBatteryThreeQuarters } from '@fortawesome/free-solid-svg-icons'
+import { faBatteryEmpty,faBatteryHalf,faBatteryFull,faBatteryQuarter,faBatteryThreeQuarters,faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+//import { AbilityBuilder, Ability } from '@casl/ability'
+//import { abilityPlugin } from '@casl/vue'
 
-library.add([faBatteryEmpty,faBatteryHalf,faBatteryFull,faBatteryQuarter,faBatteryThreeQuarters])
-
-Vue.component('font-awesome-icon', FontAwesomeIcon)
-
-Vue.config.productionTip = false
+/*
+const ability = new  ability([])
+function defineAbilitiesFor(user) {
+  return AbilityBuilder.define((can, cannot) => {
+    if (user.role ==='Admin')  //rules per user
+    {
+      can('manage', 'all')    
+    } else {
+      can('read', 'all')  //rule per field
+    }
+  })
+}*/
+//authenticationability.update(defineAbilitiesFor(this.$store.state.user))
+//ability.can('read','Post')  //true
+//Vue.use('abilityPlugins', 'ability');
+library.add([faBatteryEmpty,faBatteryHalf,faBatteryFull,faBatteryQuarter,faBatteryThreeQuarters,faUserCircle])
+Vue.component('font-awesome-icon', FontAwesomeIcon);
+//Vue.use(abilitiesPlugin, ability);
+Vue.config.productionTip = false;
 
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!store.getters.loggedIn) {
       next({
-        name: 'Login',
+        name: 'login',
       })
     } else {
       next()

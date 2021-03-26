@@ -23,7 +23,7 @@
     // https://developer.here.com/documentation/examples/maps-js/geoshapes/polyline-on-the-map
     import Sidenav from '../template/Sidenav'
     import BatteryStatus from './battery_status'
-    import {HTTP} from '../../http-constants'
+    import API from '../../http-constants'
 
     export default {
             name: 'Overview',
@@ -76,7 +76,7 @@
             },
             methods: {
                 getStation: function (stationId) {
-                HTTP.get('/device/basestation/'+stationId)
+                API.get('/api/device/basestation/'+stationId)
                     .then(response => {
                     this.station =response.data
                     })
