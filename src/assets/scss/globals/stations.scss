@@ -2,20 +2,37 @@
 .station-tile{
     margin: 30px;
     background-color: $tile-color;
-    padding: 15px;
-    
+    width: 560px; 
+    height: 270px;   
 }
 
 .station-infos{
     display: inline-block;
     padding: 15px;
+    width: 270px;
 }
 
 .map-preview-container{
     display: inline-block;
-    background-color: blue;
+    width: 240px;
+    height: 270px;
+    vertical-align: top;
+}
+
+.map-preview-container > div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: inherit;
 }
 
 .map-preview {
+    text-align: center;
+}
 
+.station-infos > h3 {
+    margin-block-start: 0em;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }

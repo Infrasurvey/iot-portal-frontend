@@ -1,15 +1,27 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import API from '../http-constants'
+import defineRulesFor from '../assets/js/abilityBuild'
+import {ability} from '../assets/js/ability.js'
+import { Ability } from '@casl/ability'
+
 Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
     token: localStorage.getItem('token') || null,
+    groups : null,
+    ability : new Ability([])
   },
   getters: {
     loggedIn(state) {
       return state.token !== null
+    },
+    getGroups(state){
+      return state.groups
+    },
+    getAbility(state){
+      return state.ability
     }
   },
   mutations: {
@@ -19,6 +31,12 @@ export const store = new Vuex.Store({
     destroyToken(state) {
       state.token = null
     },
+    setGroups(state,groups){
+      state.groups = groups
+    },
+    updateAbility(state,groups){
+      state.ability = defineRulesFor(groups)
+    }
   },
   actions: {
     register(context, data) {
@@ -67,10 +85,19 @@ export const store = new Vuex.Store({
               password: credentials.password,
             })
               .then(response => {
-                const token = response.data.token
+                const token = response.data.data.token
                 localStorage.setItem('token', token)
                 context.commit('retrieveToken', token)
                 API.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
+                var groups =[];
+                const groupsAsJSON = response.data.data.groups
+                for(var i in groupsAsJSON){
+                  const group = groupsAsJSON[i]
+                  groups[group.name] = group.pivot.is_group_admin;
+                }
+                context.commit('setGroups', groups)
+                context.commit('updateAbility',groups)
+                //ability.update(defineRulesFor(context.getters.getGroups))
                 resolve(response)
               })
               .catch(error => {
