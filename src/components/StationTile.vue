@@ -20,7 +20,7 @@
         </div>
         <div class="map-preview-container">
             <div>
-                <img src="../images/tmp_map.png" alt="" class="map-preview" width="230px" height="230px">
+                <img :src="'http://localhost:8080/storage/images/'+image_path" alt="" class="map-preview" width="230px" height="230px">
             </div>
         </div>
     </router-link> 

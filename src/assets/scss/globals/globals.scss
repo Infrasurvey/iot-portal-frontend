@@ -46,6 +46,13 @@
     height: inherit;
   }
 
+  .icon {
+    height: auto;
+    vertical-align: middle;
+  }
+
+
+
   .nav {
     background: $primary-color;
     border-bottom: 1px solid lightgrey;
@@ -91,3 +98,44 @@
     margin-block-start: 0;
     padding-inline-start: 0;
   }
+
+  .dropdown {
+    position: relative;
+    display: inline-block;
+    margin-right: 30px;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: fixed;
+    background-color: $secondary-color;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    right: 8px;
+    margin-top: 5px;
+    z-index: 1;
+    line-height: normal;
+  }
+
+  .dp-container {
+    padding: 5px;
+
+  }
+
+  
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+
+  .dropdown-content a {
+    color: white;
+    padding: 0 15px;
+    font-size: 0.6em;
+    font-weight: 600;
+    letter-spacing: .1rem;
+    text-decoration: none;
+    text-transform: none;
+    line-height: normal;
+  }
+
+  .dropdown-content .dp-container:hover {background-color: $primary-color}
