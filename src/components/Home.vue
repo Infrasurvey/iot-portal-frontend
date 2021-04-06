@@ -1,12 +1,20 @@
 <template>
 <div>
-    <h1>My installations</h1>
-     <button type="button" class="btn" @click="showModal" > Open Modal! </button>
+    <div class="home-header">
+
+      <h1>My installations</h1>
+      <h1 class="btn-create-install">
+         <button type="button" class="btn" @click="showModal" >+ Create a new installation </button>
+      </h1>
+    </div>
 
     <Modal
       v-if="isModalVisible"
       @close="closeModal"
+      @updateList="getStations"
+      @displaySuccess="displayStatus"
     />
+    <FlashMessage></FlashMessage>
     <div class="flex-container">
     <station-tile v-for="station in stations" :key="station.id" :station="station"> 
     </station-tile>
@@ -46,7 +54,8 @@ export default {
       console.log(ability.cannot('delete', 'User')) // true
   },
   methods: {
-    getStations: function () {
+    getStations () {
+      console.log("test")
       API.get('/api/installationByUser')
         .then(response => {
           this.stations =response.data
@@ -61,6 +70,15 @@ export default {
     },
     closeModal() {
       this.isModalVisible = false;
+    },
+    displayStatus(status){
+      if(status){
+          this.flashMessage.success({title: 'Success', message: 'The new installation has been succesfully created !'});
+      }
+      else
+      {
+        this.flashMessage.show({status: 'error', title: 'Error', message: 'An error occured during installation creation.'})
+      }
     }
   }
 }

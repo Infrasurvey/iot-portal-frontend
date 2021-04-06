@@ -15,7 +15,7 @@
     box-shadow: 2px 2px 20px 1px;
     overflow-x: auto;
     width: 50%;
-    height: 90%;
+    height: fit-content;
     display: flex;
     flex-direction: column;
   }
@@ -26,7 +26,6 @@
 
   .modal-header,
   .modal-footer {
-    padding: 15px;
     display: flex;
   }
 
@@ -88,7 +87,7 @@
     display: grid;
     grid-template-columns: 50% 1fr;
     grid-gap: 20px;
-    padding: 0 30px 0 30px;
+    padding: 0 20px 0 20px;
   }
 
   .installation-form > label {
@@ -98,4 +97,28 @@
  
 .installation-form > input {
     grid-column: 2 / 3;
+}
+
+.hasError {
+  border-color: red;
+  border-style: solid;
+  border-width: 2px;
+}
+
+
+.home-header > *{
+  display: inline-block;
+}
+
+.btn-create-install{
+  float: right;
+}
+.btn-create-install > button{
+  vertical-align: middle;
+  margin-right: 40px;
+  color: white;
+  background: $primary-color;
+  font-size: 0.4em;
+  border: 5px solid $primary-color;
+  border-radius: 8px;
 }

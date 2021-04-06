@@ -10,19 +10,20 @@
 
       <section class="modal-body">
         <div name="body">
+
           <form enctype="multipart/form-data" class="installation-form">
               <label for="name">Installation's name : </label>
-              <input type="text" v-model="installation.name" name="name" id="name" placeholder="Name">
+              <input type="text" v-model="installation.name" name="name" id="name" placeholder="Name" :class="{ 'hasError': $v.installation.name.$error }">
               <label for="date">Comissioning date : </label>
-              <input type="date" v-model="installation.installation_date" name="date" id="date">
+              <input type="date" v-model="installation.installation_date" name="date" id="date" :class="{ 'hasError': $v.installation.installation_date.$error }">
               <label for="basestation">Select an existing base station :</label>
-              <select type="text" v-model="installation.device_base_station_id" name="basestation" id="basestation"> 
+              <select type="text" v-model="installation.device_base_station_id" name="basestation" id="basestation" :class="{ 'hasError': $v.installation.device_base_station_id.$error }"> 
                     <option v-for="station in stations" :key="station.id" v-bind:value="station.id">
                         {{ station.name }}
                     </option>
               </select>
                 <label for="group">Select an existing group :</label>
-              <select type="text" v-model="installation.group_id" name="group" id="group"> 
+              <select type="text" v-model="installation.group_id" name="group" id="group" :class="{ 'hasError': $v.installation.group_id.$error }"> 
                     <option v-for="group in groups" :key="group.id" v-bind:value="group.id">
                         {{ group.name }}
                     </option>
@@ -47,6 +48,7 @@
 import API from '../../http-constants'
 import PictureInput from 'vue-picture-input'
 import FormData from 'form-data'
+import { required } from 'vuelidate/lib/validators'
 
   export default {
     name: 'Modal',
@@ -56,19 +58,35 @@ import FormData from 'form-data'
     data(){
         return{
             installation: {
-                name:'',
-                installation_date:'',
-                group_id:'',
-                device_base_station_id:'',
-
+                name:"",
+                installation_date:"",
+                group_id:"",
+                device_base_station_id:"",
             },
             image:null,
             stations: [],
             groups:[],
             errorMessage: '',
+            errors: [],
             responseMessage: ''
         }
     },
+    validations: {
+      installation: {
+        name:{
+          required
+        },
+        installation_date:{
+          required
+        },
+        group_id:{
+          required
+        },
+        device_base_station_id:{
+          required
+        }
+      }
+   },
     created(){
         this.getStations();
         this.getGroups();
@@ -106,13 +124,22 @@ import FormData from 'form-data'
           API.post('/api/installation',form)
           .then(response => {
                 this.responseMessage = response.data
+                this.$emit('close');
+                this.$emit('updateList');
+                this.$emit('displaySuccess',true)
             })
             .catch(e => {
             this.errorMessage = e
+            this.$emit('close');
+            this.$emit('displaySuccess',false)
             })
       },
         onSubmit: function() {
-            this.saveInstallation()
+            this.$v.installation.$touch();
+            if(this.$v.installation.$error) return
+            // to form submit after this
+            //alert('Form submitted')
+            this.saveInstallation();
         },
         onChanged (image) {
             if (image) {

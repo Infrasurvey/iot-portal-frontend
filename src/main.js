@@ -13,6 +13,13 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { AbilityBuilder, Ability } from '@casl/ability'
 import { abilityPlugin } from '@casl/vue'
 import Vodal from 'vodal';
+import Vuelidate from 'vuelidate'
+import FlashMessage from '@smartweb/vue-flash-message';
+
+
+Vue.use(FlashMessage);
+
+Vue.use(Vuelidate)
 
 Vue.prototype.$ability = new Ability();
 
