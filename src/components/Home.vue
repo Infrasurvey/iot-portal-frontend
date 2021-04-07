@@ -45,9 +45,9 @@ export default {
   },
   created(){
       this.getStations();
-      //this.$ability.update(defineRulesFor(this.$store.getters.getGroups));
+      this.$emit('updateUserInfo');
       var ability = this.$store.getters.getAbility;
-      console.log(ability.can('read', 'Post')) // true
+      console.log(this.$store.getters.getName) // true
       console.log(ability.can('read', 'User')) // true
       console.log(ability.can('update', 'User') )// true
       console.log(ability.can('delete', 'User') )// false

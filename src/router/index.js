@@ -9,9 +9,41 @@ import Overview from '@/components/installation/installation_overview'
 import Manage from '@/components/installation/installation_manage'
 import OverviewStation from '@/components/base_station/basestation_overview'
 import ConfigurationStation from '@/components/base_station/basestation_config'
-
+import Informations from '@/components/account/account_information'
+import AccountLocation from '@/components/account/account_location'
+import Password from '@/components/account/account_pwd'
 
 Vue.use(Router)
+
+var InformationsRoute =  {
+  path: '/account-settings/informations ',
+  name: 'Informations',
+  component: Informations,
+  meta: {
+    requiresAuth: true,
+    breadcrumb:[{name: 'Home', link: '/' },{name:'Account settings'},{name:'Personal informations'}] 
+  }
+}
+
+var LocationRoute =  {
+  path: '/account-settings/location ',
+  name: 'Location',
+  component: AccountLocation,
+  meta: {
+    requiresAuth: true,
+    breadcrumb:[{name: 'Home', link: '/' },{name:'Account settings'},{name:'Location'}] 
+  }
+}
+
+var PwdRoute =  {
+  path: '/account-settings/password ',
+  name: 'Password',
+  component: Password,
+  meta: {
+    requiresAuth: true,
+    breadcrumb:[{name: 'Home', link: '/' },{name:'Account settings'},{name:'Password'}] 
+  }
+}
 
 var OverviewRoute =  {
   path: '/overview',
@@ -108,6 +140,10 @@ export default new Router({
     LoginRoute,
     RegisterRoute,
     LogoutRoute,
+    InformationsRoute,
+    LocationRoute,
+    PwdRoute,
+
     GetRoverRoute
   ]
 })

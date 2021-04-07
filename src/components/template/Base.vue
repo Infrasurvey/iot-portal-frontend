@@ -5,12 +5,18 @@
         <div class="nav-title"> Geomon IoT Portal</div>        
         <breadcrumb />
 
-        <div class="nav-list dropdown">
+        <div v-if="loggedIn" class="nav-list dropdown">
           <font-awesome-icon class="icon" icon="chevron-down" size="1x" style="color:white"/>
           <div class="dropdown-content">
             <div class="dp-container"><router-link :to="{ name: 'settings' }">Manage portal</router-link></div>
-            <div class="dp-container"><router-link :to="{ name: 'account' }">Account settings</router-link></div>
+            <div class="dp-container"><router-link :to="{ name: 'Informations' }">Account settings</router-link></div>
             <div v-if="loggedIn" class="dp-container"><router-link :to="{ name: 'Logout' }">Logout</router-link></div>
+          </div>
+        </div>
+        <div v-if="loggedIn" class="nav-list">
+          <div class="user-info">
+            <div>{{name}}</div>
+            <div class="user-mail">{{mail}}</div>
           </div>
         </div>
         <div v-if="loggedIn" class="nav-list nav-logo">
@@ -22,7 +28,7 @@
     </div>
     
 
-    <router-view></router-view>
+    <router-view @updateUserInfo="updateUserInfo"></router-view>
   </div>
 </template>
 
@@ -35,9 +41,21 @@ export default {
 components: {
     Breadcrumb
   },
+  data (){
+    return{
+      name:'',
+      mail:''
+    }
+  },
   computed: {
     loggedIn() {
       return this.$store.getters.loggedIn
+    }
+  },
+  methods:{
+    updateUserInfo(){
+        this.name  = this.$store.getters.getName;
+        this.mail = this.$store.getters.getMail;
     }
   }
 }

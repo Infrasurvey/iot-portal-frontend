@@ -9,9 +9,11 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
-    token: localStorage.getItem('token') || null,
-    groups : null,
-    ability : new Ability([])
+    token: sessionStorage.getItem('token') || null,
+    groups : sessionStorage.getItem('groups') || null,
+    ability : sessionStorage.getItem('ability') || new Ability([]),
+    name : sessionStorage.getItem('name') || null,
+    mail : sessionStorage.getItem('mail') || null
   },
   getters: {
     loggedIn(state) {
@@ -22,6 +24,12 @@ export const store = new Vuex.Store({
     },
     getAbility(state){
       return state.ability
+    },
+    getName(state){
+      return state.name
+    },
+    getMail(state){
+      return state.mail
     }
   },
   mutations: {
@@ -33,9 +41,19 @@ export const store = new Vuex.Store({
     },
     setGroups(state,groups){
       state.groups = groups
+      sessionStorage.setItem('groups', groups)
     },
     updateAbility(state,groups){
       state.ability = defineRulesFor(groups)
+      sessionStorage.setItem('token', state.ability)
+    },
+    setName(state,name){
+      state.name = name
+      sessionStorage.setItem('name', name)
+    },
+    setMail(state,mail){
+      state.mail = mail
+      sessionStorage.setItem('mail', mail)
     }
   },
   actions: {
@@ -56,6 +74,24 @@ export const store = new Vuex.Store({
           })
       })
     },
+    cleanSession(context){
+      sessionStorage.removeItem('token')
+      context.commit('destroyToken')
+  
+      sessionStorage.removeItem('groups')
+      context.commit('setGroups', null)
+  
+      sessionStorage.removeItem('ability')
+  
+      sessionStorage.removeItem('name')
+      context.commit('setName',null)
+  
+      sessionStorage.removeItem('mail')
+      context.commit('setMail',null)
+  
+      console.log("Session cleaned")
+  
+    },
     destroyToken(context) {
       API.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
 
@@ -63,13 +99,11 @@ export const store = new Vuex.Store({
         return new Promise((resolve, reject) => {
           API.post('/api/logout')
             .then(response => {
-              localStorage.removeItem('token')
-              context.commit('destroyToken')
+              context.dispatch('cleanSession')
               resolve(response)
             })
             .catch(error => {
-              localStorage.removeItem('token')
-              context.commit('destroyToken')
+              context.dispatch('cleanSession')
               reject(error)
             })
         })
@@ -86,7 +120,7 @@ export const store = new Vuex.Store({
             })
               .then(response => {
                 const token = response.data.data.token
-                localStorage.setItem('token', token)
+                sessionStorage.setItem('token', token)
                 context.commit('retrieveToken', token)
                 API.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
                 var groups =[];
@@ -97,7 +131,8 @@ export const store = new Vuex.Store({
                 }
                 context.commit('setGroups', groups)
                 context.commit('updateAbility',groups)
-                //ability.update(defineRulesFor(context.getters.getGroups))
+                context.commit('setName',response.data.data.name)
+                context.commit('setMail',response.data.data.email)
                 resolve(response)
               })
               .catch(error => {
