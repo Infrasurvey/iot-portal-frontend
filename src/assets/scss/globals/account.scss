@@ -1,0 +1,26 @@
+
+.flex-input-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    align-content: space-around;
+    margin-bottom: 30px;
+}
+
+.input-container {
+    margin: 20px 50px;
+}
+
+.apply-btn {
+    float: right;
+    background-color: $primary-color;
+    color: white;
+    padding: 10px 30px;
+    font-size: 0.7em;
+    font-weight: 600;
+    letter-spacing: .1rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    border: 5px solid $primary-color;
+    border-radius: 8px;
+}

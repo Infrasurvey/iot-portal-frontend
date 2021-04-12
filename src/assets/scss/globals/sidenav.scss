@@ -8,8 +8,9 @@
 .sidenav-install {
     width: 17%; 
     background: $tile-color;
-    height: 100%;
+    height: calc(100vh - 78px);
     display: inline-block;}
+
 .sidenav-install a {
 	color: rgb(8, 8, 8);
 	display: block;

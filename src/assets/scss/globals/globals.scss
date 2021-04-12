@@ -25,14 +25,19 @@
     justify-content: center;
   }
 
+  
+
+
   .nav-title{
     display: inline-block;
     color: white;
     background-color: $secondary-color;
     height: inherit;
     vertical-align: middle;
+    text-align: center;
     line-height: 70px;
-    padding: 0 20px;
+    /* padding: 0 20px; */
+    width: 17%;
   }
 
   .nav-list{
@@ -117,10 +122,6 @@
     line-height: normal;
   }
 
-  .dp-container {
-    padding: 5px;
-
-  }
 
   
   .dropdown:hover .dropdown-content {
@@ -129,13 +130,14 @@
 
   .dropdown-content a {
     color: white;
-    padding: 0 15px;
     font-size: 0.6em;
     font-weight: 600;
     letter-spacing: .1rem;
     text-decoration: none;
     text-transform: none;
     line-height: normal;
+    padding: 25px;
+    display: block;
   }
 
   .dropdown-content .dp-container:hover {background-color: $primary-color}
@@ -152,4 +154,9 @@
 
   .user-mail {
     font-size: 0.7em;
+  }
+
+  .dp-container {
+    padding: 25px;
+    display: block;
   }

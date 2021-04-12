@@ -2,15 +2,15 @@
 
   <div id="app">
     <div class="nav">
-        <div class="nav-title"> Geomon IoT Portal</div>        
+        <div class="nav-title">Geomon IoT Portal</div>        
         <breadcrumb />
 
         <div v-if="loggedIn" class="nav-list dropdown">
           <font-awesome-icon class="icon" icon="chevron-down" size="1x" style="color:white"/>
           <div class="dropdown-content">
-            <div class="dp-container"><router-link :to="{ name: 'settings' }">Manage portal</router-link></div>
-            <div class="dp-container"><router-link :to="{ name: 'Informations' }">Account settings</router-link></div>
-            <div v-if="loggedIn" class="dp-container"><router-link :to="{ name: 'Logout' }">Logout</router-link></div>
+            <router-link :to="{ name: 'ManageStations' }" class="dp-container">Manage portal</router-link>
+            <router-link :to="{ name: 'Informations' }" class="dp-container">Account settings</router-link>
+            <router-link :to="{ name: 'Logout' }" class="dp-container">Logout</router-link>
           </div>
         </div>
         <div v-if="loggedIn" class="nav-list">
@@ -24,10 +24,7 @@
             <font-awesome-icon class="icon" icon="user-circle" size="3x" />
           </router-link>
         </div>
-        
     </div>
-    
-
     <router-view @updateUserInfo="updateUserInfo"></router-view>
   </div>
 </template>
@@ -46,6 +43,9 @@ components: {
       name:'',
       mail:''
     }
+  },
+  created(){
+    this.updateUserInfo();
   },
   computed: {
     loggedIn() {

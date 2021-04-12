@@ -47,7 +47,6 @@ export default {
       this.getStations();
       this.$emit('updateUserInfo');
       var ability = this.$store.getters.getAbility;
-      console.log(this.$store.getters.getName) // true
       console.log(ability.can('read', 'User')) // true
       console.log(ability.can('update', 'User') )// true
       console.log(ability.can('delete', 'User') )// false
@@ -55,7 +54,6 @@ export default {
   },
   methods: {
     getStations () {
-      console.log("test")
       API.get('/api/installationByUser')
         .then(response => {
           this.stations =response.data

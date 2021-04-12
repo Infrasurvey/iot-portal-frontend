@@ -12,11 +12,56 @@ import ConfigurationStation from '@/components/base_station/basestation_config'
 import Informations from '@/components/account/account_information'
 import AccountLocation from '@/components/account/account_location'
 import Password from '@/components/account/account_pwd'
+import ManageStations from '@/components/management/manage_stations'
+import ManageUsers from '@/components/management/manage_users'
+import ManageGroups from '@/components/management/manage_groups'
+import ManageOrganizations from '@/components/management/manage_organizations'
 
 Vue.use(Router)
 
+
+var ManageOrganizationsRoute =  {
+  path: '/management/organizations',
+  name: 'ManageOrganizations',
+  component: ManageOrganizations,
+  meta: {
+    requiresAuth: true,
+    breadcrumb:[{name: 'Home', link: '/' },{name:'Management'},{name:'Organizations'}] 
+  }
+}
+
+var ManageGroupsRoute =  {
+  path: '/management/groups',
+  name: 'ManageGroups',
+  component: ManageGroups,
+  meta: {
+    requiresAuth: true,
+    breadcrumb:[{name: 'Home', link: '/' },{name:'Management'},{name:'Groups'}] 
+  }
+}
+
+var ManageStationsRoute =  {
+  path: '/management/base-stations',
+  name: 'ManageStations',
+  component: ManageStations,
+  meta: {
+    requiresAuth: true,
+    breadcrumb:[{name: 'Home', link: '/' },{name:'Management'},{name:'Base stations'}] 
+  }
+}
+
+var ManageUsersRoute =  {
+  path: '/management/users',
+  name: 'ManageUsers',
+  component: ManageUsers,
+  meta: {
+    requiresAuth: true,
+    breadcrumb:[{name: 'Home', link: '/' },{name:'Management'},{name:'Users'}] 
+  }
+}
+
 var InformationsRoute =  {
-  path: '/account-settings/informations ',
+  path: '/account-settings/informations',
   name: 'Informations',
   component: Informations,
   meta: {
@@ -26,7 +71,7 @@ var InformationsRoute =  {
 }
 
 var LocationRoute =  {
-  path: '/account-settings/location ',
+  path: '/account-settings/location',
   name: 'Location',
   component: AccountLocation,
   meta: {
@@ -36,7 +81,7 @@ var LocationRoute =  {
 }
 
 var PwdRoute =  {
-  path: '/account-settings/password ',
+  path: '/account-settings/password',
   name: 'Password',
   component: Password,
   meta: {
@@ -143,7 +188,10 @@ export default new Router({
     InformationsRoute,
     LocationRoute,
     PwdRoute,
-
+    ManageStationsRoute,
+    ManageUsersRoute,
+    ManageGroupsRoute,
+    ManageOrganizationsRoute,
     GetRoverRoute
   ]
 })
