@@ -15,8 +15,9 @@ import { abilityPlugin } from '@casl/vue'
 import Vodal from 'vodal';
 import Vuelidate from 'vuelidate'
 import FlashMessage from '@smartweb/vue-flash-message';
+import vSelect from 'vue-select'
 
-
+Vue.component('v-select', vSelect)
 Vue.use(FlashMessage);
 
 Vue.use(Vuelidate)
