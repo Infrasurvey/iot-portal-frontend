@@ -5,7 +5,7 @@
             <li>
                 <input type="checkbox" id="btn"/>
                 <label for="btn" class="show">
-                <div class="nav-group"><router-link class="basic-link" :to="{ name: 'ManageStations'}">Base stations</router-link></div>
+                <div class="nav-group"><router-link class="basic-link" :to="{ name: 'ManageInstallations'}">Installations</router-link></div>
                 <div class="nav-group"><router-link class="basic-link" :to="{ name: 'ManageUsers'}">Users</router-link></div> 
                 <div class="nav-group"><router-link class="basic-link" :to="{ name: 'ManageOrganizations'}">Organizations</router-link></div> 
                 <div class="nav-group"><router-link class="basic-link" :to="{ name: 'ManageGroups'}">Groups</router-link></div> 

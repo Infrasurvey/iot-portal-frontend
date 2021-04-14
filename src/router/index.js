@@ -12,7 +12,7 @@ import ConfigurationStation from '@/components/base_station/basestation_config'
 import Informations from '@/components/account/account_information'
 import AccountLocation from '@/components/account/account_location'
 import Password from '@/components/account/account_pwd'
-import ManageStations from '@/components/management/manage_stations'
+import ManageInstallations from '@/components/management/manage_installations'
 import ManageUsers from '@/components/management/manage_users'
 import ManageGroups from '@/components/management/manage_groups'
 import ManageOrganizations from '@/components/management/manage_organizations'
@@ -40,13 +40,13 @@ var ManageGroupsRoute =  {
   }
 }
 
-var ManageStationsRoute =  {
-  path: '/management/base-stations',
-  name: 'ManageStations',
-  component: ManageStations,
+var ManageInstallationsRoute =  {
+  path: '/management/installations',
+  name: 'ManageInstallations',
+  component: ManageInstallations,
   meta: {
     requiresAuth: true,
-    breadcrumb:[{name: 'Home', link: '/' },{name:'Management'},{name:'Base stations'}] 
+    breadcrumb:[{name: 'Home', link: '/' },{name:'Management'},{name:'Installations'}] 
   }
 }
 
@@ -188,7 +188,7 @@ export default new Router({
     InformationsRoute,
     LocationRoute,
     PwdRoute,
-    ManageStationsRoute,
+    ManageInstallationsRoute,
     ManageUsersRoute,
     ManageGroupsRoute,
     ManageOrganizationsRoute,

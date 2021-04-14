@@ -16,7 +16,8 @@ import Vodal from 'vodal';
 import Vuelidate from 'vuelidate'
 import FlashMessage from '@smartweb/vue-flash-message';
 import vSelect from 'vue-select'
-
+import vueCountryRegionSelect from 'vue-country-region-select'
+Vue.use(vueCountryRegionSelect)
 Vue.component('v-select', vSelect)
 Vue.use(FlashMessage);
 

@@ -1,14 +1,14 @@
 <template>
 
   <div id="app">
-    <div class="nav">
+    <div class="nav" v-if="loggedIn">
         <div class="nav-title">Geomon IoT Portal</div>        
         <breadcrumb />
 
         <div v-if="loggedIn" class="nav-list dropdown">
           <font-awesome-icon class="icon" icon="chevron-down" size="1x" style="color:white"/>
           <div class="dropdown-content">
-            <router-link :to="{ name: 'ManageStations' }" class="dp-container">Manage portal</router-link>
+            <router-link :to="{ name: 'ManageInstallations' }" class="dp-container">Manage portal</router-link>
             <router-link :to="{ name: 'Informations' }" class="dp-container">Account settings</router-link>
             <router-link :to="{ name: 'Logout' }" class="dp-container">Logout</router-link>
           </div>

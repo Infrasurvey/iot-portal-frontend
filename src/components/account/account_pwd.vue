@@ -6,19 +6,19 @@
             <form action="" class="flex-input-container">
                 <div class="input-container">
                     <label for="actual-pwd">Actual password</label>
-                    <input type="password" name="actual-pwd" id="actual-pwd">
+                    <input type="password" name="actual-pwd" v-model="password" id="actual-pwd" :class="{ 'hasError': $v.password.$error }">
                 </div>
                 <div class="input-container">
                     <label for="new-pwd">New password</label>
-                    <input type="password" name="new-pwd" id="new-pwd">
+                    <input type="password" name="new-pwd" v-model="new_password" id="new-pwd" :class="{ 'hasError': $v.new_password.$error }">
                 </div>
                 <div class="input-container">
                     <label for="con-pwd">Confirmation new password</label>
-                    <input type="password" name="con-pwd" id="con-pwd">
+                    <input type="password" name="con-pwd" v-model="c_password" id="con-pwd" :class="{ 'hasError': $v.c_password.$error }">
                 </div>
             </form>
             <div>
-                <button type="submit" class="apply-btn">Apply</button>
+                <button type="submit" @click="updatePwd" class="apply-btn">Apply</button>
             </div>
         </div>
     </div>
@@ -27,11 +27,52 @@
 <script>
 
 import Sidenav from './account_sidenav'
+import API from '../../http-constants'
+import { required,sameAs,email,minLength } from 'vuelidate/lib/validators'
 
 export default {
     name: 'Password',
     components : {
         'sidenav-account' :Sidenav
+    },
+    data(){
+        return{
+            password:'',
+            new_password:'',
+            c_password:'',
+            errorMessage:'',
+            status:''
+        }
+    },
+    validations:{
+        password:{
+          required,
+          minLength: minLength(5)
+        },
+        new_password:{
+          required,
+          minLength: minLength(5)
+        },
+        c_password:{
+          sameAsPassword: sameAs('new_password')
+        },
+    },
+    methods:{
+        updatePwd(){
+            this.$v.$touch();
+            if(this.$v.$error) return
+            API.post('/api/updatePwd',{
+                'password':this.password,
+                'new_password':this.new_password,
+                'c_password':this.c_password
+            })
+            .then(response => {
+                this.status =response.data                
+            })
+            .catch(e => {
+                this.errorMessage = e
+            })
+        }
     }
 }
 </script>

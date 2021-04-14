@@ -59,19 +59,16 @@ export const store = new Vuex.Store({
   actions: {
     register(context, data) {
       return new Promise((resolve, reject) => {
-
-        API.post('/api/register', {
-          name: data.name,
-          email: data.email,
-          password: data.password,
-          c_password: data.c_password,
-        })
+        API.get('/sanctum/csrf-cookie').then(response => {
+          API.post('/api/register', data)
           .then(response => {
             resolve(response)
           })
           .catch(error => {
             reject(error)
           })
+        })
+        
       })
     },
     cleanSession(context){

@@ -2,7 +2,7 @@
     <div>
         <sidenav-manage></sidenav-manage>
         <div class="main-install overview-inst">
-            <h1>Manage base stations</h1>
+            <h1>Manage installations</h1>
             <table>
                 <tr>
                     <th>Test</th>
@@ -22,7 +22,7 @@
 import Sidenav from './manage_sidenav'
 
 export default {
-    name: 'ManageStations',
+    name: 'ManageInstallations',
     components : {
         'sidenav-manage' :Sidenav
     }

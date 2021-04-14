@@ -7,13 +7,11 @@
     <form action="#" @submit.prevent="login">
 
       <div class="form-control">
-        <label for="email">E-mail</label>
-        <input type="text" name="email" id="email" class="login-input" v-model="email" >
+        <input type="text" name="email" id="email" class="login-input" v-model="email" placeholder="E-mail">
       </div>
 
       <div class="form-control mb-more">
-        <label for="password">Password</label>
-        <input type="password" name="password" id="password" class="login-input" v-model="password">
+        <input type="password" name="password" id="password" class="login-input" v-model="password" placeholder="Password">
       </div>
 
       <div>
