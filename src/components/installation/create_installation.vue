@@ -13,30 +13,30 @@
 
           <form enctype="multipart/form-data" class="installation-form">
               <label for="name">Installation's name : </label>
-              <input type="text" v-model="installation.name" name="name" id="name" placeholder="Name" :class="{ 'hasError': $v.installation.name.$error }">
+              <input type="text" v-model="installation.name" name="name" id="name" placeholder="Name" class="base-input" :class="{ 'hasError': $v.installation.name.$error }">
               <label for="date">Comissioning date : </label>
-              <input type="date" v-model="installation.installation_date" name="date" id="date" :class="{ 'hasError': $v.installation.installation_date.$error }">
+              <input type="date" v-model="installation.installation_date" name="date" id="date" class="base-input" :class="{ 'hasError': $v.installation.installation_date.$error }">
               <label for="basestation">Select an existing base station :</label>
-              <select type="text" v-model="installation.device_base_station_id" name="basestation" id="basestation" :class="{ 'hasError': $v.installation.device_base_station_id.$error }"> 
+              <select type="text" v-model="installation.device_base_station_id" name="basestation" id="basestation" class="base-select" :class="{ 'hasError': $v.installation.device_base_station_id.$error }"> 
                     <option v-for="station in stations" :key="station.id" v-bind:value="station.id">
                         {{ station.name }}
                     </option>
               </select>
                 <label for="group">Select an existing group :</label>
-              <select type="text" v-model="installation.group_id" name="group" id="group" :class="{ 'hasError': $v.installation.group_id.$error }"> 
+              <select type="text" v-model="installation.group_id" name="group" id="group" class="base-select" :class="{ 'hasError': $v.installation.group_id.$error }"> 
                     <option v-for="group in groups" :key="group.id" v-bind:value="group.id">
                         {{ group.name }}
                     </option>
               </select>
               <label for="">Select an image : </label>
-                <picture-input ref="pictureInput" @change="onChanged" :width="250" :removable="true" removeButtonClass="ui red button"
-                    :height="250" accept="image/jpeg, image/png" buttonClass="ui button primary" :customStrings="{ upload: '<h1>Upload it!</h1>', drag: 'Drag and drop your image here'}">
+                <picture-input class="pic-input" ref="pictureInput" @change="onChanged" :width="230" :removable="true"
+                    :height="230" accept="image/jpeg, image/png" size="10" removeButtonClass="pic-btn" buttonClass="pic-btn" :customStrings="{ upload: '<h1>Upload it!</h1>', drag: 'Drag and drop your image here'}">
                 </picture-input>
           </form>
         </div>
        </section>
        <footer class="modal-footer">
-            <button type="button" class="" @click="close">Cancel</button>
+            <button type="button" class="btnclose" @click="close">Cancel</button>
             <button type="submit" class="btn-create" @click.prevent="onSubmit">Create new installation</button>
       </footer>
 

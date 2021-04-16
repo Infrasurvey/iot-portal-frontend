@@ -62,9 +62,26 @@
     background: transparent;
   }
 
+  .btnclose {
+    background-color: $tile-color;
+    border: 5px solid $tile-color;
+  }
+
+  .btnclose:hover{
+    background-color: darkgray;
+    border: 5px solid darkgray;
+    cursor: pointer;
+  }
+
   .btn-create {
     color: white;
-    background: $primary-color;
+    background: $secondary-color;
+  }
+
+  .btn-create:hover{
+    background-color: $primary-color;
+    border: 5px solid $primary-color;
+    cursor: pointer;
   }
 
   .modal-footer {
@@ -118,8 +135,30 @@
   vertical-align: middle;
   margin-right: 40px;
   color: white;
-  background: $primary-color;
+  background: $secondary-color;
   font-size: 0.4em;
-  border: 5px solid $primary-color;
+  border: 5px solid $secondary-color;
   border-radius: 8px;
+}
+
+.btn-create-install > button:hover{
+  background-color: $primary-color;
+  border: 5px solid $primary-color;
+  cursor: pointer;
+}
+
+.pic-input{
+  height: 270px;
+}
+
+.pic-btn{
+  background-color: $secondary-color;
+  color: white;
+  border: 3px solid $secondary-color;
+  border-radius: 8px;
+}
+.pic-btn:hover{
+  background-color: $primary-color;
+  border: 3px solid $primary-color;
+  cursor: pointer;
 }

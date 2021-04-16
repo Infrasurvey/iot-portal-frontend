@@ -7,11 +7,11 @@
     <form action="#" @submit.prevent="login">
 
       <div class="form-control">
-        <input type="text" name="email" id="email" class="login-input" v-model="email" placeholder="E-mail">
+        <input type="text" name="email" id="email" class="login-input" v-model="email" placeholder="E-mail" :class="{ 'hasError': $v.email.$error }">
       </div>
 
       <div class="form-control mb-more">
-        <input type="password" name="password" id="password" class="login-input" v-model="password" placeholder="Password">
+        <input type="password" name="password" id="password" class="login-input" v-model="password" placeholder="Password" :class="{ 'hasError': $v.password.$error }">
       </div>
 
       <div>
@@ -33,6 +33,8 @@
 </template>
 
 <script>
+import { required } from 'vuelidate/lib/validators'
+
 export default {
   name: 'login',
   data() {
@@ -41,10 +43,19 @@ export default {
       password: '',
     }
   },
+    validations: {
+        email:{
+          required
+        },
+        password:{
+          required
+        }
+   },
   methods: {
       
     login() {
-
+      this.$v.$touch();
+      if(this.$v.$error) return
       this.$store.dispatch('retrieveToken', {
         email: this.email,
         password: this.password,

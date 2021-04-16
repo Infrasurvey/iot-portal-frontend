@@ -11,7 +11,7 @@
         <div name="body">
           <form enctype="multipart/form-data" class="installation-form">
               <label for="name">User's name : </label>
-              <input type="text" v-model="name" name="name" id="name" placeholder="Name" :class="{ 'hasError': $v.name.$error }" readonly>
+              <input type="text" v-model="name" name="name" id="name" class="base-input" placeholder="Name" :class="{ 'hasError': $v.name.$error }" readonly>
                <label for="organization">User's group :</label>
               <v-select :options="groups" label="name" multiple="multiple" v-model="groups_selected"/>
                 <label for="admin">User is admin for :</label>
@@ -114,8 +114,8 @@ import FormData from 'form-data'
             })
       },
         onUpdate: function() {
-            //this.$v.$touch();
-            //if(this.$v.$error) return
+            this.$v.$touch();
+            if(this.$v.$error) return
             this.updateUser();
         }
     },

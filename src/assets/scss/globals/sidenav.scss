@@ -35,6 +35,11 @@
     text-decoration: none;
 }
 
+.sidenav-install a:hover{
+    background-color: darkgray;
+    cursor: pointer;
+  }
+
 .sidenav-install > ul > li {
     list-style: none;
 }

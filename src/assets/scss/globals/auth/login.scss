@@ -84,9 +84,14 @@
     padding: 14px 12px;
    font-size: 18px;
     font-weight: bold;
-    background: $primary-color;
+    background: $secondary-color;
     color: white;
     border-radius: 3px;
+    cursor: pointer;
+  }
+
+  .btn-submit:hover{
+    background-color: $primary-color;
     cursor: pointer;
   }
 
@@ -104,10 +109,15 @@
     color: black;
     border-radius: 3px;
     cursor: pointer;
-    background-color: darkgray;
+    background-color: $tile-color;
     font-weight: 600;
     text-decoration: none;
     text-align: center;
+  }
+
+  .btn-login:hover{
+    background-color: darkgray;
+    cursor: pointer;
   }
 
   .hasErrorRegister {

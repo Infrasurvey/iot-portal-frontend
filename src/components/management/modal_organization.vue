@@ -12,7 +12,7 @@
         <div name="body">
           <form enctype="multipart/form-data" class="installation-form">
               <label for="name">Organization's name : </label>
-              <input type="text" v-model="name" name="name" id="name" placeholder="Name" :class="{ 'hasError': $v.name.$error }">
+              <input type="text" v-model="name" name="name" id="name" class="base-input" placeholder="Name" :class="{ 'hasError': $v.name.$error }">
           </form>
         </div>
        </section>

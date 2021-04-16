@@ -6,19 +6,19 @@
             <form action="" class="flex-input-container">
                 <div class="input-container">
                     <label for="address">Address</label>
-                    <input type="text" v-model="user.address" name="address" id="address" :class="{ 'hasError': $v.user.address.$error }">
+                    <input type="text" v-model="user.address" name="address" id="address" class="base-input" :class="{ 'hasError': $v.user.address.$error }">
                 </div>
                 <div class="input-container">
                     <label for="zip">Zip code</label>
-                    <input type="text" v-model="user.zip" name="zip" id="zip" :class="{ 'hasError': $v.user.zip.$error }">
+                    <input type="text" v-model="user.zip" name="zip" id="zip" class="base-input" :class="{ 'hasError': $v.user.zip.$error }">
                 </div>
                 <div class="input-container">
                     <label for="city">City</label>
-                    <input type="text" v-model="user.city" name="city" id="city" :class="{ 'hasError': $v.user.city.$error }">
+                    <input type="text" v-model="user.city" name="city" id="city" class="base-input" :class="{ 'hasError': $v.user.city.$error }">
                 </div>
                 <div class="input-container">
                     <label for="country">Country</label>
-                    <input type="text" v-model="user.country" name="country" id="country" :class="{ 'hasError': $v.user.country.$error }">
+                    <input type="text" v-model="user.country" name="country" id="country" class="base-input" :class="{ 'hasError': $v.user.country.$error }">
                 </div>
             </form>
             <div>

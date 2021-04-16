@@ -13,7 +13,7 @@
 
 .apply-btn {
     float: right;
-    background-color: $primary-color;
+    background-color: $secondary-color;
     color: white;
     padding: 10px 30px;
     font-size: 0.7em;
@@ -21,7 +21,13 @@
     letter-spacing: .1rem;
     text-decoration: none;
     text-transform: uppercase;
-    border: 5px solid $primary-color;
+    border: 5px solid $secondary-color;
     border-radius: 8px;
     margin-top: 20px;
+}
+
+.apply-btn:hover{
+    background-color: $primary-color;
+    border: 5px solid $primary-color;
+    cursor: pointer;
 }

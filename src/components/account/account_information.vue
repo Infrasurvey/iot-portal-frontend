@@ -6,23 +6,23 @@
             <form action="" class="flex-input-container">
                 <div class="input-container">
                     <label for="first-name">First name</label>
-                    <input type="text" v-model="user.name" name="first-name" id="first-name" :class="{ 'hasError': $v.user.name.$error }">
+                    <input type="text" v-model="user.name" name="first-name" id="first-name" class="base-input" :class="{ 'hasError': $v.user.name.$error }">
                 </div>
                 <div class="input-container">
                     <label for="last-name">Last name</label>
-                    <input type="text" v-model="user.lastname" name="last-name" id="last-name" :class="{ 'hasError': $v.user.lastname.$error }">
+                    <input type="text" v-model="user.lastname" name="last-name" id="last-name" class="base-input" :class="{ 'hasError': $v.user.lastname.$error }">
                 </div>
                 <div class="input-container">
                     <label for="email">Email</label>
-                    <input type="text" v-model="user.email" name="email" id="email" :class="{ 'hasError': $v.user.email.$error }">
+                    <input type="text" v-model="user.email" name="email" id="email" class="base-input" :class="{ 'hasError': $v.user.email.$error }">
                 </div>
                 <div class="input-container">   
-                    <label for="phone">Mobile phone number</label>
-                    <input type="text" v-model="user.phone" name="phone" id="phone" :class="{ 'hasError': $v.user.phone.$error }">
+                    <label for="phone">Phone number</label>
+                    <input type="text" v-model="user.phone" name="phone" id="phone" class="base-input" :class="{ 'hasError': $v.user.phone.$error }">
                 </div>
                 <div class="input-container">
                     <label for="language">Language</label>
-                    <select name="language" id="language" v-model="user.language" :class="{ 'hasErrorRegister': $v.user.language.$error }">
+                    <select name="language" id="language" v-model="user.language" class="base-select" :class="{ 'hasErrorRegister': $v.user.language.$error }">
                         <option value="" disabled selected>Select a preferred language</option>
                         <option value="en" selected>English</option>
                         <option value="fr">French</option>

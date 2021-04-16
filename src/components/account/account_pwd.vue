@@ -6,15 +6,15 @@
             <form action="" class="flex-input-container">
                 <div class="input-container">
                     <label for="actual-pwd">Actual password</label>
-                    <input type="password" name="actual-pwd" v-model="password" id="actual-pwd" :class="{ 'hasError': $v.password.$error }">
+                    <input type="password" name="actual-pwd" v-model="password" class="base-input" id="actual-pwd" :class="{ 'hasError': $v.password.$error }">
                 </div>
                 <div class="input-container">
                     <label for="new-pwd">New password</label>
-                    <input type="password" name="new-pwd" v-model="new_password" id="new-pwd" :class="{ 'hasError': $v.new_password.$error }">
+                    <input type="password" name="new-pwd" v-model="new_password" class="base-input" id="new-pwd" :class="{ 'hasError': $v.new_password.$error }">
                 </div>
                 <div class="input-container">
                     <label for="con-pwd">Confirmation new password</label>
-                    <input type="password" name="con-pwd" v-model="c_password" id="con-pwd" :class="{ 'hasError': $v.c_password.$error }">
+                    <input type="password" name="con-pwd" v-model="c_password" class="base-input" id="con-pwd" :class="{ 'hasError': $v.c_password.$error }">
                 </div>
             </form>
             <div>

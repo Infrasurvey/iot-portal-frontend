@@ -2,29 +2,107 @@
     <div>
         <sidenav-manage></sidenav-manage>
         <div class="main-install overview-inst">
-            <h1>Manage installations</h1>
-            <table>
-                <tr>
-                    <th>Test</th>
-                </tr>
-                <tr>
-                    <td>Test</td>
-                </tr>
-            </table>
+            <div class="home-header">
+
+                <h1>Manage installations</h1>
+            </div>
+            <Modal
+                v-if="isModalVisible"
+                :row="selectedRow"
+                :isUpdate="isUpdate"
+                @close="closeModal"
+                @updateList="getInstallations"
+                @displaySuccess="displayStatus"
+                />
+            <vue-good-table
+            :columns="columns"
+            :rows="installations"
+            @on-row-click="onRowClick"/>
+        
             <div >
                 <button type="submit" class="apply-btn">Apply</button>
             </div>
+            <FlashMessage></FlashMessage>
         </div>
     </div>
 </template>
 
 <script>
 import Sidenav from './manage_sidenav'
+import API from '../../http-constants'
+import { VueGoodTable } from 'vue-good-table';
+import 'vue-good-table/dist/vue-good-table.css'
+import Modal from './modal_installation';
 
 export default {
     name: 'ManageInstallations',
     components : {
-        'sidenav-manage' :Sidenav
+        'sidenav-manage' :Sidenav,
+        VueGoodTable,
+        Modal
+    },
+    data(){
+        return {
+            installations : [],
+            columns: [
+                {
+                label: 'ID',
+                field: 'id',
+                },
+                {
+                label: 'Name',
+                field: 'name',
+                },
+                {
+                 label:'Group',
+                 field:'group.name'
+                },
+                {
+                 label:'Base station',
+                 field:'basestation.name'
+                }
+            ],
+            isModalVisible: false,
+            selectedRow : Object(),
+            isUpdate : false
+        }
+    },
+    created(){
+        this.getInstallations();
+    },
+    methods:{
+        getInstallations(){
+            API.get('/api/getCompleteInstallations')
+            .then(response => {
+                this.installations =response.data
+            })
+            .catch(e => {
+                this.errorMessage = e
+            })
+        },
+        onRowClick(params) {
+            this.showModal(true,params.row);
+        },
+        onCreateClick() {
+            this.showModal(false,Object({name:'',organization:{name:''}}));
+        },
+        showModal(isUpdate,selectedRow){
+            this.selectedRow = selectedRow;
+            this.isUpdate = isUpdate
+            this.isModalVisible = true;
+        },
+        closeModal() {
+            this.isModalVisible = false;
+        },
+        displayStatus(type,status){
+            if(status){
+                this.flashMessage.success({title: 'Success', message: 'Installation has been succesfully '+type+' !'});
+            }
+            else
+            {
+                this.flashMessage.show({status: 'error', title: 'Error', message: 'An error occured during installation '+type+'.'})
+            }
+        }
     }
 }
 </script>
