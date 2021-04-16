@@ -18,7 +18,7 @@
                 </div>
                 <div class="input-container">
                     <label for="country">Country</label>
-                    <input type="text" v-model="user.country" name="country" id="country" class="base-input" :class="{ 'hasError': $v.user.country.$error }">
+                    <country-select class="base-select" v-model="user.country" :country="user.country" topCountry="CH" :class="{ 'hasErrorRegister': $v.user.country.$error }"/>
                 </div>
             </form>
             <div>

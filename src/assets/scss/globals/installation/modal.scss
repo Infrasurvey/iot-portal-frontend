@@ -8,7 +8,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 9999;
+    z-index: 1000;
   }
 
   .modal {
@@ -161,4 +161,8 @@
   background-color: $primary-color;
   border: 3px solid $primary-color;
   cursor: pointer;
+}
+
+.swa-container{
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
 }

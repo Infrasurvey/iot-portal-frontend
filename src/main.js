@@ -17,6 +17,10 @@ import Vuelidate from 'vuelidate'
 import FlashMessage from '@smartweb/vue-flash-message';
 import vSelect from 'vue-select'
 import vueCountryRegionSelect from 'vue-country-region-select'
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+
+Vue.use(VueSweetalert2);
 Vue.use(vueCountryRegionSelect)
 Vue.component('v-select', vSelect)
 Vue.use(FlashMessage);

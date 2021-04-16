@@ -27,7 +27,7 @@
         </div>
        </section>
        <footer class="modal-footer">
-            <button type="button" class="" @click="close">Cancel</button>
+            <button type="button" v-if="isUpdate" class="" @click="showDeleteAlert">Delete user</button>
             <button type="submit" v-if="isUpdate" class="btn-create" @click.prevent="onUpdate">Update group</button>
       </footer>
 
@@ -66,7 +66,7 @@ import FormData from 'form-data'
         name:{
           required
         },
-        groups_id:{
+        groups_selected:{
           required
         }
    },
@@ -112,6 +112,35 @@ import FormData from 'form-data'
                 this.$emit('close');
                 this.$emit('displaySuccess','update',false)
             })
+      },
+      showDeleteAlert(){
+          this.$swal({
+              title: "Delete this User?",
+              text: "Are you sure? You won't be able to revert this!",
+              type: "warning",
+              icon:"warning",
+              customClass:{
+                container :'swa-container' 
+              },
+              showCancelButton: true,
+              confirmButtonColor: "#E53935",
+              confirmButtonText: "Yes, Delete it!"
+          }).then((result) => { // <--
+                if (result.value) { // <-- if confirmed
+                      API.delete('/api/user/'+this.row.id)
+                .then(response => {
+                      this.responseMessage = response.data
+                      this.$emit('close');
+                      this.$emit('updateList');
+                      this.$emit('displaySuccess','deleted',true)
+                  })
+                  .catch(e => {
+                      this.errorMessage = e
+                      this.$emit('close');
+                      this.$emit('displaySuccess','delete',false)
+                  })
+                  }
+            });
       },
         onUpdate: function() {
             this.$v.$touch();
