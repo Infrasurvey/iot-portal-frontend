@@ -36,3 +36,36 @@
     white-space: nowrap;
     overflow: hidden;
 }
+
+//----------------BAse station overview-----------------------------------------
+
+.flex-left {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-content: space-around;
+}
+
+.overview-info-tile{
+    margin: 15px;
+    padding: 0 20px;
+    background-color: $tile-color;
+}
+
+
+
+.overview-info-tile > p{
+    line-height: 35px;
+    margin-block-start: 0em;
+}
+
+.overview-info-tile > h3{
+    margin-block-end: 0.3em;
+}
+
+.overview-actual-p{
+    margin: 15px;
+    padding: 0 20px;
+}
+
+//----------------BAse station manage-----------------------------------------

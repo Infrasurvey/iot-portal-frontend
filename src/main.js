@@ -20,6 +20,15 @@ import vueCountryRegionSelect from 'vue-country-region-select'
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
+import { LMap, LTileLayer, LMarker } from 'vue2-leaflet';
+import 'leaflet/dist/leaflet.css';
+import Vue2LeafletPolylineDecorator from 'vue2-leaflet-polylinedecorator'
+
+Vue.component('polyline-decorator', Vue2LeafletPolylineDecorator)
+Vue.component('l-map', LMap);
+Vue.component('l-tile-layer', LTileLayer);
+Vue.component('l-marker', LMarker);
+
 Vue.use(VueSweetalert2);
 Vue.use(vueCountryRegionSelect)
 Vue.component('v-select', vSelect)

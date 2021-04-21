@@ -20,6 +20,7 @@
     "axios": "^0.21.1",
     "eslint": "^7.22.0",
     "form-data": "^4.0.0",
+    "leaflet": "^1.7.1",
     "moment": "^2.29.1",
     "vodal": "^2.4.0",
     "vue": "^2.6.12",
@@ -29,6 +30,8 @@
     "vue-router": "^3.5.1",
     "vue-select": "^3.11.2",
     "vue-sweetalert2": "^4.3.1",
+    "vue2-leaflet": "^2.7.0",
+    "vue2-leaflet-polylinedecorator": "^2.0.1",
     "vuelidate": "^0.7.6",
     "vuex": "^3.6.2"
   },

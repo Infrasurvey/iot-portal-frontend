@@ -1,16 +1,15 @@
 <template>
     <div class="battery-display">
         <div class="b-container">
-            <font-awesome-icon v-if="batteryValue < 10" icon="battery-empty" size="3x" rotation="270" />
-            <font-awesome-icon v-else-if="batteryValue < 12" icon="battery-quarter" size="3x" rotation="270"/>
-            <font-awesome-icon v-else-if="batteryValue < 13" icon="battery-half" size="3x" rotation="270"/>
-            <font-awesome-icon v-else-if="batteryValue < 14" icon="battery-three-quarters" size="3x" rotation="270"/>
-            <font-awesome-icon v-else icon="battery-full" size="3x" rotation="270" />
-            <div class="battery-value">{{batteryValue}} V</div> 
-            <div class="battery-name">{{batteryName}}</div>
+            <font-awesome-icon class="b-image" v-if="battery_voltage < 10" icon="battery-empty" size="3x" rotation="270" />
+            <font-awesome-icon class="b-image" v-else-if="battery_voltage < 12" icon="battery-quarter" size="3x" rotation="270"/>
+            <font-awesome-icon class="b-image" v-else-if="battery_voltage < 13" icon="battery-half" size="3x" rotation="270"/>
+            <font-awesome-icon class="b-image" v-else-if="battery_voltage < 14" icon="battery-three-quarters" size="3x" rotation="270"/>
+            <font-awesome-icon class="b-image" v-else icon="battery-full" size="3x" rotation="270" />
+            <div class="battery-value">{{battery_voltage}} V</div> 
+            <div class="battery-name">{{unique_id}}</div>
         </div>
     </div>
-
 </template>
 
 <script>
@@ -24,8 +23,8 @@ export default {
   },
   data(){
       return{
-          'batteryValue' : this.battery.batteryValue,
-          'batteryName' : this.battery.name
+          'battery_voltage' : this.battery.battery_voltage,
+          'unique_id' : this.battery.unique_id
       }
   }
 }

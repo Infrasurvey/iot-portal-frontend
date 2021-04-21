@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import GetRover from '@/components/GetRover'
 import Home from '@/components/Home'
 import Login from '@/components/auth/Login'
 import Logout from '@/components/auth/Logout'
@@ -165,16 +164,6 @@ var LogoutRoute = {
 }
 
 
-
-var GetRoverRoute =     {
-  path: '/getrover',
-  name: 'GetRover',
-  component: GetRover,
-  meta: {
-    requiresAuth: true,
-  }
-}
-
 export default new Router({
   routes: [
     HomeRoute,
@@ -192,6 +181,5 @@ export default new Router({
     ManageUsersRoute,
     ManageGroupsRoute,
     ManageOrganizationsRoute,
-    GetRoverRoute
   ]
 })
