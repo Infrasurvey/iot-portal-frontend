@@ -19,7 +19,7 @@
             @on-row-click="onRowClick"/>
         
             <div >
-                <button type="submit" class="apply-btn">Apply</button>
+                <router-link class="basic-link cancel-btn" :to="{ name: 'home' }">Cancel</router-link>
             </div>
             <FlashMessage></FlashMessage>
         </div>
@@ -47,10 +47,19 @@ export default {
                 {
                 label: 'ID',
                 field: 'id',
+                hidden: true
                 },
                 {
-                label: 'Name',
+                label: 'First Name',
                 field: 'name',
+                },
+                {
+                label: 'Last Name',
+                field: 'lastname',
+                },
+                {
+                label: 'Phone Number',
+                field: 'phone',
                 },
                 {
                  label:'E-mail',

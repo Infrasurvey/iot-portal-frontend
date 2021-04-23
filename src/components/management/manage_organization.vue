@@ -23,7 +23,7 @@
             @on-row-click="onRowClick"/>
         
             <div >
-                <button type="submit" class="apply-btn">Apply</button>
+                <router-link class="basic-link cancel-btn" :to="{ name: 'home' }">Cancel</router-link>
             </div>
             <FlashMessage></FlashMessage>
         </div>
