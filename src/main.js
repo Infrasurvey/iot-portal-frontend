@@ -36,7 +36,7 @@ Vue.use(FlashMessage);
 Vue.use(Vuelidate);
 Vue.use('abilityPlugins', 'ability');
 
-library.add([faBatteryEmpty,faBatteryHalf,faBatteryFull,faBatteryQuarter,faBatteryThreeQuarters,faUserCircle,faCheckCircle, faExclamationCircle,faTimes,faChevronDown])
+library.add([faBatteryEmpty,faBatteryHalf,faBatteryFull,faBatteryQuarter,faBatteryThreeQuarters,faUserCircle,faCheckCircle, faExclamationCircle,faTimes,faChevronDown, faCaretDown, faPlusCircle])
 Vue.config.productionTip = false;
 Vue.prototype.$ability = new Ability();
 
