@@ -1,188 +1,185 @@
+#app {
+  font-family: Roboto,"Helvetica Neue",sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+  font-size: 24px;
+  height: 100vh;
+}
 
 .flex-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-content: space-around;
-    
-  }
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: space-around;
+}
 
-  .basic-link {
-    text-decoration: none;
-    color: #2c3e50;
-  }
+.flex-center {
+  display: flex;
+  justify-content: center;
+}
 
-  #app {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    color: #2c3e50;
-    font-size: 24px;
-    height: 98vh;
-  }
-  .flex-center {
-    display: flex;
-    justify-content: center;
-  }
+.nav-title{
+  display: inline-block;
+  color: white;
+  background-color: $secondary-color;
+  height: inherit;
+  vertical-align: middle;
+  text-align: center;
+  line-height: 70px;
+  /* padding: 0 20px; */
+  width: 17%;
+}
 
-  
+.nav {
+  background: $primary-color;
+  border-bottom: 1px solid lightgrey;
+  overflow: hidden;
+  height: 70px;
+}
 
+.nav a {
+  color: white;
+  padding: 0 25px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: .1rem;
+  text-decoration: none;
+  text-transform: uppercase;
+}
 
-  .nav-title{
-    display: inline-block;
-    color: white;
-    background-color: $secondary-color;
-    height: inherit;
-    vertical-align: middle;
-    text-align: center;
-    line-height: 70px;
-    /* padding: 0 20px; */
-    width: 17%;
-  }
+.nav-list{
+  float: right;
+  display: block;
+  height: inherit;
+  line-height: 65px;
+}
 
-  .nav-list{
-    float: right;
-    display: block;
-    height: inherit;
-    line-height: 65px;
-  }
+.nav-logo *{
+  height: inherit;
+}
 
-  .nav-logo *{
-    height: inherit;
-  }
+.icon {
+  height: auto;
+  vertical-align: middle;
+}
 
-  .icon {
-    height: auto;
-    vertical-align: middle;
-  }
+label {
+  display: block;
+  margin-bottom: 4px;
+}
 
+.breadcrumb > ul > li:not(:last-child)::after {
+  content: ' > ';
+  font-size: 0.8em;
+  margin: 0 .5em;
+  cursor: default;
+}
 
+.breadcrumb > ul > li {
+  float: left;
+  font-size: 0.8em;
+}
 
-  .nav {
-    background: $primary-color;
-    border-bottom: 1px solid lightgrey;
-    overflow: hidden;
-    height: 70px;
-  }
-  .nav a {
-    color: white;
-    padding: 0 25px;
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: .1rem;
-    text-decoration: none;
-    text-transform: uppercase;
-  }
-  label {
-    display: block;
-    margin-bottom: 4px;
-  }
+.breadcrumb {
+  display: inline-block;
+  width: fit-content;
+  height: fit-content;
+  text-align: center;
+  vertical-align: middle;
+  margin-left: 15px;
+  color: white;
+}
 
-  .breadcrumb > ul > li:not(:last-child)::after {
-    content: ' > ';
-    font-size: 0.8em;
-    margin: 0 .5em;
-    cursor: default;
-  }
+.breadcrumb > ul {
+  list-style-type: none;
+  margin-block-start: 0;
+  padding-inline-start: 0;
+}
 
-  .breadcrumb > ul > li {
-    float: left;
-    font-size: 0.8em;
-  }
-  .breadcrumb {
-    display: inline-block;
-    width: fit-content;
-    height: fit-content;
-    text-align: center;
-    vertical-align: middle;
-    margin-left: 15px;
-    color: white;
-  }
-  .breadcrumb > ul {
-    list-style-type: none;
-    margin-block-start: 0;
-    padding-inline-start: 0;
-  }
+.dropdown {
+  position: relative;
+  display: inline-block;
+  margin-right: 30px;
+}
 
-  .dropdown {
-    position: relative;
-    display: inline-block;
-    margin-right: 30px;
-  }
-  
-  .dropdown-content {
-    display: none;
-    position: fixed;
-    background-color: $secondary-color;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    right: 8px;
-    margin-top: 5px;
-    z-index: 1;
-    line-height: normal;
-  }
+.dropdown-content {
+  display: none;
+  position: fixed;
+  background-color: $secondary-color;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  right: 8px;
+  margin-top: 5px;
+  z-index: 1;
+  line-height: normal;
+}
 
+.dropdown:hover .dropdown-content {
+  display: block;
+}
 
-  
-  .dropdown:hover .dropdown-content {
-    display: block;
-  }
+.dropdown-content a {
+  color: white;
+  font-size: 0.6em;
+  font-weight: 600;
+  letter-spacing: .1rem;
+  text-decoration: none;
+  text-transform: none;
+  line-height: normal;
+  padding: 25px;
+  display: block;
+}
 
-  .dropdown-content a {
-    color: white;
-    font-size: 0.6em;
-    font-weight: 600;
-    letter-spacing: .1rem;
-    text-decoration: none;
-    text-transform: none;
-    line-height: normal;
-    padding: 25px;
-    display: block;
-  }
+.dropdown-content .dp-container:hover {
+  background-color: $primary-color
+}
 
-  .dropdown-content .dp-container:hover {background-color: $primary-color}
+.dp-container {
+  padding: 25px;
+  display: block;
+}
 
+.user-info {
+  line-height: normal;
+  font-size: 0.9em;
+  color: white;
+  margin-right: 20px;
+  display: inline-block;
+  vertical-align: middle;
+}
 
-  .user-info {
-    line-height: normal;
-    font-size: 0.9em;
-    color: white;
-    margin-right: 20px;
-    display: inline-block;
-    vertical-align: middle;
-  }
+.user-mail {
+  font-size: 0.7em;
+}
 
-  .user-mail {
-    font-size: 0.7em;
-  }
+.base-input {
+  font-size: 15px;
+  padding: 12px 12px;
+  outline: 0;
+  border-radius: 3px;
+  border: 1px solid lightgrey;
+  height: 13px;
+}
 
-  .dp-container {
-    padding: 25px;
-    display: block;
-  }
+.base-select {
+  font-size: 15px;
+  padding: 12px 12px;
+  outline: 0;
+  border-radius: 3px;
+  border: 1px solid lightgrey;
+  box-sizing: inherit;
+}
 
-  .base-input {
-    font-size: 15px;
-    padding: 12px 12px;
-    outline: 0;
-    border-radius: 3px;
-    border: 1px solid lightgrey;
-    height: 13px;
-  }
+.basic-link {
+  text-decoration: none;
+  color: #2c3e50;
+}
 
-  .base-select {
-    font-size: 15px;
-    padding: 12px 12px;
-    outline: 0;
-    border-radius: 3px;
-    border: 1px solid lightgrey;
-    box-sizing: inherit;
-  }
+.linked{
+  cursor: pointer;
+}
 
-  .linked{
-    cursor: pointer;
-  }
-
-  .linked:hover{
-    cursor: pointer;
-  }
+.linked:hover{
+  cursor: pointer;
+}

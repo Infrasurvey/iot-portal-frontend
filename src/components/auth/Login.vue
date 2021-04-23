@@ -5,15 +5,12 @@
     <h1 class="login-heading">Geomon IoT Portal</h1>
     <h3 class="login-heading">Log In</h3>
     <form action="#" @submit.prevent="login">
-
       <div class="form-control">
         <input type="text" name="email" id="email" class="login-input" v-model="email" placeholder="E-mail" :class="{ 'hasError': $v.email.$error }">
       </div>
-
       <div class="form-control mb-more">
         <input type="password" name="password" id="password" class="login-input" v-model="password" placeholder="Password" :class="{ 'hasError': $v.password.$error }">
       </div>
-
       <div>
         <p class="pwd-recovery">Forgot Password ?</p>
         <p class="pwd-recovery link">Password recovery</p>
@@ -25,7 +22,6 @@
       <div class="or">or</div>
       <div class="line"></div>
       <p class="text">Don't have an account yet ? <router-link :to="{ name: 'Register' }">Register now</router-link></p>
-
     </form>
   </div>
 </div>
