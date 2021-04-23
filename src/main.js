@@ -1,7 +1,6 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
-import App from './App'
 import Base from './components/template/Base'
 import router from './router'
 import { store } from './store/store'
@@ -19,7 +18,6 @@ import vSelect from 'vue-select'
 import vueCountryRegionSelect from 'vue-country-region-select'
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-
 import { LMap, LTileLayer, LMarker } from 'vue2-leaflet';
 import 'leaflet/dist/leaflet.css';
 import Vue2LeafletPolylineDecorator from 'vue2-leaflet-polylinedecorator'
@@ -28,21 +26,19 @@ Vue.component('polyline-decorator', Vue2LeafletPolylineDecorator)
 Vue.component('l-map', LMap);
 Vue.component('l-tile-layer', LTileLayer);
 Vue.component('l-marker', LMarker);
+Vue.component('v-select', vSelect);
+Vue.component('font-awesome-icon', FontAwesomeIcon);
+Vue.component(Vodal.name, Vodal);
 
 Vue.use(VueSweetalert2);
 Vue.use(vueCountryRegionSelect)
-Vue.component('v-select', vSelect)
 Vue.use(FlashMessage);
-
-Vue.use(Vuelidate)
-
-Vue.prototype.$ability = new Ability();
-
+Vue.use(Vuelidate);
 Vue.use('abilityPlugins', 'ability');
-library.add([faBatteryEmpty,faBatteryHalf,faBatteryFull,faBatteryQuarter,faBatteryThreeQuarters,faUserCircle,faCheckCircle, faExclamationCircle,faTimes,faChevronDown,faCaretDown, faPlusCircle])
-Vue.component('font-awesome-icon', FontAwesomeIcon);
+
+library.add([faBatteryEmpty,faBatteryHalf,faBatteryFull,faBatteryQuarter,faBatteryThreeQuarters,faUserCircle,faCheckCircle, faExclamationCircle,faTimes,faChevronDown])
 Vue.config.productionTip = false;
-Vue.component(Vodal.name, Vodal);
+Vue.prototype.$ability = new Ability();
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {

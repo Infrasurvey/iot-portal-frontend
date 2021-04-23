@@ -1,6 +1,5 @@
 <template>
     <nav class="sidenav-install">
-
         <ul class="sidenav-install-ul">
             <li>
                 <input type="checkbox" id="btn"/>
@@ -35,7 +34,6 @@
             </li>
         </ul>
     </nav>
-   
 </template>
 
 <script>

@@ -1,7 +1,6 @@
 <template>
 <div>
     <div class="home-header">
-
       <h1>My installations</h1>
       <h1 class="btn-create-install">
          <button type="button" class="btn" @click="showModal" >+ Create a new installation </button>
@@ -20,7 +19,6 @@
     </station-tile>
     </div>
 </div>
-
 </template>
 
 <script>
@@ -30,7 +28,6 @@ import Modal from './installation/create_installation';
 import PictureInput from 'vue-picture-input'
 
 export default {
-
   components:{
       StationTile,
       Modal,
