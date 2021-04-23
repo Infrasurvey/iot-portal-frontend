@@ -60,7 +60,6 @@ label > ul > li {
 .nav-group {
     font-size: 1em;
     font-weight: bold;
-
 }
 .sidenav-install > ul > li {
     margin-bottom: 50px;
@@ -68,6 +67,67 @@ label > ul > li {
 #btn,#btn1,#btn2 {
     display: none;
 }
+
+
+.sub-nav-group {
+    font-size: 0.8em;
+    font-weight: bold;
+    padding-left: 15px;
+    margin-bottom: 10px;
+}
+
+.sub-sub-nav-group {
+    font-size: 0.8em;
+    padding-left: 25px;
+}
+
+.sub-nav-group > a{
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.dropdown-btn {
+    vertical-align: middle;
+    float: right;
+    text-decoration: none;
+    border: none;
+    background: none;
+    text-align: right;
+    cursor: pointer;
+    outline: none;
+  }
+
+  .add-btn-right{
+    vertical-align: middle;
+    float: right;
+    text-decoration: none;
+    border: none;
+    background: none;
+    text-align: right;
+    cursor: pointer;
+    outline: none;
+  }
+
+/* Add an active class to the active dropdown button */
+.active {
+  }
+
+.dropdown-container {
+    display: none;
+    padding-left: 8px;
+    margin-top: 10px;
+  }
+  
+  /* Optional: Style the caret down icon */
+  .fa-caret-down {
+    float: right;
+  }
+
+  .rotated > .fa-caret-down{
+    transform: rotate(180deg);
+	-webkit-transform: rotate(180deg);
+	-moz-transform: rotate(180deg);
+  }
 /*
 #btn:checked + label > ul{
     list-style: none;

@@ -38,7 +38,7 @@ import 'vue-good-table/dist/vue-good-table.css'
 import Modal from './modal_group';
 
 export default {
-    name: 'ManageGroups',
+    name: 'ManageGroup',
     components : {
         'sidenav-manage' :Sidenav,
         VueGoodTable,

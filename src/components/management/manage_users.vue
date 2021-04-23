@@ -83,11 +83,6 @@ export default {
                 this.users.forEach(user => {
                     var tmp = []
                     var groups = []
-                    user.groups.forEach(group => {
-                        tmp.push(group.name)
-                        group.is_group_admin = group.pivot.is_group_admin
-                        groups.push(group)
-                    })
                     user.displaygroupnames = tmp.toString()
                     user.groupsId = groups
                 });

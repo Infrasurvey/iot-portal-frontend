@@ -124,7 +124,7 @@ export const store = new Vuex.Store({
                 const groupsAsJSON = response.data.data.groups
                 for(var i in groupsAsJSON){
                   const group = groupsAsJSON[i]
-                  groups[group.name] = group.pivot.is_group_admin;
+                  groups.push(group.name) 
                 }
                 context.commit('setGroups', groups)
                 context.commit('updateAbility',groups)

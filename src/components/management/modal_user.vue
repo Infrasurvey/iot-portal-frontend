@@ -17,7 +17,7 @@
                 <label for="admin">User is admin for :</label>
                 <div>
                     <div v-for="group in groups_selected" :key="group.id">
-                        <input type="checkbox"  :name="group.id" :id="group.id" :value="group.id" v-model="group.is_group_admin">
+                        <input type="checkbox"  :name="group.id" :id="group.id" :value="group.id" >
                         {{group.name}}
                     </div>
                 </div>
@@ -81,9 +81,6 @@ import FormData from 'form-data'
           API.get('/api/group')
           .then(response => {
                 this.groups = response.data
-                this.groups.forEach(group =>{
-                    group.is_group_admin=false
-                })
             })
             .catch(e => {
                 this.errorMessage = e
@@ -94,8 +91,7 @@ import FormData from 'form-data'
           this.groups_selected.forEach(group => {
               var pivot = {
                   'user_id':this.row.id,
-                  'group_id' :group.id,
-                  'is_group_admin':group.is_group_admin
+                  'group_id' :group.id
               }
               newUserGroupRelations.push(pivot);
           });
