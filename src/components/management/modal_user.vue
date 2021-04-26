@@ -13,7 +13,7 @@
               <label for="name">User's name : </label>
               <input type="text" v-model="name" name="name" id="name" class="base-input" placeholder="Name" :class="{ 'hasError': $v.name.$error }" readonly>
                <label for="organization">User's group :</label>
-              <v-select :options="groups" label="name" multiple="multiple" v-model="groups_selected"/>
+              <multiselect v-model="groups_selected" :options="groups" label="name" showLabels=true  selectedLabel="Selected" selectLabel="Select this group" deselect-label="Remove this group" track-by="name" :taggable="true" :searchable="false" :close-on-select="true" :multiple="true" :show-labels="false" placeholder="Pick a value" ></multiselect> 
                 <label for="admin">User is admin for :</label>
                 <div>
                     <div v-for="group in groups_selected" :key="group.id">
@@ -39,6 +39,9 @@
 import API from '../../http-constants'
 import { required } from 'vuelidate/lib/validators'
 import FormData from 'form-data'
+import Multiselect from 'vue-multiselect'
+//              <v-select :options="groups" label="name" multiple="multiple" v-model="groups_selected"/>
+
 
   export default {
     name: 'Modal',
@@ -50,7 +53,7 @@ import FormData from 'form-data'
       isUpdate : Boolean
   },
     components:{
-        
+        Multiselect
     },
     data(){
         return{

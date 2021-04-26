@@ -3,14 +3,13 @@
         <sidenav-manage></sidenav-manage>
         <div class="main-install overview-inst">
             <div class="home-header">
-
-                <h1>Manage organizations</h1>
+                <h1>Installations list</h1>
                 <h1 class="btn-create-install">
-                    <button type="button" class="btn" @click="onCreateClick" >+ Create a new organization </button>
+                    <button type="button" class="btn" @click="onCreateInstallationClick" >Create a new installation </button>
                 </h1>
             </div>
             <Modal
-                v-if="isModalVisible"
+                v-if="isInstallModalVisible"
                 :row="selectedRow"
                 :isUpdate="isUpdate"
                 @close="closeModal"
@@ -18,10 +17,29 @@
                 @displaySuccess="displayStatus"
                 />
             <vue-good-table
-            :columns="columns"
-            :rows="organizations"
-            @on-row-click="onRowClick"/>
+            :columns="installationcolumns"
+            :rows="installations"
+            @on-row-click="onInstallationClick"/>
         
+
+            <div class="home-header">
+                <h1>Users list</h1>
+                <h1 class="btn-create-install">
+                    <button type="button" class="btn" @click="onAddUserClick" >Add a new user in this group</button>
+                </h1>
+            </div>
+            <Modal
+                v-if="isUserModalVisible"
+                :row="selectedRow"
+                :isUpdate="isUpdate"
+                @close="closeModal"
+                @updateList="getOrganizations"
+                @displaySuccess="displayStatus"
+                />
+            <vue-good-table
+            :columns="usercolumns"
+            :rows="users"
+            @on-row-click="onUserClick"/>
             <div >
                 <router-link class="basic-link cancel-btn" :to="{ name: 'home' }">Cancel</router-link>
             </div>
@@ -46,18 +64,52 @@ export default {
     },
     data(){
         return {
-            organizations : [],
-            columns: [
-                {
+            installations : [],
+            users : [],
+            installationcolumns: [
+                 {
                 label: 'ID',
                 field: 'id',
+                hidden: true
                 },
                 {
                 label: 'Name',
                 field: 'name',
+                },
+                {
+                 label:'Group',
+                 field:'group.name'
+                },
+                {
+                 label:'Base station',
+                 field:'basestation.name'
                 }
             ],
-            isModalVisible: false,
+            usercolumns: [
+                {
+                label: 'ID',
+                field: 'id',
+                hidden: true
+                },
+                {
+                label: 'First Name',
+                field: 'name',
+                },
+                {
+                label: 'Last Name',
+                field: 'lastname',
+                },
+                {
+                label: 'Phone Number',
+                field: 'phone',
+                },
+                {
+                 label:'E-mail',
+                 field:'email'
+                }
+            ],
+            isUserModalVisible: false,
+            isInstallModalVisible: false,
             selectedRow : Object(),
             isUpdate : false
         }
@@ -76,27 +128,41 @@ export default {
             this.errorMessage = e
             })
         },
-        onRowClick(params) {
+        onUserClick(params) {
             this.showModal(true,params.row);
         },
-        onCreateClick() {
+        onInstallationClick(params) {
+            this.showModal(true,params.row);
+        },
+        onCreateInstallationClick() {
             this.showModal(false,Object({name:''}));
         },
-        showModal(isUpdate,selectedRow){
+        onAddUserClick() {
+            //this.showModal(false,Object({name:''}));
+        },
+        showModal(isUpdate,selectedRow,isUser){
             this.selectedRow = selectedRow;
             this.isUpdate = isUpdate
-            this.isModalVisible = true;
+            if(isUser){
+                this.isUserModalVisible = true;
+            }else{
+               this.isInstallModalVisible = true;
+            }
         },
-        closeModal() {
-            this.isModalVisible = false;
+        closeModal(isUser) {
+            if(isUser){
+                this.isUserModalVisible = false;
+            }else{
+               this.isInstallModalVisible = false;
+            }
         },
-        displayStatus(type,status){
+        displayStatus(type,status,model){
         if(status){
-            this.flashMessage.success({title: 'Success', message: 'The new organization has been succesfully '+type+' !'});
+            this.flashMessage.success({title: 'Success', message: 'The new '+model+' has been succesfully '+type+' !'});
         }
         else
         {
-            this.flashMessage.show({status: 'error', title: 'Error', message: 'An error occured during organization '+type+'.'})
+            this.flashMessage.show({status: 'error', title: 'Error', message: 'An error occured during '+model+' '+type+'.'})
         }
         }
     }
