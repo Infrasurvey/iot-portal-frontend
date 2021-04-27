@@ -13,7 +13,8 @@ export const store = new Vuex.Store({
     groups : sessionStorage.getItem('groups') || null,
     ability : sessionStorage.getItem('ability') || new Ability([]),
     name : sessionStorage.getItem('name') || null,
-    mail : sessionStorage.getItem('mail') || null
+    mail : sessionStorage.getItem('mail') || null,
+    is_admin : sessionStorage.getItem('is_admin') || false
   },
   getters: {
     loggedIn(state) {
@@ -30,6 +31,9 @@ export const store = new Vuex.Store({
     },
     getMail(state){
       return state.mail
+    },
+    isAdmin(state){
+      return state.is_admin
     }
   },
   mutations: {

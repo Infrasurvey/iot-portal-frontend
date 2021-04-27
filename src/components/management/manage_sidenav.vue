@@ -9,7 +9,7 @@
                 <div class="nav-group"><router-link class="basic-link" :to="{ name: 'ManageUsers'}">Users</router-link></div> 
                 <div class="nav-group">
                      <span>Organizations</span>
-                    <button class="add-btn-right" @click="onCreateClick">
+                    <button v-if="this.$store.getters.isAdmin" class="add-btn-right" @click="onCreateClick">
                         <font-awesome-icon class="" icon="plus-circle" size="2x" />
                     </button>
                     <button class="dropdown-btn" :id="'dropdown-btn-main'">
@@ -63,7 +63,7 @@ export default {
     },
     methods:{
         getOrganizations(){
-            API.get('/api/organizationWithGroups')
+            API.get('/api/getCurrentVisibleOrganizations')
             .then(response => {
                 this.organizations =response.data                
             })

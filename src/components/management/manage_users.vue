@@ -9,6 +9,7 @@
                 v-if="isModalVisible"
                 :row="selectedRow"
                 :isUpdate="isUpdate"
+                :organization_id="null"
                 @close="closeModal"
                 @updateList="getUsers"
                 @displaySuccess="displayStatus"
@@ -94,7 +95,7 @@ export default {
     },
     methods:{
         getUsers(){
-            API.get('/api/usersWithGroups')
+            API.get('/api/getVisibleUsers')
             .then(response => {
                 this.users =response.data
                 this.users.forEach(user => {

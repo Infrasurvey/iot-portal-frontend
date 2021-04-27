@@ -23,7 +23,7 @@
         </div>
        </section>
        <footer class="modal-footer">
-            <button type="button" v-if="isUpdate" class="" @click="showDeleteAlert">Delete user</button>
+            <button type="button" v-if="isUpdate" class="" @click="showDeleteAlert" disabled>Delete user</button>
             <button type="submit" v-if="isUpdate" class="btn-create" @click.prevent="onUpdate">Update group</button>
       </footer>
 
@@ -46,7 +46,8 @@ import Multiselect from 'vue-multiselect'
           type: Object,
           required : true
       },
-      isUpdate : Boolean
+      isUpdate : Boolean,
+      organization_id : String
   },
     components:{
         Multiselect
@@ -82,7 +83,13 @@ import Multiselect from 'vue-multiselect'
         this.$emit('close');
       },
       getGroups(){
-          return API.get('/api/group')
+          var url = ''
+          console.log(this.organization_id)
+          if (this.organization_id == null)
+            url = '/api/getCurrentVisibleGroups'
+          else
+            url = '/api/getGroupsByOrganization/'+this.organization_id
+          return API.get(url)
           .then(response => {
                 this.groups = response.data
             })
@@ -91,9 +98,17 @@ import Multiselect from 'vue-multiselect'
             })
       },
       getOrganizations(){
-          return API.get('/api/organizationWithGroups')
-          .then(response => {
+          var url = ''
+          if (this.organization_id == null)
+            url = '/api/getCurrentVisibleOrganizations'
+          else
+            url = '/api/organizationWithGroups/'+this.organization_id
+          return API.get(url).then(response => {
+            if(!Array.isArray(response.data))
+                this.organizations = [response.data]
+            else
                 this.organizations = response.data
+
             })
             .catch(e => {
                 this.errorMessage = e

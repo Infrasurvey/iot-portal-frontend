@@ -10,6 +10,7 @@
                 v-if="isModalVisible"
                 :row="selectedRow"
                 :isUpdate="isUpdate"
+                :organization_id="null"
                 @close="closeModal"
                 @updateList="getInstallations"
                 @displaySuccess="displayStatus"
@@ -77,7 +78,7 @@ export default {
     },
     methods:{
         getInstallations(){
-            API.get('/api/getCompleteInstallations')
+            API.get('/api/getVisibleInstallations')
             .then(response => {
                 this.installations =response.data
             })

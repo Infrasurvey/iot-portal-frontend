@@ -12,6 +12,7 @@
                 v-if="isInstallModalVisible"
                 :row="selectedRow"
                 :isUpdate="isUpdate"
+                :organization_id="organization_id.toString()"
                 @close="closeModal"
                 @updateList="getInstallations"
                 @displaySuccess="displayStatus"
@@ -25,13 +26,14 @@
             <div class="home-header">
                 <h1>Users list</h1>
                 <h1 class="btn-create-install">
-                    <button type="button" class="btn" @click="onAddUserClick" >Add a new user in this group</button>
+                    <button type="button" class="btn" @click="onAddUserClick" >Add a new user in this organization</button>
                 </h1>
             </div>
             <modal-user
                 v-if="isUserModalVisible"
                 :row="selectedRow"
                 :isUpdate="true"
+                :organization_id="organization_id.toString()"
                 @close="closeModal"
                 @updateList="getUsers"
                 @displaySuccess="displayStatus"
@@ -39,6 +41,18 @@
             <vue-good-table
             :columns="usercolumns"
             :rows="users"
+            @on-row-click="onUserClick"/>
+
+            <div class="home-header">
+                <h1>Responsible list</h1>
+                <h1 class="btn-create-install">
+                    <button type="button" class="btn" @click="onAddUserClick" >Add a new admin in this organization</button>
+                </h1>
+            </div>
+            
+            <vue-good-table
+            :columns="usercolumns"
+            :rows="admins"
             @on-row-click="onUserClick"/>
             <div >
                 <router-link class="basic-link cancel-btn" :to="{ name: 'home' }">Cancel</router-link>
@@ -66,9 +80,11 @@ export default {
     },
     data(){
         return {
-            organization_id:this.$route.query.id,
+            organization_id:this.$route.query.id ,
             installations : [],
             users : [],
+            tmpusers : [],
+            admins: [],
             installationcolumns: [
                  {
                 label: 'ID',
@@ -109,6 +125,26 @@ export default {
                 {
                  label:'E-mail',
                  field:'email'
+                },
+                {
+                 label:'Organizations',
+                 field:'displayorganizations',
+                 hidden: true
+                },
+                {
+                 label:'organizationsstruct',
+                 field:'organizations',
+                 hidden: true
+                },
+                {
+                 label:'Groups',
+                 field:'displaygroupnames',
+                 hidden: true
+                },
+                {
+                 label:'groupstruct',
+                 field:'groupsId',
+                 hidden: true
                 }
             ],
             isUserModalVisible: false,
@@ -118,15 +154,19 @@ export default {
         }
     },
     watch: {
-    $route(to, from) {
+    async $route(to, from) {
         this.organization_id = this.$route.query.id
         this.getInstallations();
-        this.getUsers();
+        await this.getUsers();
+        await this.getAdmins()
+        this.setDiffUsersList()
     }
     },
-    created(){
+    async created(){
         this.getInstallations();
-        this.getUsers();
+        await this.getUsers();
+        await this.getAdmins();
+        this.setDiffUsersList()
     },
     methods:{
         getInstallations(){
@@ -139,24 +179,71 @@ export default {
             })
         },
         getUsers(){
-            API.get('/api/getUsersByOrganization/'+this.organization_id)
+            return API.get('/api/getUsersByOrganization/'+this.organization_id)
             .then(response => {
-                this.users =response.data
-                this.users.forEach(user => {
-                    var tmp = []
+                this.tmpusers =response.data
+                this.tmpusers.forEach(user => {
+                     var tmpGroups = []
                     var groups = []
                     user.groups.forEach(group => {
-                        tmp.push(group.name)
+                        tmpGroups.push(group.name)
                         groups.push(group)
                     })
-                    user.displaygroupnames = tmp.toString()
+                    var tmpOrga = []
+                    var organizations = []
+                    user.organizations.forEach(organization => {
+                        tmpOrga.push(organization.name)
+                        organizations.push(organization)
+                    })
+                    user.displaygroupnames = tmpGroups.toString()
                     user.groupsId = groups
+                    user.displayorganizations = tmpOrga.toString()
+                    user.organizations = organizations
                 });
                 
             })
             .catch(e => {
             this.errorMessage = e
             })
+        },
+        getAdmins(){
+            return API.get('/api/getAdminsByOrganization/'+this.organization_id)
+            .then(response => {
+                this.admins =response.data
+                this.admins.forEach(admin => {
+                    var tmpGroups = []
+                    var groups = []
+                    admin.groups.forEach(group => {
+                        tmpGroups.push(group.name)
+                        groups.push(group)
+                    })
+                    var tmpOrga = []
+                    var organizations = []
+                    admin.organizations.forEach(organization => {
+                        tmpOrga.push(organization.name)
+                        organizations.push(organization)
+                    })
+                    admin.displaygroupnames = tmpGroups.toString()
+                    admin.groupsId = groups
+                    admin.displayorganizations = tmpOrga.toString()
+                    admin.organizations = organizations
+                });
+                
+            })
+            .catch(e => {
+            this.errorMessage = e
+            })
+        },
+        setDiffUsersList(){
+            function comparer(otherArray){
+                return function(current){
+                    return otherArray.filter(function(other){
+                        return other.id == current.id && other.name == current.name
+                    }).length == 0;
+                }
+            }
+            this.users = this.tmpusers.filter(comparer(this.admins))
+
         },
         onUserClick(params) {
             this.showModal(true,params.row,true);

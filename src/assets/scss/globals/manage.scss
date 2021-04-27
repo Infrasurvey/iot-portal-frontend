@@ -1,8 +1,7 @@
 
 .cancel-btn{
-    position: fixed;
-  bottom: 30px;
-  right: 30px;
+    float: right;
+    margin-top: 20px;
   background-color: $tile-color;
   padding: 15px;
   font-size: 0.7em;

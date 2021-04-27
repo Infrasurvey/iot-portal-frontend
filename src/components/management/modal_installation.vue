@@ -46,7 +46,8 @@ import FormData from 'form-data'
           type: Object,
           required : true
       },
-      isUpdate : Boolean
+      isUpdate : Boolean,
+      organization_id : String
   },
     components:{
         
@@ -63,7 +64,7 @@ import FormData from 'form-data'
             errors: [],
             responseMessage: '',
             groups : [],
-            basestations : []
+            basestations : [],
         }
     },
     validations: {
@@ -86,7 +87,13 @@ import FormData from 'form-data'
         this.$emit('close');
       },
       getGroups: function (){
-          API.get('/api/group')
+          var url = ''
+          console.log(this.organization_id)
+          if (this.organization_id == null)
+            url = '/api/getCurrentVisibleGroups'
+          else
+            url = '/api/getGroupsByOrganization/'+this.organization_id
+          API.get(url)
           .then(response => {
                 this.groups = response.data
             })
