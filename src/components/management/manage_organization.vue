@@ -8,12 +8,12 @@
                     <button type="button" class="btn" @click="onCreateInstallationClick" >Create a new installation </button>
                 </h1>
             </div>
-            <Modal
+            <modal-organization
                 v-if="isInstallModalVisible"
                 :row="selectedRow"
                 :isUpdate="isUpdate"
                 @close="closeModal"
-                @updateList="getOrganizations"
+                @updateList="getInstallations"
                 @displaySuccess="displayStatus"
                 />
             <vue-good-table
@@ -28,12 +28,12 @@
                     <button type="button" class="btn" @click="onAddUserClick" >Add a new user in this group</button>
                 </h1>
             </div>
-            <Modal
+            <modal-user
                 v-if="isUserModalVisible"
                 :row="selectedRow"
-                :isUpdate="isUpdate"
+                :isUpdate="true"
                 @close="closeModal"
-                @updateList="getOrganizations"
+                @updateList="getUsers"
                 @displaySuccess="displayStatus"
                 />
             <vue-good-table
@@ -53,17 +53,20 @@ import Sidenav from './manage_sidenav'
 import API from '../../http-constants'
 import { VueGoodTable } from 'vue-good-table';
 import 'vue-good-table/dist/vue-good-table.css'
-import Modal from './modal_organization';
+import ModalOrga from './modal_installation';
+import ModalUser from './modal_user';
 
 export default {
     name: 'ManageOrganization',
     components : {
         'sidenav-manage' :Sidenav,
         VueGoodTable,
-        Modal
+        'modal-organization':ModalOrga,
+        'modal-user' : ModalUser
     },
     data(){
         return {
+            organization_id:this.$route.query.id,
             installations : [],
             users : [],
             installationcolumns: [
@@ -114,28 +117,55 @@ export default {
             isUpdate : false
         }
     },
+    watch: {
+    $route(to, from) {
+        this.organization_id = this.$route.query.id
+        this.getInstallations();
+        this.getUsers();
+    }
+    },
     created(){
-        this.getOrganizations();
-        
+        this.getInstallations();
+        this.getUsers();
     },
     methods:{
-        getOrganizations(){
-            API.get('/api/organization')
+        getInstallations(){
+            API.get('/api/getInstallationsByOrganization/'+this.organization_id)
             .then(response => {
-            this.organizations =response.data
+                this.installations =response.data
+            })
+            .catch(e => {
+                this.errorMessage = e
+            })
+        },
+        getUsers(){
+            API.get('/api/getUsersByOrganization/'+this.organization_id)
+            .then(response => {
+                this.users =response.data
+                this.users.forEach(user => {
+                    var tmp = []
+                    var groups = []
+                    user.groups.forEach(group => {
+                        tmp.push(group.name)
+                        groups.push(group)
+                    })
+                    user.displaygroupnames = tmp.toString()
+                    user.groupsId = groups
+                });
+                
             })
             .catch(e => {
             this.errorMessage = e
             })
         },
         onUserClick(params) {
-            this.showModal(true,params.row);
+            this.showModal(true,params.row,true);
         },
         onInstallationClick(params) {
-            this.showModal(true,params.row);
+            this.showModal(true,params.row,false);
         },
         onCreateInstallationClick() {
-            this.showModal(false,Object({name:''}));
+            this.showModal(false,Object({name:'',organization:{name:''}}),false);
         },
         onAddUserClick() {
             //this.showModal(false,Object({name:''}));
@@ -149,21 +179,18 @@ export default {
                this.isInstallModalVisible = true;
             }
         },
-        closeModal(isUser) {
-            if(isUser){
-                this.isUserModalVisible = false;
-            }else{
-               this.isInstallModalVisible = false;
-            }
+        closeModal() {
+            this.isUserModalVisible = false;
+            this.isInstallModalVisible = false;
         },
         displayStatus(type,status,model){
-        if(status){
-            this.flashMessage.success({title: 'Success', message: 'The new '+model+' has been succesfully '+type+' !'});
-        }
-        else
-        {
-            this.flashMessage.show({status: 'error', title: 'Error', message: 'An error occured during '+model+' '+type+'.'})
-        }
+            if(status){
+                this.flashMessage.success({title: 'Success', message: 'The new '+model+' has been succesfully '+type+' !'});
+            }
+            else
+            {
+                this.flashMessage.show({status: 'error', title: 'Error', message: 'An error occured during '+model+' '+type+'.'})
+            }
         }
     }
 }

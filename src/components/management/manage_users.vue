@@ -5,7 +5,7 @@
             <div class="home-header">
                 <h1>Manage users</h1>
             </div>
-            <Modal
+            <modal-user
                 v-if="isModalVisible"
                 :row="selectedRow"
                 :isUpdate="isUpdate"
@@ -17,7 +17,7 @@
             :columns="columns"
             :rows="users"
             @on-row-click="onRowClick"/>
-        
+
             <div >
                 <router-link class="basic-link cancel-btn" :to="{ name: 'home' }">Cancel</router-link>
             </div>
@@ -38,7 +38,7 @@ export default {
     components : {
         'sidenav-manage' :Sidenav,
         VueGoodTable,
-        Modal
+        'modal-user' :Modal,
     },
     data(){
         return {
@@ -66,6 +66,15 @@ export default {
                  field:'email'
                 },
                 {
+                 label:'Organizations',
+                 field:'displayorganizations'
+                },
+                {
+                 label:'organizationsstruct',
+                 field:'organizations',
+                 hidden: true
+                },
+                {
                  label:'Groups',
                  field:'displaygroupnames'
                 },
@@ -77,12 +86,11 @@ export default {
             ],
             isModalVisible: false,
             selectedRow : Object(),
-            isUpdate : false
+            isUpdate : false,
         }
     },
     created(){
         this.getUsers();
-        
     },
     methods:{
         getUsers(){
@@ -90,10 +98,22 @@ export default {
             .then(response => {
                 this.users =response.data
                 this.users.forEach(user => {
-                    var tmp = []
+                    var tmpGroups = []
                     var groups = []
-                    user.displaygroupnames = tmp.toString()
+                    user.groups.forEach(group => {
+                        tmpGroups.push(group.name)
+                        groups.push(group)
+                    })
+                    var tmpOrga = []
+                    var organizations = []
+                    user.organizations.forEach(organization => {
+                        tmpOrga.push(organization.name)
+                        organizations.push(organization)
+                    })
+                    user.displaygroupnames = tmpGroups.toString()
                     user.groupsId = groups
+                    user.displayorganizations = tmpOrga.toString()
+                    user.organizations = organizations
                 });
                 
             })

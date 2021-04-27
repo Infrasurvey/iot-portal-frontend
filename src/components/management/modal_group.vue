@@ -38,7 +38,7 @@ import { required } from 'vuelidate/lib/validators'
 import FormData from 'form-data'
 
   export default {
-    name: 'Modal',
+    name: 'modal-user',
     props:{
       row: {
           type: Object,
