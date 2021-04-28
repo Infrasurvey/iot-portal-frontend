@@ -1,18 +1,90 @@
-
-.login-image{
-    display: inline-block;
-    background-image: url('../../images/login_picture.png');
-    width: 64vw;
-    height: 97vh;
-
+.auth-main {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
 }
 
-.login-form{
-    display: inline-block;
-    width: 33vw;
-    height: fit-content;
-    vertical-align: top;
-    
+.auth-form {
+  display: flex;
+  width: 600px;
+  flex-direction: column;
+  vertical-align: top;
+  margin-left: 50px;
+  margin-right: 50px;
+}
+
+.auth-image {
+  display: flex;
+  width: calc(100% - 600px);
+  background-image: url('../../images/auth_background_1.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.auth-title {
+  width: 100%;
+  margin-top: 100px;
+  margin-bottom: 50px;
+  color: $primary-color;
+  font-size: 50px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.auth-subtitle {
+  width: 100%;
+  color: $secondary-color;
+  margin-bottom: 40px;
+  font-size: 35px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.auth-nav {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  width: 100%;
+  font-size: 17px;
+  margin-top: 15px;
+}
+
+.auth-footer {
+  margin-top: 50px;
+  width: 100%;
+  text-align: left;
+  font-size: small;
+}
+
+.auth-logo {
+  display: flex;
+  margin-top: 20px;
+  justify-content: space-around;
+  flex-direction: row;
+  width: 100%;
+  opacity: 0.3;
+  height: 60px;
+}
+
+.login-input {
+  width: 60%;
+  font-size: 15px;
+  padding: 12px 12px;
+  outline: 0;
+  border-radius: 3px;
+  border: 1px solid lightgrey;
+  height: 13px;
+}
+
+.login-select {
+  width: 60%;
+  font-size: 15px;
+  padding: 12px 12px;
+  outline: 0;
+  border-radius: 3px;
+  border: 1px solid lightgrey;
+  box-sizing: inherit;
 }
 
 .pwd-recovery {
@@ -20,108 +92,70 @@
     font-size: 17px;
     margin: 10px;
 }
-.link{
+
+.link {
     float: right;
 }
-.line {
-    height: 2px;
-   background: black;
-   display: inline-block;
-   width: 39%;
-   margin: 0 15px 0 15px;
+
+.line-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; 
+  width: 100%;
+  margin-top: 15px;
 }
 
-.or {
-    display: inline-block;
-    text-align: center;
-    vertical-align: middle;
-    width: fit-content;
-    height: fit-content;
-    margin: 0 8px 0 8px;
+.line-item {
+  height: 1px;
+  background: black;
+  width: 45%;
+  max-width: 300px;
+  font-size: x-small;
 }
 
-.text{
-    text-align: center;
-    margin: 10px;
-    font-size: 17px;
+.form-control {
+  margin: auto auto 8px auto;
+  padding: 0 5px 0 5px;
+  display: flex;
+  justify-content: center;
 }
 
-.login-heading {
-  margin-top: 13px;
-    margin-bottom: 12px;
-    text-align: center;
-  }
-  .form-control {
-    margin: auto auto 8px auto;
-    padding: 0 5px 0 5px;
-    display: flex;
-    justify-content: center;
-  }
-  .mb-more {
-    margin: auto auto 24px auto;
-  }
-  .login-input {
-    width: 60%;
-    font-size: 15px;
-    padding: 12px 12px;
-    outline: 0;
-    border-radius: 3px;
-    border: 1px solid lightgrey;
-    height: 13px;
-  }
+.mb-more {
+  margin: auto auto 24px auto;
+}
 
-  .login-select {
-    width: 60%;
-    font-size: 15px;
-    padding: 12px 12px;
-    outline: 0;
-    border-radius: 3px;
-    border: 1px solid lightgrey;
-    box-sizing: inherit;
-  }
-  .btn-submit {
-    width: 100%;
-    padding: 14px 12px;
-   font-size: 18px;
-    font-weight: bold;
-    background: $secondary-color;
-    color: white;
-    border-radius: 3px;
-    cursor: pointer;
-  }
+.btn-submit {
+  width: 100%;
+  padding: 14px 12px;
+  font-size: 18px;
+  font-weight: bold;
+  background: $secondary-color;
+  color: white;
+  border-radius: 3px;
+  cursor: pointer;
+}
 
-  .btn-submit:hover{
-    background-color: $primary-color;
-    cursor: pointer;
-  }
+.btn-submit:hover{
+  background-color: $primary-color;
+  cursor: pointer;
+}
 
-  .btn-create-account{
-      width: 50%;
-      margin-left: 15px;
-  }
+.btn-login {
+  width: 100%;
+  font-size: 17px;
+  margin: 0px 0px;
+  padding: 0px;
+  font-weight: bold;
+  margin-bottom: 50px;
+}
 
-  .btn-login {
-    width: 27%;
-    margin-right: 15px;
-    padding: 14px 12px;
-   font-size: 18px;
-    font-weight: bold;
-    color: black;
-    border-radius: 3px;
-    cursor: pointer;
-    background-color: $tile-color;
-    font-weight: 600;
-    text-decoration: none;
-    text-align: center;
-  }
+.btn-create-account {
+    width: 50%;
+    margin-left: 15px;
+}
 
-  .btn-login:hover{
-    background-color: darkgray;
-    cursor: pointer;
-  }
-
-  .hasErrorRegister {
-    border-color: red;
-    border-style: solid;
-    /* border-width: 2px; */
+.hasErrorRegister {
+  border-color: red;
+  border-style: solid;
+  /* border-width: 2px; */
 }

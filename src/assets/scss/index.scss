@@ -1,2 +1,12 @@
-@import './globals/index.scss';
 
+@import "~vue-material/dist/vue-material.min.css";
+@import "~vue-material/dist/theme/default.css";
+@import "~vue-material/dist/theme/engine"; // Import the theme engine
+
+@include md-register-theme("default", (
+  primary: $primary-color, // The primary color of your application
+  accent: $secondary-color // The accent or secondary color
+));
+
+@import "~vue-material/dist/theme/all"; // Apply the theme
+@import './globals/index.scss';

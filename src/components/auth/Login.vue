@@ -1,66 +1,78 @@
 <template>
-<div class="login-main" >
-  <div class="login-image"></div>
-  <div class="login-form">
-    <h1 class="login-heading">Geomon IoT Portal</h1>
-    <h3 class="login-heading">Log In</h3>
-    <form action="#" @submit.prevent="login">
-      <div class="form-control">
-        <input type="text" name="email" id="email" class="login-input" v-model="email" placeholder="E-mail" :class="{ 'hasError': $v.email.$error }">
-      </div>
-      <div class="form-control mb-more">
-        <input type="password" name="password" id="password" class="login-input" v-model="password" placeholder="Password" :class="{ 'hasError': $v.password.$error }">
-      </div>
-      <div>
-        <p class="pwd-recovery">Forgot Password ?</p>
-        <p class="pwd-recovery link">Password recovery</p>
-      </div>
-      <div class="form-control">
-        <button type="submit" class="btn-submit">Log In</button>
-      </div>
-      <div class="line"></div>
-      <div class="or">or</div>
-      <div class="line"></div>
-      <p class="text">Don't have an account yet ? <router-link :to="{ name: 'Register' }">Register now</router-link></p>
+  <div>
+    <div class="auth-subtitle">Log in</div>
+    <form novalidate class="md-layout" @submit.prevent="login">
+      <!-- Text entry -->
+      <md-field :class="getValidationClass('email')">
+        <label for="email">Email</label>
+        <md-input type="email" name="email" id="email" v-model="form.email"/>
+        <span class="md-error" v-if="!$v.form.email.required">The email is required</span>
+        <span class="md-error" v-else-if="!$v.form.email.email">Invalid email</span>
+      </md-field>
+
+      <!-- Password entry -->
+      <md-field :class="getValidationClass('password')">
+        <label>Password</label>
+        <md-input type="password" name="password" id="password" v-model="form.password"></md-input>
+        <span class="md-error" v-if="!$v.form.password.required">The password is required</span>
+      </md-field>
+
+      <!-- Sign in button -->
+      <md-button class="md-raised md-primary btn-login" type="submit">Log in</md-button>
     </form>
   </div>
-</div>
-  
 </template>
 
 <script>
-import { required } from 'vuelidate/lib/validators'
+import { validationMixin } from 'vuelidate'
+  import {
+    required,
+    email,
+    minLength,
+    maxLength
+  } from 'vuelidate/lib/validators'
 
 export default {
   name: 'login',
-  data() {
-    return {
-      email: '',
-      password: '',
-    }
-  },
+  mixins: [validationMixin],
+    data: () => ({
+      form: {
+        email: null,
+        password: null
+      }
+    }),
     validations: {
-        email:{
-          required
+      form: {
+        email: {
+          required,
+          email
         },
-        password:{
+        password: {
           required
         }
-   },
-  methods: {
-      
-    login() {
-      this.$v.$touch();
-      if(this.$v.$error) return
-      this.$store.dispatch('retrieveToken', {
-        email: this.email,
-        password: this.password,
-      })
-        .then(response => {
-          this.$router.push({ name: 'home' })
+      }
+    },
+    methods: {
+      login() {
+        this.$v.$touch();
+        if(this.$v.$error) return
+        this.$store.dispatch('retrieveToken', {
+          email: this.form.email,
+          password: this.form.password,
         })
-        
+          .then(response => {
+            this.$router.push({ name: 'home' })
+          })
+      },  
+      getValidationClass (fieldName) {
+        const field = this.$v.form[fieldName]
+
+        if (field) {
+          return {
+            'md-invalid': field.$invalid && field.$dirty
+          }
+        }
+      }
     }
   }
-}
 </script>

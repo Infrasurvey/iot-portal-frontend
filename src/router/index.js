@@ -1,9 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
-import Login from '@/components/auth/Login'
+import Auth from '@/components/auth/Auth'
 import Logout from '@/components/auth/Logout'
-import Register from '@/components/auth/Register'
 import Overview from '@/components/installation/installation_overview'
 import Manage from '@/components/installation/installation_manage'
 import OverviewStation from '@/components/base_station/basestation_overview'
@@ -17,7 +16,6 @@ import ManageGroups from '@/components/management/manage_groups'
 import ManageOrganizations from '@/components/management/manage_organizations'
 
 Vue.use(Router)
-
 
 var ManageOrganizationsRoute =  {
   path: '/management/organizations',
@@ -139,19 +137,10 @@ var HomeRoute = {
   }
 }
 
-var LoginRoute = {
+var AuthRoute = {
   path: '/login',
-  name: 'login',
-  component: Login,
- 
-}
-
-var RegisterRoute = 
-{
-  path: '/register',
-  name: 'Register',
-  component: Register,
- 
+  name: 'auth',
+  component: Auth,
 }
 
 var LogoutRoute = {
@@ -163,7 +152,6 @@ var LogoutRoute = {
   }
 }
 
-
 export default new Router({
   routes: [
     HomeRoute,
@@ -171,8 +159,7 @@ export default new Router({
     OverviewRoute,
     OverviewStationRoute,
     ConfigStationRoute,
-    LoginRoute,
-    RegisterRoute,
+    AuthRoute,
     LogoutRoute,
     InformationsRoute,
     LocationRoute,
