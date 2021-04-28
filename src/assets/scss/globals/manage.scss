@@ -1,0 +1,26 @@
+
+.cancel-btn{
+    float: right;
+    margin-top: 20px;
+  background-color: $tile-color;
+  padding: 15px;
+  font-size: 0.7em;
+  font-weight: 600;
+  letter-spacing: .1rem;
+  text-decoration: none;
+  text-transform: uppercase;
+  border: 5px solid $tile-color;
+    border-radius: 8px;
+}
+
+
+
+.cancel-btn:hover{
+    background-color: darkgray;
+    border: 5px solid darkgray;
+    cursor: pointer;
+}
+
+#vs1__listbox{
+  z-index: 2000;
+}

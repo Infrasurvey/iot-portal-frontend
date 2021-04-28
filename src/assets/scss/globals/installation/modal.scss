@@ -14,7 +14,7 @@
 .modal {
   background: #FFFFFF;
   box-shadow: 2px 2px 20px 1px;
-  overflow-x: auto;
+  overflow-x: unset;
   width: 50%;
   height: fit-content;
   display: flex;
@@ -164,4 +164,10 @@
 
 .swa-container{
   font-family: "Avenir", Helvetica, Arial, sans-serif;
+}
+
+.multiselect__tag-icon:hover:after, .multiselect__tag-icon:hover, .multiselect__tag-icon:after,
+.multiselect__option--highlight::after, .multiselect__option--highlight, .multiselect__tag{
+  background: $primary-color;
+  color: white;
 }

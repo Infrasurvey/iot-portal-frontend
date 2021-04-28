@@ -12,22 +12,18 @@
           <form enctype="multipart/form-data" class="installation-form">
               <label for="name">User's name : </label>
               <input type="text" v-model="name" name="name" id="name" class="base-input" placeholder="Name" :class="{ 'hasError': $v.name.$error }" readonly>
-               <label for="organization">User's group :</label>
-              <v-select :options="groups" label="name" multiple="multiple" v-model="groups_selected"/>
-                <label for="admin">User is admin for :</label>
-                <div>
-                    <div v-for="group in groups_selected" :key="group.id">
-                        <input type="checkbox"  :name="group.id" :id="group.id" :value="group.id" v-model="group.is_group_admin">
-                        {{group.name}}
-                    </div>
-                </div>
+               <label for="organizations">Is organization admin for :</label>
+              <multiselect @input="setSelectedGroups" :disabled="group_id !=null ? true : false" @remove="removeOrganization" v-model="organizations_selected" :options="organizations" label="name" :showLabels="true"  selectedLabel="Selected" selectLabel="Select this organization" deselect-label="Remove this organization" track-by="id" :taggable="true" :searchable="false" :close-on-select="true" :multiple="true" ></multiselect> 
+              
+               <label for="groups">User's group :</label>
+              <multiselect v-model="final_groups_selected" @remove="removeGroup" :options="groups" label="name" :showLabels="true"  selectedLabel="Selected" selectLabel="Select this group" deselect-label="Remove this group" track-by="id" :taggable="true" :searchable="false" :close-on-select="true" :multiple="true" ></multiselect> 
 
           </form>
 
         </div>
        </section>
        <footer class="modal-footer">
-            <button type="button" v-if="isUpdate" class="" @click="showDeleteAlert">Delete user</button>
+            <button type="button" v-if="isUpdate" class="" @click="showDeleteAlert" disabled>Delete user</button>
             <button type="submit" v-if="isUpdate" class="btn-create" @click.prevent="onUpdate">Update group</button>
       </footer>
 
@@ -39,6 +35,9 @@
 import API from '../../http-constants'
 import { required } from 'vuelidate/lib/validators'
 import FormData from 'form-data'
+import Multiselect from 'vue-multiselect'
+//              <v-select :options="groups" label="name" multiple="multiple" v-model="groups_selected"/>
+
 
   export default {
     name: 'Modal',
@@ -47,65 +46,175 @@ import FormData from 'form-data'
           type: Object,
           required : true
       },
-      isUpdate : Boolean
+      isUpdate : Boolean,
+      organization_id : String,
+      group_id : String
   },
     components:{
-        
+        Multiselect
     },
     data(){
         return{
             name:this.row.name || '',
+            organizations_selected : [],
+            organizations_of_user : this.row.organizations || '',
             groups_selected : this.row.groupsId || '',
+            final_groups_selected : [],
             errorMessage: '',
             errors: [],
             responseMessage: '',
-            groups : []
+            groups : [],
+            organizations : [],
+            groupsToRemove : [],
+            organizationsToRemove : []
         }
     },
     validations: {
         name:{
           required
         },
-        groups_selected:{
+        final_groups_selected:{
           required
         }
    },
-    created(){
-        this.getGroups()
+    async created(){
+        await this.getGroups()
+        await this.getOrganizations()
+        this.organizations_of_user.forEach(organization => {
+          var orga = this.organizations.find(function(orga) {
+            return orga.id === this.id;
+          }, organization);
+          if(!(orga === undefined))
+          {
+            this.organizations_selected.push(organization)
+          }
+        })
+        this.setSelectedGroups()
+
     },
     methods: {
       close() {
         this.$emit('close');
       },
-      getGroups: function (){
-          API.get('/api/group')
+      getGroups(){
+          var url = ''
+          if(this.group_id !=null){
+                url = '/api/group/'+this.group_id
+          }else{
+              if (this.organization_id == null)
+                url = '/api/getCurrentVisibleGroups'
+              else
+                url = '/api/getGroupsByOrganization/'+this.organization_id     
+          }
+     
+          return API.get(url)
           .then(response => {
-                this.groups = response.data
-                this.groups.forEach(group =>{
-                    group.is_group_admin=false
-                })
+                if(!Array.isArray(response.data))
+                  this.groups = [response.data]
+              else
+                  this.groups = response.data
             })
             .catch(e => {
                 this.errorMessage = e
             })
       },
+      getOrganizations(){
+        var url = ''
+
+        if(this.group_id ==null){
+             this.organizations = this.organizations_of_user
+        }else{
+          if (this.organization_id == null)
+            url = '/api/getCurrentVisibleOrganizations'
+          else
+            url = '/api/organizationWithGroups/'+this.organization_id
+
+          return API.get(url).then(response => {
+            if(!Array.isArray(response.data))
+                this.organizations = [response.data]
+            else
+                this.organizations = response.data
+
+            })
+            .catch(e => {
+                this.errorMessage = e
+            })
+        }
+      },
+      setSelectedGroups(){
+        
+        var selectedGroups = Array()
+        
+        this.organizations_of_user.forEach(organization => {
+          var orga = this.organizations.find(function(orga) {
+            return orga.id === this.id;
+          }, organization);
+          if(!(orga === undefined))
+          {
+            selectedGroups = selectedGroups.concat(orga.groups);
+          }
+        })
+        this.groups_selected.forEach(group => {
+            if (selectedGroups.some(function(gr) {return gr.id === this.id;}, group)) {
+                group['$isDisabled'] = true
+            }
+            else{
+                group['$isDisabled'] = false
+            }
+        });
+        selectedGroups.forEach(group => {
+            if (!this.groups_selected.some(function(gr) {return gr.id === this.id;}, group)) {
+                group['$isDisabled'] = true
+                this.groups_selected.push(group)
+            }
+        });
+        var new_selected_list = Array()
+        this.groups_selected.forEach(group => {
+            if (this.groups.some(function(gr) {return gr.id === this.id;}, group))
+              new_selected_list.push(group)
+        });
+        this.final_groups_selected = new_selected_list;
+        this.groups.forEach(group => {
+            if (selectedGroups.some(function(gr) {return gr.id === this.id;}, group)) {
+              group['$isDisabled'] = true
+            }
+            else{
+                group['$isDisabled'] = false
+            }
+        });
+        console.log(this.organizations_selected)
+      },
       updateUser: function (){
-          var newUserGroupRelations = []
-          this.groups_selected.forEach(group => {
+          var newUserOrganizationRelations = []
+          this.organizations_selected.forEach(group => {
               var pivot = {
                   'user_id':this.row.id,
-                  'group_id' :group.id,
-                  'is_group_admin':group.is_group_admin
+                  'organization_id' :group.id
+              }
+              newUserOrganizationRelations.push(pivot);
+          });
+          var newUserGroupRelations = []
+          this.final_groups_selected.forEach(group => {
+              var pivot = {
+                  'user_id':this.row.id,
+                  'group_id' :group.id
               }
               newUserGroupRelations.push(pivot);
           });
-          console.log(newUserGroupRelations)
-          API.post('/api/updateUserGroups',{'user_id':this.row.id,'usergroups' : newUserGroupRelations})
+          API.post('/api/updateUserOrganizations',{'user_id':this.row.id,'userorganizations' : newUserOrganizationRelations, 'relationstoremove' : this.organizationsToRemove})
           .then(response => {
-                this.responseMessage = response.data
-                this.$emit('close');
-                this.$emit('updateList');
-                this.$emit('displaySuccess','updated',true)
+                API.post('/api/updateUserGroups',{'user_id':this.row.id,'usergroups' : newUserGroupRelations, 'relationstoremove' : this.groupsToRemove})
+                .then(response => {
+                      this.responseMessage = response.data
+                      this.$emit('close');
+                      this.$emit('updateList');
+                      this.$emit('displaySuccess','updated',true)
+                  })
+                  .catch(e => {
+                      this.errorMessage = e
+                      this.$emit('close');
+                      this.$emit('displaySuccess','update',false)
+                  })
             })
             .catch(e => {
                 this.errorMessage = e
@@ -141,6 +250,18 @@ import FormData from 'form-data'
                   })
                   }
             });
+      },
+      removeOrganization(removedOption,id){
+          this.organizationsToRemove.push({
+                  'user_id':this.row.id,
+                  'organization_id' :removedOption.id
+              })
+      },
+      removeGroup(removedOption,id){
+          this.groupsToRemove.push({
+                  'user_id':this.row.id,
+                  'group_id' :removedOption.id
+              })
       },
         onUpdate: function() {
             this.$v.$touch();

@@ -12,28 +12,28 @@ import AccountLocation from '@/components/account/account_location'
 import Password from '@/components/account/account_pwd'
 import ManageInstallations from '@/components/management/manage_installations'
 import ManageUsers from '@/components/management/manage_users'
-import ManageGroups from '@/components/management/manage_groups'
-import ManageOrganizations from '@/components/management/manage_organizations'
+import ManageGroup from '@/components/management/manage_group'
+import ManageOrganization from '@/components/management/manage_organization'
 
 Vue.use(Router)
 
 var ManageOrganizationsRoute =  {
   path: '/management/organizations',
-  name: 'ManageOrganizations',
-  component: ManageOrganizations,
+  name: 'ManageOrganization',
+  component: ManageOrganization,
   meta: {
     requiresAuth: true,
-    breadcrumb:[{name: 'Home', link: '/' },{name:'Management'},{name:'Organizations'}] 
+    breadcrumb:[{name: 'Home', link: '/' },{name:'Management'},{name:'Organization'}] 
   }
 }
 
 var ManageGroupsRoute =  {
   path: '/management/groups',
-  name: 'ManageGroups',
-  component: ManageGroups,
+  name: 'ManageGroup',
+  component: ManageGroup,
   meta: {
     requiresAuth: true,
-    breadcrumb:[{name: 'Home', link: '/' },{name:'Management'},{name:'Groups'}] 
+    breadcrumb:[{name: 'Home', link: '/' },{name:'Management'},{name:'Group'}] 
   }
 }
 

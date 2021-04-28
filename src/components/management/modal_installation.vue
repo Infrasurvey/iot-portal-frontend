@@ -4,6 +4,7 @@
         <header class="modal-header">
         <div name="header">
           <h1 v-if="isUpdate" class="installation-title">Update installation</h1>
+          <h1 v-if="!isUpdate" class="installation-title">Create installation</h1>
         </div>
           <button type="button" class="btn-close" @click="close"><font-awesome-icon class="close" icon="times" size="2x"/></button>
       </header>
@@ -46,7 +47,9 @@ import FormData from 'form-data'
           type: Object,
           required : true
       },
-      isUpdate : Boolean
+      isUpdate : Boolean,
+      organization_id : String,
+      group_id : String
   },
     components:{
         
@@ -63,7 +66,7 @@ import FormData from 'form-data'
             errors: [],
             responseMessage: '',
             groups : [],
-            basestations : []
+            basestations : [],
         }
     },
     validations: {
@@ -86,7 +89,13 @@ import FormData from 'form-data'
         this.$emit('close');
       },
       getGroups: function (){
-          API.get('/api/group')
+          var url = ''
+            if (this.organization_id == null)
+              url = '/api/getCurrentVisibleGroups'
+            else
+              url = '/api/getGroupsByOrganization/'+this.organization_id
+          
+          API.get(url)
           .then(response => {
                 this.groups = response.data
             })

@@ -124,7 +124,7 @@
                             polyline.push([position.latitude,position.longitude])
                         })*/
                         polyline.push([rover.positions[0].latitude,rover.positions[0].longitude])
-                        polyline.push([rover.positions[rover.positions.length-2].latitude,rover.positions[rover.positions.length-2].longitude])
+                        polyline.push([rover.positions[rover.positions.length-1].latitude,rover.positions[rover.positions.length-1].longitude])
 
                         this.polylines.push(polyline)
                     });

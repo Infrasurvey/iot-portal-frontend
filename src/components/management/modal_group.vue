@@ -14,7 +14,7 @@
               <label for="name">Group's name : </label>
               <input type="text" v-model="name" name="name" id="name" placeholder="Name" class="base-input" :class="{ 'hasError': $v.name.$error }">
                <label for="organization">Group's organization :</label>
-              <select type="text" v-model="organization_id" name="organization" id="organization" class="base-select" :class="{ 'hasError': $v.organization_id.$error }" > 
+              <select type="text" v-model="organization_id" name="organization" id="organization" class="base-select" :class="{ 'hasError': $v.organization_id.$error }" :disabled="!isUpdate ? true : false" >
                     <option v-for="organization in organizations" :key="organization.id" v-bind:value="organization.id" :selected="organization_id == organization.id">
                         {{ organization.name }}
                     </option>
@@ -38,7 +38,7 @@ import { required } from 'vuelidate/lib/validators'
 import FormData from 'form-data'
 
   export default {
-    name: 'Modal',
+    name: 'modal-user',
     props:{
       row: {
           type: Object,

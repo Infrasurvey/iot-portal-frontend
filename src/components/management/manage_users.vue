@@ -5,10 +5,12 @@
             <div class="home-header">
                 <h1>Manage users</h1>
             </div>
-            <Modal
+            <modal-user
                 v-if="isModalVisible"
                 :row="selectedRow"
                 :isUpdate="isUpdate"
+                :organization_id="null"
+                :group_id="null"
                 @close="closeModal"
                 @updateList="getUsers"
                 @displaySuccess="displayStatus"
@@ -17,9 +19,9 @@
             :columns="columns"
             :rows="users"
             @on-row-click="onRowClick"/>
-        
+
             <div >
-                <button type="submit" class="apply-btn">Apply</button>
+                <router-link class="basic-link cancel-btn" :to="{ name: 'home' }">Cancel</router-link>
             </div>
             <FlashMessage></FlashMessage>
         </div>
@@ -38,7 +40,7 @@ export default {
     components : {
         'sidenav-manage' :Sidenav,
         VueGoodTable,
-        Modal
+        'modal-user' :Modal,
     },
     data(){
         return {
@@ -47,14 +49,32 @@ export default {
                 {
                 label: 'ID',
                 field: 'id',
+                hidden: true
                 },
                 {
-                label: 'Name',
+                label: 'First Name',
                 field: 'name',
+                },
+                {
+                label: 'Last Name',
+                field: 'lastname',
+                },
+                {
+                label: 'Phone Number',
+                field: 'phone',
                 },
                 {
                  label:'E-mail',
                  field:'email'
+                },
+                {
+                 label:'Organizations',
+                 field:'displayorganizations'
+                },
+                {
+                 label:'organizationsstruct',
+                 field:'organizations',
+                 hidden: true
                 },
                 {
                  label:'Groups',
@@ -68,28 +88,34 @@ export default {
             ],
             isModalVisible: false,
             selectedRow : Object(),
-            isUpdate : false
+            isUpdate : false,
         }
     },
     created(){
         this.getUsers();
-        
     },
     methods:{
         getUsers(){
-            API.get('/api/usersWithGroups')
+            API.get('/api/getVisibleUsers')
             .then(response => {
                 this.users =response.data
                 this.users.forEach(user => {
-                    var tmp = []
+                    var tmpGroups = []
                     var groups = []
                     user.groups.forEach(group => {
-                        tmp.push(group.name)
-                        group.is_group_admin = group.pivot.is_group_admin
+                        tmpGroups.push(group.name)
                         groups.push(group)
                     })
-                    user.displaygroupnames = tmp.toString()
+                    var tmpOrga = []
+                    var organizations = []
+                    user.organizations.forEach(organization => {
+                        tmpOrga.push(organization.name)
+                        organizations.push(organization)
+                    })
+                    user.displaygroupnames = tmpGroups.toString()
                     user.groupsId = groups
+                    user.displayorganizations = tmpOrga.toString()
+                    user.organizations = organizations
                 });
                 
             })
