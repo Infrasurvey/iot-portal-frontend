@@ -3,26 +3,60 @@
         <sidenav-manage></sidenav-manage>
         <div class="main-install overview-inst">
             <div class="home-header">
-
-                <h1>Manage groups</h1>
+                <h1>Installations list</h1>
                 <h1 class="btn-create-install">
-                    <button type="button" class="btn" @click="onCreateClick" >+ Create a new group </button>
+                    <button type="button" class="btn" @click="onCreateInstallationClick" disabled style="background-color:gray; border-color:gray">Create a new installation </button>
                 </h1>
             </div>
-            <Modal
-                v-if="isModalVisible"
+            <modal-installation
+                v-if="isInstallModalVisible"
                 :row="selectedRow"
                 :isUpdate="isUpdate"
+                :organization_id="null"
+                :group_id="group_id.toString()"
                 @close="closeModal"
-                @updateList="getGroups"
+                @updateList="getInstallations"
                 @displaySuccess="displayStatus"
                 />
             <vue-good-table
-            :columns="columns"
-            :rows="groups"
-            @on-row-click="onRowClick"/>
+            :columns="installationcolumns"
+            :rows="installations"
+            @on-row-click="onInstallationClick"/>
         
-            <div >
+
+            <div class="home-header">
+                <h1>Users list</h1>
+                <h1 class="btn-create-install">
+                    <button type="button" class="btn" @click="onAddUserClick" >Add a new user in this group</button>
+                </h1>
+            </div>
+            <modal-user
+                v-if="isUserModalVisible"
+                :row="selectedRow"
+                :isUpdate="true"
+                :organization_id="null"
+                :group_id="group_id.toString()"
+                @close="closeModal"
+                @updateList="updateUsersLists"
+                @displaySuccess="displayStatus"
+                />
+            <vue-good-table
+            :columns="usercolumns"
+            :rows="users"
+            @on-row-click="onUserClick"/>
+
+            
+
+            <add-user
+                v-if="isUserAddModalVisible"
+                :isAdmin="false"
+                :organization_id="null"
+                :group_id="group_id.toString()"
+                @close="closeModal"
+                @updateList="updateUsersLists"
+                @displaySuccess="displayStatus"
+                />
+            <div>
                 <router-link class="basic-link cancel-btn" :to="{ name: 'home' }">Cancel</router-link>
             </div>
             <FlashMessage></FlashMessage>
@@ -35,73 +69,189 @@ import Sidenav from './manage_sidenav'
 import API from '../../http-constants'
 import { VueGoodTable } from 'vue-good-table';
 import 'vue-good-table/dist/vue-good-table.css'
-import Modal from './modal_group';
+import ModalInstall from './modal_installation';
+import ModalUser from './modal_user';
+import ModalAddUser from './modal_add_user';
 
 export default {
-    name: 'ManageGroup',
+    name: 'ManageOrganization',
     components : {
         'sidenav-manage' :Sidenav,
         VueGoodTable,
-        Modal
+        'modal-installation':ModalInstall,
+        'modal-user' : ModalUser,
+        'add-user' : ModalAddUser
     },
     data(){
         return {
-            groups : [],
-            columns: [
-                {
+            group_id:this.$route.query.id ,
+            installations : [],
+            users : [],
+            tmpusers : [],
+            admins: [],
+            installationcolumns: [
+                 {
                 label: 'ID',
                 field: 'id',
+                hidden: true
                 },
                 {
                 label: 'Name',
                 field: 'name',
                 },
                 {
-                 label:'Organization',
-                 field:'organization.name'
+                 label:'Group',
+                 field:'group.name'
+                },
+                {
+                 label:'Base station',
+                 field:'basestation.name'
                 }
             ],
-            isModalVisible: false,
+            usercolumns: [
+                {
+                label: 'ID',
+                field: 'id',
+                hidden: true
+                },
+                {
+                label: 'First Name',
+                field: 'name',
+                },
+                {
+                label: 'Last Name',
+                field: 'lastname',
+                },
+                {
+                label: 'Phone Number',
+                field: 'phone',
+                },
+                {
+                 label:'E-mail',
+                 field:'email'
+                },
+                {
+                 label:'Organizations',
+                 field:'displayorganizations',
+                 hidden: true
+                },
+                {
+                 label:'organizationsstruct',
+                 field:'organizations',
+                 hidden: true
+                },
+                {
+                 label:'Groups',
+                 field:'displaygroupnames',
+                 hidden: true
+                },
+                {
+                 label:'groupstruct',
+                 field:'groupsId',
+                 hidden: true
+                }
+            ],
+            isUserModalVisible: false,
+            isUserAddModalVisible: false,
+            isInstallModalVisible: false,
             selectedRow : Object(),
-            isUpdate : false
+            isUpdate : false,
+            isAdmin : false
         }
     },
-    created(){
-        this.getGroups();
-        
+    watch: {
+    async $route(to, from) {
+        this.group_id = this.$route.query.id
+        this.getInstallations();
+        await this.getUsers();
+    }
+    },
+    async created(){
+        this.getInstallations();
+        await this.getUsers();
+        console.log(this.users)
     },
     methods:{
-        getGroups(){
-            API.get('/api/group')
+        async updateUsersLists(){
+            await this.getUsers();
+            console.log(this.users)
+        },
+        getInstallations(){
+            API.get('/api/getInstallationsByGroup/'+this.group_id)
             .then(response => {
-            this.groups =response.data
+                this.installations =response.data
+            })
+            .catch(e => {
+                this.errorMessage = e
+            })
+        },
+        getUsers(){
+            return API.get('/api/getUsersByGroup/'+this.group_id)
+            .then(response => {
+                this.tmpusers =response.data
+                this.tmpusers.forEach(user => {
+                     var tmpGroups = []
+                    var groups = []
+                    user.groups.forEach(group => {
+                        tmpGroups.push(group.name)
+                        groups.push(group)
+                    })
+                    var tmpOrga = []
+                    var organizations = []
+                    user.organizations.forEach(organization => {
+                        tmpOrga.push(organization.name)
+                        organizations.push(organization)
+                    })
+                    user.displaygroupnames = tmpGroups.toString()
+                    user.groupsId = groups
+                    user.displayorganizations = tmpOrga.toString()
+                    user.organizations = organizations
+                });
+                this.users =  this.tmpusers
             })
             .catch(e => {
             this.errorMessage = e
             })
         },
-        onRowClick(params) {
-            this.showModal(true,params.row);
+        onUserClick(params) {
+            this.showModal(true,params.row,true);
         },
-        onCreateClick() {
-            this.showModal(false,Object({name:'',organization:{name:''}}));
+        onInstallationClick(params) {
+            this.showModal(true,params.row,false);
         },
-        showModal(isUpdate,selectedRow){
+        onCreateInstallationClick() {
+            this.showModal(false,Object({name:'',organization:{id:this.group_id}}),false);
+        },
+        onAddUserClick() {
+            this.isUserAddModalVisible=true
+            this.isAdmin = false
+        },
+        onAddAdminClick() {
+            this.isUserAddModalVisible=true
+            this.isAdmin = true
+        },
+        showModal(isUpdate,selectedRow,isUser){
             this.selectedRow = selectedRow;
             this.isUpdate = isUpdate
-            this.isModalVisible = true;
+            if(isUser){
+                this.isUserModalVisible = true;
+            }else{
+               this.isInstallModalVisible = true;
+            }
         },
         closeModal() {
-            this.isModalVisible = false;
+            this.isUserModalVisible = false;
+            this.isInstallModalVisible = false;
+            this.isUserAddModalVisible=false;
         },
-        displayStatus(type,status){
-        if(status){
-            this.flashMessage.success({title: 'Success', message: 'The new group has been succesfully '+type+' !'});
-        }
-        else
-        {
-            this.flashMessage.show({status: 'error', title: 'Error', message: 'An error occured during group '+type+'.'})
-        }
+        displayStatus(type,status,model){
+            if(status){
+                this.flashMessage.success({title: 'Success', message: 'The new '+model+' has been succesfully '+type+' !'});
+            }
+            else
+            {
+                this.flashMessage.show({status: 'error', title: 'Error', message: 'An error occured during '+model+' '+type+'.'})
+            }
         }
     }
 }

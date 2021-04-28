@@ -10,6 +10,7 @@
                 :row="selectedRow"
                 :isUpdate="isUpdate"
                 :organization_id="null"
+                :group_id="null"
                 @close="closeModal"
                 @updateList="getUsers"
                 @displaySuccess="displayStatus"

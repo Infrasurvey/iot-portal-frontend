@@ -5,14 +5,15 @@
             <div class="home-header">
                 <h1>Installations list</h1>
                 <h1 class="btn-create-install">
-                    <button type="button" class="btn" @click="onCreateInstallationClick" >Create a new installation </button>
+                    <button type="button" class="btn" @click="onCreateInstallationClick" disabled style="background-color:gray; border-color:gray">Create a new installation </button>
                 </h1>
             </div>
-            <modal-organization
+            <modal-installation
                 v-if="isInstallModalVisible"
                 :row="selectedRow"
                 :isUpdate="isUpdate"
                 :organization_id="organization_id.toString()"
+                :group_id="null"
                 @close="closeModal"
                 @updateList="getInstallations"
                 @displaySuccess="displayStatus"
@@ -34,8 +35,9 @@
                 :row="selectedRow"
                 :isUpdate="true"
                 :organization_id="organization_id.toString()"
+                :group_id="null"
                 @close="closeModal"
-                @updateList="getUsers"
+                @updateList="updateUsersLists"
                 @displaySuccess="displayStatus"
                 />
             <vue-good-table
@@ -46,9 +48,19 @@
             <div class="home-header">
                 <h1>Responsible list</h1>
                 <h1 class="btn-create-install">
-                    <button type="button" class="btn" @click="onAddUserClick" >Add a new admin in this organization</button>
+                    <button type="button" class="btn" @click="onAddAdminClick" >Add a new admin in this organization</button>
                 </h1>
             </div>
+
+            <add-user
+                v-if="isUserAddModalVisible"
+                :isAdmin="isAdmin"
+                :organization_id="organization_id.toString()"
+                :group_id="null"
+                @close="closeModal"
+                @updateList="updateUsersLists"
+                @displaySuccess="displayStatus"
+                />
             
             <vue-good-table
             :columns="usercolumns"
@@ -67,16 +79,18 @@ import Sidenav from './manage_sidenav'
 import API from '../../http-constants'
 import { VueGoodTable } from 'vue-good-table';
 import 'vue-good-table/dist/vue-good-table.css'
-import ModalOrga from './modal_installation';
+import ModalInstall from './modal_installation';
 import ModalUser from './modal_user';
+import ModalAddUser from './modal_add_user';
 
 export default {
     name: 'ManageOrganization',
     components : {
         'sidenav-manage' :Sidenav,
         VueGoodTable,
-        'modal-organization':ModalOrga,
-        'modal-user' : ModalUser
+        'modal-installation':ModalInstall,
+        'modal-user' : ModalUser,
+        'add-user' : ModalAddUser
     },
     data(){
         return {
@@ -148,9 +162,11 @@ export default {
                 }
             ],
             isUserModalVisible: false,
+            isUserAddModalVisible: false,
             isInstallModalVisible: false,
             selectedRow : Object(),
-            isUpdate : false
+            isUpdate : false,
+            isAdmin : false
         }
     },
     watch: {
@@ -169,6 +185,11 @@ export default {
         this.setDiffUsersList()
     },
     methods:{
+        async updateUsersLists(){
+            await this.getUsers();
+            await this.getAdmins()
+            this.setDiffUsersList()
+        },
         getInstallations(){
             API.get('/api/getInstallationsByOrganization/'+this.organization_id)
             .then(response => {
@@ -252,10 +273,15 @@ export default {
             this.showModal(true,params.row,false);
         },
         onCreateInstallationClick() {
-            this.showModal(false,Object({name:'',organization:{name:''}}),false);
+            this.showModal(false,Object({name:'',organization:{id:this.organization_id}}),false);
         },
         onAddUserClick() {
-            //this.showModal(false,Object({name:''}));
+            this.isUserAddModalVisible=true
+            this.isAdmin = false
+        },
+        onAddAdminClick() {
+            this.isUserAddModalVisible=true
+            this.isAdmin = true
         },
         showModal(isUpdate,selectedRow,isUser){
             this.selectedRow = selectedRow;
@@ -269,6 +295,7 @@ export default {
         closeModal() {
             this.isUserModalVisible = false;
             this.isInstallModalVisible = false;
+            this.isUserAddModalVisible=false;
         },
         displayStatus(type,status,model){
             if(status){

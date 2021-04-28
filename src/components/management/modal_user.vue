@@ -13,10 +13,10 @@
               <label for="name">User's name : </label>
               <input type="text" v-model="name" name="name" id="name" class="base-input" placeholder="Name" :class="{ 'hasError': $v.name.$error }" readonly>
                <label for="organizations">Is organization admin for :</label>
-              <multiselect @input="setSelectedGroups" v-model="organizations_selected" :options="organizations" label="name" :showLabels="true"  selectedLabel="Selected" selectLabel="Select this organization" deselect-label="Remove this organization" track-by="id" :taggable="true" :searchable="false" :close-on-select="true" :multiple="true" ></multiselect> 
+              <multiselect @input="setSelectedGroups" :disabled="group_id !=null ? true : false" @remove="removeOrganization" v-model="organizations_selected" :options="organizations" label="name" :showLabels="true"  selectedLabel="Selected" selectLabel="Select this organization" deselect-label="Remove this organization" track-by="id" :taggable="true" :searchable="false" :close-on-select="true" :multiple="true" ></multiselect> 
               
                <label for="groups">User's group :</label>
-              <multiselect v-model="groups_selected" :options="groups" label="name" :showLabels="true"  selectedLabel="Selected" selectLabel="Select this group" deselect-label="Remove this group" track-by="id" :taggable="true" :searchable="false" :close-on-select="true" :multiple="true" ></multiselect> 
+              <multiselect v-model="final_groups_selected" @remove="removeGroup" :options="groups" label="name" :showLabels="true"  selectedLabel="Selected" selectLabel="Select this group" deselect-label="Remove this group" track-by="id" :taggable="true" :searchable="false" :close-on-select="true" :multiple="true" ></multiselect> 
 
           </form>
 
@@ -47,7 +47,8 @@ import Multiselect from 'vue-multiselect'
           required : true
       },
       isUpdate : Boolean,
-      organization_id : String
+      organization_id : String,
+      group_id : String
   },
     components:{
         Multiselect
@@ -55,26 +56,39 @@ import Multiselect from 'vue-multiselect'
     data(){
         return{
             name:this.row.name || '',
-            organizations_selected : this.row.organizations || '',
+            organizations_selected : [],
+            organizations_of_user : this.row.organizations || '',
             groups_selected : this.row.groupsId || '',
+            final_groups_selected : [],
             errorMessage: '',
             errors: [],
             responseMessage: '',
             groups : [],
-            organizations : []
+            organizations : [],
+            groupsToRemove : [],
+            organizationsToRemove : []
         }
     },
     validations: {
         name:{
           required
         },
-        groups_selected:{
+        final_groups_selected:{
           required
         }
    },
     async created(){
         await this.getGroups()
         await this.getOrganizations()
+        this.organizations_of_user.forEach(organization => {
+          var orga = this.organizations.find(function(orga) {
+            return orga.id === this.id;
+          }, organization);
+          if(!(orga === undefined))
+          {
+            this.organizations_selected.push(organization)
+          }
+        })
         this.setSelectedGroups()
 
     },
@@ -84,25 +98,37 @@ import Multiselect from 'vue-multiselect'
       },
       getGroups(){
           var url = ''
-          console.log(this.organization_id)
-          if (this.organization_id == null)
-            url = '/api/getCurrentVisibleGroups'
-          else
-            url = '/api/getGroupsByOrganization/'+this.organization_id
+          if(this.group_id !=null){
+                url = '/api/group/'+this.group_id
+          }else{
+              if (this.organization_id == null)
+                url = '/api/getCurrentVisibleGroups'
+              else
+                url = '/api/getGroupsByOrganization/'+this.organization_id     
+          }
+     
           return API.get(url)
           .then(response => {
-                this.groups = response.data
+                if(!Array.isArray(response.data))
+                  this.groups = [response.data]
+              else
+                  this.groups = response.data
             })
             .catch(e => {
                 this.errorMessage = e
             })
       },
       getOrganizations(){
-          var url = ''
+        var url = ''
+
+        if(this.group_id ==null){
+             this.organizations = this.organizations_of_user
+        }else{
           if (this.organization_id == null)
             url = '/api/getCurrentVisibleOrganizations'
           else
             url = '/api/organizationWithGroups/'+this.organization_id
+
           return API.get(url).then(response => {
             if(!Array.isArray(response.data))
                 this.organizations = [response.data]
@@ -113,15 +139,20 @@ import Multiselect from 'vue-multiselect'
             .catch(e => {
                 this.errorMessage = e
             })
+        }
       },
       setSelectedGroups(){
+        
         var selectedGroups = Array()
-        this.organizations_selected.forEach(organization => {
-          var groups = this.organizations.find(function(orga) {
+        
+        this.organizations_of_user.forEach(organization => {
+          var orga = this.organizations.find(function(orga) {
             return orga.id === this.id;
-          }, organization).groups;
-          
-          selectedGroups = selectedGroups.concat(groups);
+          }, organization);
+          if(!(orga === undefined))
+          {
+            selectedGroups = selectedGroups.concat(orga.groups);
+          }
         })
         this.groups_selected.forEach(group => {
             if (selectedGroups.some(function(gr) {return gr.id === this.id;}, group)) {
@@ -137,6 +168,12 @@ import Multiselect from 'vue-multiselect'
                 this.groups_selected.push(group)
             }
         });
+        var new_selected_list = Array()
+        this.groups_selected.forEach(group => {
+            if (this.groups.some(function(gr) {return gr.id === this.id;}, group))
+              new_selected_list.push(group)
+        });
+        this.final_groups_selected = new_selected_list;
         this.groups.forEach(group => {
             if (selectedGroups.some(function(gr) {return gr.id === this.id;}, group)) {
               group['$isDisabled'] = true
@@ -145,6 +182,7 @@ import Multiselect from 'vue-multiselect'
                 group['$isDisabled'] = false
             }
         });
+        console.log(this.organizations_selected)
       },
       updateUser: function (){
           var newUserOrganizationRelations = []
@@ -156,16 +194,16 @@ import Multiselect from 'vue-multiselect'
               newUserOrganizationRelations.push(pivot);
           });
           var newUserGroupRelations = []
-          this.groups_selected.forEach(group => {
+          this.final_groups_selected.forEach(group => {
               var pivot = {
                   'user_id':this.row.id,
                   'group_id' :group.id
               }
               newUserGroupRelations.push(pivot);
           });
-          API.post('/api/updateUserOrganizations',{'user_id':this.row.id,'userorganizations' : newUserOrganizationRelations})
+          API.post('/api/updateUserOrganizations',{'user_id':this.row.id,'userorganizations' : newUserOrganizationRelations, 'relationstoremove' : this.organizationsToRemove})
           .then(response => {
-                API.post('/api/updateUserGroups',{'user_id':this.row.id,'usergroups' : newUserGroupRelations})
+                API.post('/api/updateUserGroups',{'user_id':this.row.id,'usergroups' : newUserGroupRelations, 'relationstoremove' : this.groupsToRemove})
                 .then(response => {
                       this.responseMessage = response.data
                       this.$emit('close');
@@ -212,6 +250,18 @@ import Multiselect from 'vue-multiselect'
                   })
                   }
             });
+      },
+      removeOrganization(removedOption,id){
+          this.organizationsToRemove.push({
+                  'user_id':this.row.id,
+                  'organization_id' :removedOption.id
+              })
+      },
+      removeGroup(removedOption,id){
+          this.groupsToRemove.push({
+                  'user_id':this.row.id,
+                  'group_id' :removedOption.id
+              })
       },
         onUpdate: function() {
             this.$v.$touch();
