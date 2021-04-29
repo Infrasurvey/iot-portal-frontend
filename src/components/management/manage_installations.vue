@@ -1,6 +1,5 @@
 <template>
     <div>
-        <sidenav-manage></sidenav-manage>
         <div class="main-install overview-inst">
             <div class="home-header">
 
@@ -36,7 +35,7 @@ import 'vue-good-table/dist/vue-good-table.css'
 import Modal from './modal_installation';
 
 export default {
-    name: 'ManageInstallations',
+    name: 'm-installations',
     components : {
         'sidenav-manage' :Sidenav,
         VueGoodTable,

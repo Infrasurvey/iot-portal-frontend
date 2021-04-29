@@ -14,46 +14,52 @@ import ManageInstallations from '@/components/management/manage_installations'
 import ManageUsers from '@/components/management/manage_users'
 import ManageGroup from '@/components/management/manage_group'
 import ManageOrganization from '@/components/management/manage_organization'
+import ManageMain from '@/components/management/manage_main'
 
 Vue.use(Router)
 
 var ManageOrganizationsRoute =  {
   path: '/management/organizations',
   name: 'ManageOrganization',
-  component: ManageOrganization,
+  component: ManageMain,
   meta: {
+
     requiresAuth: true,
-    breadcrumb:[{name: 'Home', link: '/' },{name:'Management'},{name:'Organization'}] 
+    breadcrumb:[{name: 'Home', link: '/' },{name:'Management'},{name:'Organization'}],
+    manageFunction : 2
   }
 }
 
 var ManageGroupsRoute =  {
   path: '/management/groups',
   name: 'ManageGroup',
-  component: ManageGroup,
+  component: ManageMain,
   meta: {
     requiresAuth: true,
-    breadcrumb:[{name: 'Home', link: '/' },{name:'Management'},{name:'Group'}] 
+    breadcrumb:[{name: 'Home', link: '/' },{name:'Management'},{name:'Group'}],
+    manageFunction : 3
   }
 }
 
 var ManageInstallationsRoute =  {
   path: '/management/installations',
   name: 'ManageInstallations',
-  component: ManageInstallations,
+  component: ManageMain,
   meta: {
     requiresAuth: true,
-    breadcrumb:[{name: 'Home', link: '/' },{name:'Management'},{name:'Installations'}] 
+    breadcrumb:[{name: 'Home', link: '/' },{name:'Management'},{name:'Installations'}],
+    manageFunction : 0 
   }
 }
 
 var ManageUsersRoute =  {
   path: '/management/users',
   name: 'ManageUsers',
-  component: ManageUsers,
+  component: ManageMain,
   meta: {
     requiresAuth: true,
-    breadcrumb:[{name: 'Home', link: '/' },{name:'Management'},{name:'Users'}] 
+    breadcrumb:[{name: 'Home', link: '/' },{name:'Management'},{name:'Users'}],
+    manageFunction : 1 
   }
 }
 

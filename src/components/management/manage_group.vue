@@ -1,6 +1,5 @@
 <template>
     <div>
-        <sidenav-manage></sidenav-manage>
         <div class="main-install overview-inst">
             <div class="home-header">
                 <h1>Installations list</h1>
