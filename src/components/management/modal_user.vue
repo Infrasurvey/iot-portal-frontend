@@ -66,7 +66,8 @@ import Multiselect from 'vue-multiselect'
             groups : [],
             organizations : [],
             groupsToRemove : [],
-            organizationsToRemove : []
+            organizationsToRemove : [],
+            groups_temp : []
         }
     },
     validations: {
@@ -121,14 +122,20 @@ import Multiselect from 'vue-multiselect'
       getOrganizations(){
         var url = ''
 
-        if(this.group_id ==null){
-             this.organizations = this.organizations_of_user
+        if(this.group_id !=null){
+             url = '/api/getGroupWithOrganization/'+this.group_id
+             return API.get(url).then(response => {
+                    this.groups_temp = [response.data]
+                    this.organizations = [response.data.organization]
+                })
+            .catch(e => {
+                this.errorMessage = e
+            })
         }else{
           if (this.organization_id == null)
             url = '/api/getCurrentVisibleOrganizations'
           else
             url = '/api/organizationWithGroups/'+this.organization_id
-
           return API.get(url).then(response => {
             if(!Array.isArray(response.data))
                 this.organizations = [response.data]
@@ -144,16 +151,21 @@ import Multiselect from 'vue-multiselect'
       setSelectedGroups(){
         
         var selectedGroups = Array()
-        
+
         this.organizations_of_user.forEach(organization => {
           var orga = this.organizations.find(function(orga) {
             return orga.id === this.id;
           }, organization);
           if(!(orga === undefined))
           {
-            selectedGroups = selectedGroups.concat(orga.groups);
+            if(this.group_id !=null)
+              selectedGroups = selectedGroups.concat(this.groups_temp);
+            else
+              selectedGroups = selectedGroups.concat(orga.groups);
           }
         })
+        
+        
         this.groups_selected.forEach(group => {
             if (selectedGroups.some(function(gr) {return gr.id === this.id;}, group)) {
                 group['$isDisabled'] = true
@@ -208,18 +220,18 @@ import Multiselect from 'vue-multiselect'
                       this.responseMessage = response.data
                       this.$emit('close');
                       this.$emit('updateList');
-                      this.$emit('displaySuccess','updated',true)
+                      this.$emit('displaySuccess','updated',true,'User')
                   })
                   .catch(e => {
                       this.errorMessage = e
                       this.$emit('close');
-                      this.$emit('displaySuccess','update',false)
+                      this.$emit('displaySuccess','update',false,'User')
                   })
             })
             .catch(e => {
                 this.errorMessage = e
                 this.$emit('close');
-                this.$emit('displaySuccess','update',false)
+                this.$emit('displaySuccess','update',false,'User')
             })
       },
       showDeleteAlert(){
@@ -241,12 +253,12 @@ import Multiselect from 'vue-multiselect'
                       this.responseMessage = response.data
                       this.$emit('close');
                       this.$emit('updateList');
-                      this.$emit('displaySuccess','deleted',true)
+                      this.$emit('displaySuccess','deleted',true,'User')
                   })
                   .catch(e => {
                       this.errorMessage = e
                       this.$emit('close');
-                      this.$emit('displaySuccess','delete',false)
+                      this.$emit('displaySuccess','delete',false,'User')
                   })
                   }
             });

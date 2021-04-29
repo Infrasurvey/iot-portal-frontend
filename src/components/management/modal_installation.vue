@@ -118,12 +118,12 @@ import FormData from 'form-data'
                 this.responseMessage = response.data
                 this.$emit('close');
                 this.$emit('updateList');
-                this.$emit('displaySuccess','updated',true)
+                this.$emit('displaySuccess','updated',true,'Installation')
             })
             .catch(e => {
                 this.errorMessage = e
                 this.$emit('close');
-                this.$emit('displaySuccess','update',false)
+                this.$emit('displaySuccess','update',false,'Installation')
             })
       },
       showDeleteAlert(){
@@ -145,12 +145,12 @@ import FormData from 'form-data'
                           this.responseMessage = response.data
                           this.$emit('close');
                           this.$emit('updateList');
-                          this.$emit('displaySuccess','deleted',true)
+                          this.$emit('displaySuccess','deleted',true,'Installation')
                       })
                       .catch(e => {
                           this.errorMessage = e
                           this.$emit('close');
-                          this.$emit('displaySuccess','delete',false)
+                          this.$emit('displaySuccess','delete',false,'Installation')
                       })
                   }
             });

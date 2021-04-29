@@ -154,18 +154,18 @@ import Multiselect from 'vue-multiselect'
                       this.responseMessage = response.data
                       this.$emit('close');
                       this.$emit('updateList');
-                      this.$emit('displaySuccess','added',true)
+                      this.$emit('displaySuccess','added',true,'User')
                   })
                   .catch(e => {
                       this.errorMessage = e
                       this.$emit('close');
-                      this.$emit('displaySuccess','added',false)
+                      this.$emit('displaySuccess','added',false,'User')
                   })
             })
             .catch(e => {
                 this.errorMessage = e
                 this.$emit('close');
-                this.$emit('displaySuccess','update',false)
+                this.$emit('displaySuccess','update',false,'User')
             })
       },
         onUpdate: function() {

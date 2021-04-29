@@ -93,12 +93,12 @@ import FormData from 'form-data'
                       this.responseMessage = response.data
                       this.$emit('close');
                       this.$emit('updateList');
-                      this.$emit('displaySuccess','deleted',true)
+                      this.$emit('displaySuccess','deleted',true,'Group')
                   })
                   .catch(e => {
                       this.errorMessage = e
                       this.$emit('close');
-                      this.$emit('displaySuccess','delete',false)
+                      this.$emit('displaySuccess','delete',false,'Group')
                   })
                   }
             });
@@ -121,12 +121,12 @@ import FormData from 'form-data'
                 this.responseMessage = response.data
                 this.$emit('close');
                 this.$emit('updateList');
-                this.$emit('displaySuccess','created',true)
+                this.$emit('displaySuccess','created',true,'Group')
             })
             .catch(e => {
                 this.errorMessage = e
                 this.$emit('close');
-                this.$emit('displaySuccess','creation',false)
+                this.$emit('displaySuccess','creation',false,'Group')
             })
       },
       updateGroup: function (){
@@ -135,12 +135,12 @@ import FormData from 'form-data'
                 this.responseMessage = response.data
                 this.$emit('close');
                 this.$emit('updateList');
-                this.$emit('displaySuccess','updated',true)
+                this.$emit('displaySuccess','updated',true,'Group')
             })
             .catch(e => {
                 this.errorMessage = e
                 this.$emit('close');
-                this.$emit('displaySuccess','update',false)
+                this.$emit('displaySuccess','update',false,'Group')
             })
       },
         onCreate: function() {
