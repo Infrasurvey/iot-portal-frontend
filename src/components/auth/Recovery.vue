@@ -1,28 +1,25 @@
 <template>
-<div class="login-main" >
-  <div class="login-image"></div>
-  <div class="login-form">
-    <h1 class="login-heading">Geomon IoT Portal</h1>
-    <h3 class="login-heading">Log In</h3>
+  <div>
+    <div class="auth-subtitle">Password recovery</div>
     <form action="#" @submit.prevent="sendMail">
 
-      <div class="form-control">
+      <!-- Email entry -->
+      <md-field>
+        <label>Email</label>
+        <md-input v-model="name"></md-input>
+      </md-field>
+
+      <!--  Send email button -->
+      <md-button class="md-raised md-primary btn-login" type="submit">Send recovery e-mail</md-button>
+      <!-- <div class="form-control">
         <label for="mail">E-mail</label>
         <input type="text" name="mail" id="mail" class="login-input" v-model="mail">
       </div>
-
       <div class="form-control">
         <button type="submit" class="btn-submit">Log In</button>
-      </div>
-      <div class="line"></div>
-      <div class="or">or</div>
-      <div class="line"></div>
-      <p class="text">Go back to login <router-link :to="{ name: 'Login' }">Log In</router-link></p>
-
+      </div> -->
     </form>
   </div>
-</div>
-  
 </template>
 
 <script>
