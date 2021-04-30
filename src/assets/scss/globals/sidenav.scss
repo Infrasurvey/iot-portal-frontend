@@ -133,6 +133,11 @@ label > ul > li {
 	-webkit-transform: rotate(180deg);
 	-moz-transform: rotate(180deg);
   }
+
+  .disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
 /*
 #btn:checked + label > ul{
     list-style: none;

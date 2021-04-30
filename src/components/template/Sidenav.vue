@@ -9,7 +9,7 @@
                     <span>Installation</span>
                     <div class="sub-nav-group"><router-link class="basic-link" :to="{ name: 'Overview', query: { id: this.stationid } }">Overview</router-link></div>
                     <div class="sub-nav-group"><router-link class="basic-link" :to="{ name: 'Manage', query: { id: this.stationid } }">Manage</router-link></div> 
-                    <div class="sub-nav-group"><router-link class="basic-link" :to="{ name: 'Event', query: { id: this.stationid } }">Event log</router-link></div> 
+                    <div class="sub-nav-group"><router-link class="basic-link disabled" :to="{ name: 'Event', query: { id: this.stationid } }">Event log</router-link></div> 
                 </div>
                 <div class="nav-group">
                     <span>Base station</span>

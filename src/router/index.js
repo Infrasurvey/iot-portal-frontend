@@ -91,7 +91,7 @@ var PwdRoute =  {
 }
 
 var OverviewRoute =  {
-  path: 'installation/overview',
+  path: '/installation/overview',
   name: 'Overview',
   component: InstallationMain,
   meta: {
@@ -102,7 +102,7 @@ var OverviewRoute =  {
 }
 
 var ManageRoute =  {
-  path: 'installation/manage',
+  path: '/installation/manage',
   name: 'Manage',
   component: InstallationMain,
   meta: {
@@ -113,7 +113,7 @@ var ManageRoute =  {
 }
 
 var EventRoute =  {
-  path: 'installation/event-log',
+  path: '/installation/event-log',
   name: 'Event',
   component: InstallationMain,
   meta: {

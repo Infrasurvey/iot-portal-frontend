@@ -3,11 +3,32 @@
     display: inline-block;
     margin: 0 0 0 50px;
     width: 30%;
+    height: inherit;
+    vertical-align: top;
 }
 
 .image-input {
     display: inline-block;
-    width: 60%;
+    width: 30%;
     height: inherit;
+    vertical-align: top;
+}
+
+.install-name-input {
+    display: inline-block;
     vertical-align: middle;
+}
+
+.img-container{
+    background-color: grey;
+}
+
+.pic-input-i{
+    height: fit-content;
+}
+
+.img-struct{
+    margin-top: 20px;
+    height: 300px;
+    padding-bottom: 40px;
 }
