@@ -86,6 +86,8 @@ label > ul > li {
     vertical-align: middle;
 }
 
+
+
 .dropdown-btn {
     vertical-align: middle;
     float: right;
@@ -114,8 +116,11 @@ label > ul > li {
 
 .dropdown-container {
     display: none;
-    padding-left: 8px;
     margin-top: 10px;
+  }
+
+  .sub-nav-group a{
+    padding-left: 12px;
   }
   
   /* Optional: Style the caret down icon */

@@ -7,6 +7,6 @@
 <script>
 
 export default {
-  name: 'installation-event'
+  name: 'rover-overview'
 }
 </script>

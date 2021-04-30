@@ -1,7 +1,6 @@
     
 <template>
     <div>
-        <sidenav :stationid="stationId"></sidenav>
         <div class="main-install overview-inst">
             <h2>Informations</h2>
             <p>informatinons...</p>
@@ -41,7 +40,6 @@
     //https://developers.google.com/maps/documentation/javascript/examples/overlay-symbol-arrow
     // https://docs.mapbox.com/mapbox.js/example/v1.0.0/dynamically-drawing-a-line/
     // https://developer.here.com/documentation/examples/maps-js/geoshapes/polyline-on-the-map
-    import Sidenav from '../template/Sidenav'
     import BatteryStatus from './battery_status'
     import API from '../../http-constants'
     import L from "leaflet";
@@ -54,9 +52,8 @@
     } from "vue2-leaflet";
 
     export default {
-            name: 'Overview',
+            name: 'installation-overview',
             components: {
-                Sidenav,
                 BatteryStatus,
                 LMap,
                 LTileLayer,
@@ -73,7 +70,7 @@
                 batteryDisplay : '',
                 rovers : '',
                 errorMessage: '',
-                zoom: 11,
+                zoom: 11, 
                 center: [46.68002385,7.312523534],
                 polylines:[],
                 /*

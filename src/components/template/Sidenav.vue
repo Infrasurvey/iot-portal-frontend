@@ -1,35 +1,30 @@
 <template>
-    <nav class="sidenav-install">
+   <nav class="sidenav-install">
+
         <ul class="sidenav-install-ul">
             <li>
                 <input type="checkbox" id="btn"/>
                 <label for="btn" class="show">
-                <div class="nav-group">Installation<span class="sub-arrow1"> </span></div> 
-                <ul>
-                    <li><router-link class="basic-link" :to="{ name: 'Overview', query: { id: this.stationid } }">Overview</router-link> </li>
-                    <li><router-link class="basic-link" :to="{ name: 'Manage', query: { id: this.stationid } }">Manage</router-link></li>
-                    <li><router-link class="basic-link" :to="{ name: 'Event', query: { id: this.stationid } }">Event log</router-link></li>
-                </ul>
-                </label>
-            </li>
-            <li>
-                <input type="checkbox" id="btn1"/>
-                <label for="btn1" class="show">
-                <div class="nav-group">Base station<span class="sub-arrow2"> </span></div>
-                <ul>
-                    <li><router-link class="basic-link" :to="{ name: 'OverviewStation', query: { id: this.stationid } }">Overview</router-link></li>
-                    <li><router-link class="basic-link" :to="{ name: 'ConfigurationStation', query: { id: this.stationid } }">Configuration</router-link></li>
-                </ul>
-                </label>
-            </li>
-            <li>
-                <input type="checkbox" id="btn2"/>
-                <label for="btn2" class="show">
-                <div class="nav-group">Rovers<span class="sub-arrow3"> </span></div>
-                <ul>
-                    <li>Rover 1</li>
-                    <li>Rover 2</li>
-                </ul>
+                <div class="nav-group">
+                    <span>Installation</span>
+                    <div class="sub-nav-group"><router-link class="basic-link" :to="{ name: 'Overview', query: { id: this.stationid } }">Overview</router-link></div>
+                    <div class="sub-nav-group"><router-link class="basic-link" :to="{ name: 'Manage', query: { id: this.stationid } }">Manage</router-link></div> 
+                    <div class="sub-nav-group"><router-link class="basic-link" :to="{ name: 'Event', query: { id: this.stationid } }">Event log</router-link></div> 
+                </div>
+                <div class="nav-group">
+                    <span>Base station</span>
+                    <div class="sub-nav-group"><router-link class="basic-link" :to="{ name: 'OverviewStation', query: { id: this.stationid } }">Overview</router-link></div>
+                    <div class="sub-nav-group"><router-link class="basic-link" :to="{ name: 'ConfigurationStation', query: { id: this.stationid } }">Configuration</router-link></div> 
+                </div>
+                <div class="nav-group">
+                    <span>Rovers</span>
+                    <button class="dropdown-btn" id="dropdown-rover-main">
+                        <font-awesome-icon icon="caret-down" size="2x" />
+                    </button>
+                    <div class="dropdown-container">
+                        <rover-item  v-for="rover in rovers" :key="rover.id" :rover="rover" @updateList="getRovers"/>
+                    </div>
+                </div> 
                 </label>
             </li>
         </ul>
@@ -37,14 +32,42 @@
 </template>
 
 <script>
+import API from '../../http-constants'
+import RoverItem from '../installation/sidenav_rover_element' 
+import setDropdownListener from '../../assets/js/dropdown_sidenav'
 
 export default {
-    name: 'sidenav',
+    name: 'sidenav-installation',
     props:{
       stationid: {
           type: String,
           required : true
       }
+    },
+    components : {
+        'rover-item':RoverItem,
+    },
+    data(){
+        return{
+            rovers : [],
+        }
+    },
+    created(){
+        this.getRovers()
+    },
+    mounted(){
+        setDropdownListener('dropdown-rover-main')
+    },
+    methods:{
+        getRovers(){
+            API.get('/api/device/basestation/'+this.stationid+'/rovers')
+            .then(response => {
+                this.rovers =response.data.rovers                
+            })
+            .catch(e => {
+                this.errorMessage = e
+            })
+        }
     }
 }
 </script>

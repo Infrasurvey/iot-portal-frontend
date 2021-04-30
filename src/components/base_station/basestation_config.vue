@@ -1,6 +1,5 @@
 <template>
     <div>
-        <sidenav :stationid="this.$route.query.id"></sidenav>
         <div class="main-install overview-inst">
             <h2>Edit</h2>
             <div>
@@ -47,12 +46,8 @@
 </template>
 
 <script>
-    import Sidenav from '../template/Sidenav'
 
     export default {
-        name: 'ConfigurationStation',
-        components : {
-            Sidenav
-        }
+        name: 'basestation-config',
     }
 </script>
