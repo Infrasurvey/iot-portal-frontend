@@ -10,11 +10,8 @@ import ConfigurationStation from '@/components/base_station/basestation_config'
 import Informations from '@/components/account/account_information'
 import AccountLocation from '@/components/account/account_location'
 import Password from '@/components/account/account_pwd'
-import ManageInstallations from '@/components/management/manage_installations'
-import ManageUsers from '@/components/management/manage_users'
-import ManageGroup from '@/components/management/manage_group'
-import ManageOrganization from '@/components/management/manage_organization'
 import ManageMain from '@/components/management/manage_main'
+import InstallationMain from '@/components/installation/installation_main'
 
 Vue.use(Router)
 
@@ -94,42 +91,79 @@ var PwdRoute =  {
 }
 
 var OverviewRoute =  {
-  path: '/overview',
+  path: 'installation/overview',
   name: 'Overview',
-  component: Overview,
+  component: InstallationMain,
   meta: {
     requiresAuth: true,
-    breadcrumb:[{name: 'Home', link: '/' },{name:'Installation'},{name:'Overview'}] 
+    breadcrumb:[{name: 'Home', link: '/' },{name:'Installation'},{name:'Overview'}],
+    installFunction : 0
   }
 }
 
 var ManageRoute =  {
-  path: '/manage',
+  path: 'installation/manage',
   name: 'Manage',
-  component: Manage,
+  component: InstallationMain,
   meta: {
     requiresAuth: true,
-    breadcrumb:[{name: 'Home', link: '/' },{name:'Installation'},{name:'Manage'}] 
+    breadcrumb:[{name: 'Home', link: '/' },{name:'Installation'},{name:'Manage'}],
+    installFunction : 1 
+  }
+}
+
+var EventRoute =  {
+  path: 'installation/event-log',
+  name: 'Event',
+  component: InstallationMain,
+  meta: {
+    requiresAuth: true,
+    breadcrumb:[{name: 'Home', link: '/' },{name:'Installation'},{name:'Event Log'}],
+    installFunction : 2 
   }
 }
 
 var OverviewStationRoute =  {
   path: '/basestation/overview',
   name: 'OverviewStation',
-  component: OverviewStation,
+  component: InstallationMain,
   meta: {
     requiresAuth: true,
-    breadcrumb:[{name: 'Home', link: '/' },{name:'Base station'},{name:'Overview'}] 
+    breadcrumb:[{name: 'Home', link: '/' },{name:'Base station'},{name:'Overview'}],
+    installFunction : 3 
   }
 }
 
 var ConfigStationRoute =  {
   path: '/basestation/configuration',
   name: 'ConfigurationStation',
-  component: ConfigurationStation,
+  component: InstallationMain,
   meta: {
     requiresAuth: true,
-    breadcrumb:[{name: 'Home', link: '/' },{name:'Base station'},{name:'Configuration'}] 
+    breadcrumb:[{name: 'Home', link: '/' },{name:'Base station'},{name:'Configuration'}],
+    installFunction : 4 
+  }
+}
+
+var OverviewRoverRoute =  {
+  path: '/rover/overview',
+  name: 'RoverOverview',
+  component: InstallationMain,
+  meta: {
+    requiresAuth: true,
+    breadcrumb:[{name: 'Home', link: '/' },{name:'Rover'},{name:'Overview'}],
+    installFunction : 5 
+  }
+}
+
+var EventRoverRoute =  {
+  path: '/rover/events',
+  name: 'RoverEvent',
+  component: InstallationMain,
+  meta: {
+    requiresAuth: true,
+    breadcrumb:[{name: 'Home', link: '/' },{name:'Rover'},{name:'Events'}],
+    installFunction : 6 
   }
 }
 
@@ -163,8 +197,11 @@ export default new Router({
     HomeRoute,
     ManageRoute,
     OverviewRoute,
+    EventRoute,
     OverviewStationRoute,
     ConfigStationRoute,
+    OverviewRoverRoute,
+    EventRoverRoute,
     AuthRoute,
     LogoutRoute,
     InformationsRoute,

@@ -1,6 +1,5 @@
 <template>
     <div>
-        <sidenav :stationid="this.$route.query.id"></sidenav>
         <div class="main-install overview-inst">
             <h2>System informatinons</h2>
             <div class="flex-left">
@@ -61,14 +60,10 @@
 
 <script>
 //https://github.com/IonDen/ion.rangeSlider
-    import Sidenav from '../template/Sidenav'
     import API from '../../http-constants'
 
     export default {
-        name: 'OverviewStation',
-        components : {
-            Sidenav
-        },
+        name: 'basestation-overview',
         data(){
             return{
                 stationId : this.$route.query.id,

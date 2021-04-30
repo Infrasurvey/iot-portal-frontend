@@ -1,6 +1,5 @@
 <template>
     <div>
-        <sidenav :stationid="this.$route.query.id"></sidenav>
         <div class="main-install overview-inst">
             <h2>Picture of the installation</h2>
             <div>
@@ -65,14 +64,12 @@
 </template>
 
 <script>
-import Sidenav from '../template/Sidenav'
 import API from '../../http-constants'
 import PictureInput from 'vue-picture-input'
 
     export default {
-        name: 'Manage',
+        name: 'installation-manage',
         components : {
-            Sidenav,
             PictureInput
         },
         data(){
