@@ -63,7 +63,7 @@ export default {
           .then(response => {
             this.$router.push({ name: 'home' })
           })
-      },  
+      },
       getValidationClass (fieldName) {
         const field = this.$v.form[fieldName]
 

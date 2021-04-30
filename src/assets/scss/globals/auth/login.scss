@@ -9,8 +9,9 @@
   width: 600px;
   flex-direction: column;
   vertical-align: top;
-  margin-left: 50px;
-  margin-right: 50px;
+  padding-left: 50px;
+  padding-right: 50px;
+  overflow: scroll;
 }
 
 .auth-image {
@@ -60,11 +61,12 @@
 .auth-logo {
   display: flex;
   margin-top: 20px;
+  margin-bottom: 20px;
   justify-content: space-around;
   flex-direction: row;
   width: 100%;
   opacity: 0.3;
-  height: 60px;
+  height: 50px;
 }
 
 .login-input {
