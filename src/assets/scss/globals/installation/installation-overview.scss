@@ -3,7 +3,7 @@
 }
 .batteries {
     width: 100%;
-    justify-content: space-around;
+    justify-content: flex-start;
     align-content: space-between;
 }
 
@@ -11,9 +11,8 @@
     padding: 20px;
 }
 
-.batttery-display {
-    padding: 20px;
-    width: fit-content;
+.battery-display {
+    width: 220px;
     height: fit-content;
 }
 

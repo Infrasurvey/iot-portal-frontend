@@ -3,7 +3,7 @@
         <div class="main-install overview-inst">
             <h2>Manage Installation</h2>
             
-            <div>
+            <div class="manage-form">
                 <div>
                     <label for="nameInput">Installation name : </label>
                     <input type="text" name="nameInput" id="nameInput" v-model="installation.name">
@@ -25,7 +25,9 @@
                 </div>
                 
             </div>
-            <button type="submit" @click="updateInstallation">Apply</button>
+            <div class="apply-container">
+                <button type="submit" @click="updateInstallation" class="apply-btn">Apply</button>
+            </div>
 
 
             <h2>Maintenance</h2>
