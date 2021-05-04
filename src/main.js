@@ -8,7 +8,7 @@ import { store } from './store/store'
 import './assets/scss/index.scss'
 import './assets/js/tools.js';
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faBatteryEmpty,faBatteryHalf,faBatteryFull,faBatteryQuarter,faBatteryThreeQuarters,faUserCircle,faCheckCircle, faExclamationCircle,faTimes,faChevronDown, faCaretDown, faPlusCircle } from '@fortawesome/free-solid-svg-icons'
+import { faBatteryEmpty,faBatteryHalf,faBatteryFull,faBatteryQuarter,faBatteryThreeQuarters,faUserCircle,faCheckCircle, faExclamationCircle,faTimes,faChevronDown, faCaretDown, faPlusCircle,faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { AbilityBuilder, Ability } from '@casl/ability'
 import { abilityPlugin } from '@casl/vue'
@@ -31,6 +31,7 @@ Vue.component('v-select', vSelect);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.component(Vodal.name, Vodal);
 
+Vue.use(require('vue-moment'));
 Vue.use(VueSweetalert2);
 Vue.use(vueCountryRegionSelect)
 Vue.use(FlashMessage);
@@ -38,7 +39,7 @@ Vue.use(Vuelidate);
 Vue.use('abilityPlugins', 'ability');
 Vue.use(VueMaterial)
 
-library.add([faBatteryEmpty,faBatteryHalf,faBatteryFull,faBatteryQuarter,faBatteryThreeQuarters,faUserCircle,faCheckCircle, faExclamationCircle,faTimes,faChevronDown, faCaretDown, faPlusCircle])
+library.add([faBatteryEmpty,faBatteryHalf,faBatteryFull,faBatteryQuarter,faBatteryThreeQuarters,faUserCircle,faCheckCircle, faExclamationCircle,faTimes,faChevronDown, faCaretDown, faPlusCircle,faCloudUploadAlt])
 Vue.config.productionTip = false;
 Vue.prototype.$ability = new Ability();
 
@@ -46,7 +47,7 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!store.getters.loggedIn) {
       next({
-        name: 'login',
+        name: 'auth',
       })
     } else {
       next()

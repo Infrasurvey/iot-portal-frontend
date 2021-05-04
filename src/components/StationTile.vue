@@ -1,5 +1,5 @@
 <template>
-<router-link class="basic-link station-tile" :to="{ name: 'Overview', query: { id: id } }">
+<router-link class="basic-link station-tile" :to="{ name: 'Overview', params: { id: id } }">
         <div class="station-infos">
             <h3> {{name}}</h3>
             <div class="station-details">

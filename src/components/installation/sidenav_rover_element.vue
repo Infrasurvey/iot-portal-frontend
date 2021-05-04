@@ -1,6 +1,6 @@
 <template>
     <div class="sub-nav-group">
-        <span class="basic-link">{{rover.unique_id}}</span>
+        <span class="basic-link">Rover {{rover.system_id}}</span>
         <button class="dropdown-btn" :id="'dropdown-rover-'+rover.id">
             <font-awesome-icon icon="caret-down" size="2x" />
         </button>

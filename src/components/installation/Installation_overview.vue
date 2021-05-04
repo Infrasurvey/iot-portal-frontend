@@ -2,8 +2,24 @@
 <template>
     <div>
         <div class="main-install overview-inst">
-            <h2>Informations</h2>
-            <p>informatinons...</p>
+            <h1>{{installation.name}} station</h1>
+            <div class="flex-container configurations">
+                <div>
+                    Installed rovers : {{installation.device_rover_count}}
+                </div>
+                <div>
+                    Battery voltage : {{installation.battery_voltage}}V
+                </div>
+                <div>
+                    Available memory : {{installation.available_memory}}MB
+                </div>
+                <div>
+                    Last configuration : {{installation.created_at | formatDate}}
+                </div>
+                <div>
+                    Last communication : {{installation.updated_at | formatDate}}
+                </div>
+            </div>
             <h2>Battery state</h2>
             <div class="flex-container batteries">
                 <battery-status v-for="battery in batteryDisplay" :key="battery.id" :battery="battery"> </battery-status>
@@ -65,7 +81,8 @@
                     {offset: '100%', repeat: 0, symbol: L.Symbol.arrowHead({pixelSize: 30, pathOptions: {color: '#AB000D'}})}
                 ]
                 return {
-                stationId : this.$route.query.id.toString(),
+                installationId : this.$route.params.id.toString(),
+                installation:'',
                 station: '',
                 batteryDisplay : '',
                 rovers : '',
@@ -95,15 +112,25 @@
                 
             },
             created(){
-                this.getStation(this.$route.query.id)
+                this.getInstallation()
+                this.getStation(this.$route.params.id)
             },
             methods: {
-                getStation: function (stationId) {
-                API.get('/api/device/basestation/'+stationId+'/rovers')
+                getInstallation(){
+                    API.get('/api/installation/'+this.installationId)
+                    .then(response => {
+                        this.installation =response.data;
+                    })
+                    .catch(e => {
+                    this.errorMessage = e
+                    })
+                },
+                getStation: function (installationId) {
+                API.get('/api/device/basestation/'+installationId+'/rovers')
                     .then(response => {
                         this.station =response.data;
                         this.rovers = this.station.rovers
-                        this.batteryDisplay = [{'unique_id':this.station.name,'battery_voltage':this.station.battery_voltage}]
+                        this.batteryDisplay = [{'system_id':this.station.name,'battery_voltage':this.station.battery_voltage,'is_basestation':true}]
                         this.batteryDisplay = this.batteryDisplay.concat(this.rovers)
                         
                         this.createMapOverlay()
