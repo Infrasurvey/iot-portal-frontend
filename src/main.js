@@ -8,7 +8,7 @@ import { store } from './store/store'
 import './assets/scss/index.scss'
 import './assets/js/tools.js';
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faBatteryEmpty,faBatteryHalf,faBatteryFull,faBatteryQuarter,faBatteryThreeQuarters,faUserCircle,faCheckCircle, faExclamationCircle,faTimes,faChevronDown, faCaretDown, faPlusCircle,faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons'
+import { faBatteryEmpty,faBatteryHalf,faBatteryFull,faBatteryQuarter,faBatteryThreeQuarters,faUserCircle,faCheckCircle, faExclamationCircle,faTimes,faChevronDown, faCaretDown, faPlusCircle,faCloudUploadAlt,faCloudDownloadAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { AbilityBuilder, Ability } from '@casl/ability'
 import { abilityPlugin } from '@casl/vue'
@@ -39,7 +39,7 @@ Vue.use(Vuelidate);
 Vue.use('abilityPlugins', 'ability');
 Vue.use(VueMaterial)
 
-library.add([faBatteryEmpty,faBatteryHalf,faBatteryFull,faBatteryQuarter,faBatteryThreeQuarters,faUserCircle,faCheckCircle, faExclamationCircle,faTimes,faChevronDown, faCaretDown, faPlusCircle,faCloudUploadAlt])
+library.add([faBatteryEmpty,faBatteryHalf,faBatteryFull,faBatteryQuarter,faBatteryThreeQuarters,faUserCircle,faCheckCircle, faExclamationCircle,faTimes,faChevronDown, faCaretDown, faPlusCircle,faCloudUploadAlt,faCloudDownloadAlt])
 Vue.config.productionTip = false;
 Vue.prototype.$ability = new Ability();
 

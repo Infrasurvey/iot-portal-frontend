@@ -64,7 +64,14 @@
             <h2>History</h2>
             <vue-good-table
             :columns="columns"
-            :rows="configurations"/>
+            :rows="configurations"
+            @on-row-click="onConfigClick"/>
+
+            <config-modal
+                v-if="isConfigModalVisible"
+                :row="selectedRow"
+                @close="closeModal"
+                />
         </div>
     </div>
 </template>
@@ -72,6 +79,7 @@
 <script>
     import API from '../../http-constants'
     import { VueGoodTable } from 'vue-good-table';
+    import ConfigModal from './configuration_modal'
 
     export default {
         name: 'basestation-config',
@@ -82,6 +90,8 @@
                 configuration :{
                     session_period_in_wakeup_period : 1
                 },
+                isConfigModalVisible : false,
+                selectedRow : [],
                 columns: [
                 {
                     label: 'Filename',
@@ -96,6 +106,7 @@
         },
         components : {
             VueGoodTable,
+            ConfigModal
         },
         created(){
             this.getConfigurations()
@@ -109,7 +120,15 @@
                     .catch(e => {
                         this.errorMessage = e
                     })
-            }
+            },
+        onConfigClick(params) {
+            this.selectedRow = params.row;
+            this.isConfigModalVisible=true
+        },
+
+        closeModal() {
+            this.isConfigModalVisible = false;
+        },
         }
     }
 </script>

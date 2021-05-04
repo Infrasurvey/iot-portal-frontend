@@ -31,3 +31,16 @@
 .vue-slider-disabled{
     opacity: 1;
 }
+
+.txtfile{
+    background-color: $tile-color;
+    padding-top: 15px;
+    margin: 15px 15px;
+    font-family: Consolas,monaco,monospace; 
+    line-height: 1em;
+}
+
+
+.config-footer button{
+    height: auto;
+}
