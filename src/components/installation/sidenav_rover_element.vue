@@ -6,8 +6,8 @@
         </button>
       
         <div class="dropdown-container">
-            <router-link class="basic-link" :to="{ name: 'RoverOverview', query: { id: rover.id } }">Overview</router-link>
-            <router-link class="basic-link disabled" :to="{ name: 'RoverEvent', query: { id: rover.id }}">Events</router-link>
+            <router-link class="basic-link" :to="{ name: 'RoverOverview', params: { roverid: rover.system_id } }">Overview</router-link>
+            <router-link class="basic-link disabled" :to="{ name: 'RoverEvent', params: { roverid: rover.system_id }}">Events</router-link>
         </div>
     </div> 
 </template>

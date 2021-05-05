@@ -146,7 +146,7 @@ var ConfigStationRoute =  {
 }
 
 var OverviewRoverRoute =  {
-  path: '/rover/overview',
+  path: '/installation/:id/rover/:roverid/overview',
   name: 'RoverOverview',
   component: InstallationMain,
   meta: {
@@ -157,7 +157,7 @@ var OverviewRoverRoute =  {
 }
 
 var EventRoverRoute =  {
-  path: '/rover/events',
+  path: '/installation/:id/rover/:roverid/events',
   name: 'RoverEvent',
   component: InstallationMain,
   meta: {
