@@ -35,8 +35,8 @@
         </div>
        </section>
        <footer class="modal-footer config-footer">
-            <button type="button" class="apply-btn" @click="showDeleteAlert">Upload <font-awesome-icon icon="cloud-upload-alt"/></button>
-            <button type="button" class="apply-btn" @click="onUpdate">Download <font-awesome-icon icon="cloud-download-alt"/></button>
+            <button type="button" class="apply-btn" >Upload <font-awesome-icon icon="cloud-upload-alt"/></button>
+            <button type="button" class="apply-btn" >Download <font-awesome-icon icon="cloud-download-alt"/></button>
       </footer>
     </div>
   </div>

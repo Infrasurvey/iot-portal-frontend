@@ -3,23 +3,29 @@
     <div>
         <div class="main-install overview-inst">
             <h1>{{installation.name}} station</h1>
-            <div class="flex-container configurations">
-                <div>
-                    Installed rovers : {{installation.device_rover_count}}
+            <div class="flex-container overview">
+                <div class="overview-container">
+                <img :src="src" alt="" width="230px" height="230px">
                 </div>
-                <div>
-                    Battery voltage : {{installation.battery_voltage}}V
-                </div>
-                <div>
-                    Available memory : {{installation.available_memory}}MB
-                </div>
-                <div>
-                    Last configuration : {{installation.created_at | formatDate}}
-                </div>
-                <div>
-                    Last communication : {{installation.updated_at | formatDate}}
+                <div class="overview-container">
+                    <div>
+                        Installed rovers : {{installation.device_rover_count}}
+                    </div>
+                    <div>
+                        Battery voltage : {{installation.battery_voltage}}V
+                    </div>
+                    <div>
+                        Available memory : {{installation.available_memory}}MB
+                    </div>
+                    <div>
+                        Last configuration : {{installation.last_configuration | formatDate}}
+                    </div>
+                    <div>
+                        Last communication : {{installation.last_communication | formatDate}}
+                    </div>
                 </div>
             </div>
+            
             <h2>Battery state</h2>
             <div class="flex-container batteries">
                 <battery-status v-for="battery in batteryDisplay" :key="battery.id" :battery="battery"> </battery-status>
@@ -84,6 +90,7 @@
                 installationId : this.$route.params.id.toString(),
                 installation:'',
                 station: '',
+                src : '',
                 batteryDisplay : '',
                 rovers : '',
                 errorMessage: '',
@@ -120,6 +127,7 @@
                     API.get('/api/installation/'+this.installationId)
                     .then(response => {
                         this.installation =response.data;
+                        this.src = 'http://localhost:8080/storage/images/'+this.installation.image_path
                     })
                     .catch(e => {
                     this.errorMessage = e
