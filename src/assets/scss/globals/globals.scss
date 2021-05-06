@@ -70,14 +70,12 @@ label {
 
 .breadcrumb > ul > li:not(:last-child)::after {
   content: ' > ';
-  font-size: 0.8em;
   margin: 0 .5em;
   cursor: default;
 }
 
 .breadcrumb > ul > li {
   float: left;
-  font-size: 0.8em;
 }
 
 .breadcrumb {
@@ -141,9 +139,8 @@ label {
 
 .user-info {
   line-height: normal;
-  font-size: 0.9em;
-  color: white;
   margin-right: 20px;
+  margin-left: 20px;
   display: inline-block;
   vertical-align: middle;
 }

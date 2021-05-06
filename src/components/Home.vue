@@ -1,10 +1,8 @@
 <template>
 <div>
-    <div class="home-header">
-      <h1>My installations</h1>
-      <h1 class="btn-create-install">
-         <button type="button" class="btn" @click="showModal" >+ Create a new installation </button>
-      </h1>
+    <div style="display:flex; width: 100%; align-items: center; padding: 20px;">
+      <SectionTitle/>
+      <div><md-button class="md-raised md-primary" style="font-size: 17px; font-weight: bold;" type="button" @click="showModal">Create a new installation</md-button></div>
     </div>
 
     <Modal
@@ -13,10 +11,11 @@
       @updateList="getStations"
       @displaySuccess="displayStatus"
     />
+
     <FlashMessage></FlashMessage>
-    <div class="flex-container">
-    <station-tile v-for="station in stations" :key="station.id" :station="station"> 
-    </station-tile>
+
+    <div style="display: flex; align-content: flex-start; align-items: flex-start; justify-content: flex-start; flex-wrap: wrap; padding-left: 40px">
+      <station-tile v-for="station in stations" :key="station.id" :station="station"></station-tile>
     </div>
 </div>
 </template>
@@ -26,12 +25,14 @@ import API from '../http-constants'
 import StationTile from './StationTile'
 import Modal from './installation/create_installation';
 import PictureInput from 'vue-picture-input'
+import SectionTitle from './template/SectionTitle';
 
 export default {
   components:{
       StationTile,
       Modal,
-      PictureInput
+      PictureInput,
+      SectionTitle
   },
   data () {
     return {
@@ -44,20 +45,19 @@ export default {
       this.getStations();
       this.$emit('updateUserInfo');
       var ability = this.$store.getters.getAbility;
-      console.log(ability.can('read', 'User')) // true
-      console.log(ability.can('update', 'User') )// true
-      console.log(ability.can('delete', 'User') )// false
+      console.log(ability.can('read', 'User'))      // true
+      console.log(ability.can('update', 'User') )   // true
+      console.log(ability.can('delete', 'User') )   // false
       console.log(ability.cannot('delete', 'User')) // true
   },
   methods: {
     getStations () {
       API.get('/api/installationByUser')
         .then(response => {
-          this.stations =response.data
-          
+          this.stations = response.data;
         })
         .catch(e => {
-          this.errorMessage = e
+          this.errorMessage = e;
         })
     },
     showModal() {

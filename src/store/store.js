@@ -12,7 +12,8 @@ export const store = new Vuex.Store({
     token: sessionStorage.getItem('token') || null,
     groups : sessionStorage.getItem('groups') || null,
     ability : sessionStorage.getItem('ability') || new Ability([]),
-    name : sessionStorage.getItem('name') || null,
+    first_name : sessionStorage.getItem('first_name') || null,
+    last_name : sessionStorage.getItem('last_name') || null,
     mail : sessionStorage.getItem('mail') || null,
     is_admin : sessionStorage.getItem('is_admin') || false
   },
@@ -26,8 +27,11 @@ export const store = new Vuex.Store({
     getAbility(state){
       return state.ability
     },
-    getName(state){
-      return state.name
+    getFirstName(state){
+      return state.first_name
+    },
+    getLastName(state){
+      return state.last_name
     },
     getMail(state){
       return state.mail
@@ -51,9 +55,13 @@ export const store = new Vuex.Store({
       state.ability = defineRulesFor(groups)
       sessionStorage.setItem('token', state.ability)
     },
-    setName(state,name){
-      state.name = name
-      sessionStorage.setItem('name', name)
+    setFirstName(state,first_name){
+      state.first_name = first_name
+      sessionStorage.setItem('first_name', first_name)
+    },
+    setLastName(state,last_name){
+      state.last_name = last_name
+      sessionStorage.setItem('last_name', last_name)
     },
     setMail(state,mail){
       state.mail = mail
@@ -84,8 +92,11 @@ export const store = new Vuex.Store({
   
       sessionStorage.removeItem('ability')
   
-      sessionStorage.removeItem('name')
-      context.commit('setName',null)
+      sessionStorage.removeItem('first_name')
+      context.commit('setFirstName',null)
+  
+      sessionStorage.removeItem('last_name')
+      context.commit('setLastName',null)
   
       sessionStorage.removeItem('mail')
       context.commit('setMail',null)
@@ -132,7 +143,8 @@ export const store = new Vuex.Store({
                 }
                 context.commit('setGroups', groups)
                 context.commit('updateAbility',groups)
-                context.commit('setName',response.data.data.name)
+                context.commit('setFirstName',response.data.data.name)
+                context.commit('setLastName',response.data.data.lastname)
                 context.commit('setMail',response.data.data.email)
                 resolve(response)
               })
