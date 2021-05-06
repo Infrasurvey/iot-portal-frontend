@@ -7,14 +7,14 @@
                 <label for="btn" class="show">
                 <div class="nav-group">
                     <span>Installation</span>
-                    <div class="sub-nav-group"><router-link class="basic-link" :to="{ name: 'Overview', query: { id: this.stationid } }">Overview</router-link></div>
-                    <div class="sub-nav-group"><router-link class="basic-link" :to="{ name: 'Manage', query: { id: this.stationid } }">Manage</router-link></div> 
-                    <div class="sub-nav-group"><router-link class="basic-link disabled" :to="{ name: 'Event', query: { id: this.stationid } }">Event log</router-link></div> 
+                    <div class="sub-nav-group"><router-link class="basic-link" :to="{ name: 'Overview' }">Overview</router-link></div>
+                    <div class="sub-nav-group"><router-link class="basic-link" :to="{ name: 'Manage'}">Manage</router-link></div> 
+                    <div class="sub-nav-group"><router-link class="basic-link disabled" :to="{ name: 'Event'}">Event log</router-link></div> 
                 </div>
                 <div class="nav-group">
                     <span>Base station</span>
-                    <div class="sub-nav-group"><router-link class="basic-link" :to="{ name: 'OverviewStation', query: { id: this.stationid } }">Overview</router-link></div>
-                    <div class="sub-nav-group"><router-link class="basic-link" :to="{ name: 'ConfigurationStation', query: { id: this.stationid } }">Configuration</router-link></div> 
+                    <div class="sub-nav-group"><router-link class="basic-link" :to="{ name: 'OverviewStation' }">Overview</router-link></div>
+                    <div class="sub-nav-group"><router-link class="basic-link" :to="{ name: 'ConfigurationStation' }">Configuration</router-link></div> 
                 </div>
                 <div class="nav-group">
                     <span>Rovers</span>
@@ -39,7 +39,7 @@ import setDropdownListener from '../../assets/js/dropdown_sidenav'
 export default {
     name: 'sidenav-installation',
     props:{
-      stationid: {
+      installationId: {
           type: String,
           required : true
       }
@@ -50,9 +50,10 @@ export default {
     data(){
         return{
             rovers : [],
+            basestation : ''
         }
     },
-    created(){
+    async created(){
         this.getRovers()
     },
     mounted(){
@@ -60,9 +61,9 @@ export default {
     },
     methods:{
         getRovers(){
-            API.get('/api/device/basestation/'+this.stationid+'/rovers')
+            API.get('/api/installation/'+this.installationId+'/basestation/rovers')
             .then(response => {
-                this.rovers =response.data.rovers                
+                this.rovers =response.data                
             })
             .catch(e => {
                 this.errorMessage = e

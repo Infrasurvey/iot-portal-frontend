@@ -91,7 +91,7 @@ var PwdRoute =  {
 }
 
 var OverviewRoute =  {
-  path: '/installation/overview',
+  path: '/installation/:id/overview',
   name: 'Overview',
   component: InstallationMain,
   meta: {
@@ -102,7 +102,7 @@ var OverviewRoute =  {
 }
 
 var ManageRoute =  {
-  path: '/installation/manage',
+  path: '/installation/:id/manage',
   name: 'Manage',
   component: InstallationMain,
   meta: {
@@ -113,7 +113,7 @@ var ManageRoute =  {
 }
 
 var EventRoute =  {
-  path: '/installation/event-log',
+  path: '/installation/:id/event-log',
   name: 'Event',
   component: InstallationMain,
   meta: {
@@ -124,7 +124,7 @@ var EventRoute =  {
 }
 
 var OverviewStationRoute =  {
-  path: '/basestation/overview',
+  path: '/installation/:id/basestation/overview',
   name: 'OverviewStation',
   component: InstallationMain,
   meta: {
@@ -135,7 +135,7 @@ var OverviewStationRoute =  {
 }
 
 var ConfigStationRoute =  {
-  path: '/basestation/configuration',
+  path: '/installation/:id/basestation/configuration',
   name: 'ConfigurationStation',
   component: InstallationMain,
   meta: {
@@ -146,7 +146,7 @@ var ConfigStationRoute =  {
 }
 
 var OverviewRoverRoute =  {
-  path: '/rover/overview',
+  path: '/installation/:id/rover/:roverid/overview',
   name: 'RoverOverview',
   component: InstallationMain,
   meta: {
@@ -157,7 +157,7 @@ var OverviewRoverRoute =  {
 }
 
 var EventRoverRoute =  {
-  path: '/rover/events',
+  path: '/installation/:id/rover/:roverid/events',
   name: 'RoverEvent',
   component: InstallationMain,
   meta: {

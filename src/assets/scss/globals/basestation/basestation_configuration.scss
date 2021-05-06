@@ -1,0 +1,46 @@
+
+.basestation-field label{
+    display: inline-block;
+}
+
+.basestation-field label{
+    display: inline-block;
+}
+
+.basestation-field input[type=text]{
+    width: 70px;
+}
+
+.basestation-field input[type=checkbox]{
+    
+}
+
+.basestation-field{
+    margin: 10px 0;
+    flex: 1 0 30%;
+}
+
+.configurations{
+    justify-content: space-between;
+}
+
+.slider{
+    margin: 100px 60px 300px 60px;
+}
+
+.vue-slider-disabled{
+    opacity: 1;
+}
+
+.txtfile{
+    background-color: $tile-color;
+    padding-top: 15px;
+    margin: 15px 15px;
+    font-family: Consolas,monaco,monospace; 
+    line-height: 1em;
+}
+
+
+.config-footer button{
+    height: auto;
+}

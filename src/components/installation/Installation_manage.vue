@@ -29,16 +29,18 @@
                 <button type="submit" @click="updateInstallation" class="apply-btn">Apply</button>
             </div>
 
-
-            <h2>Maintenance</h2>
-            <div>
-                <p>
-                    System installation date : <br>
-                    Last human intervention : <br>
-                    Next uman intervention : 
-                </p>
-                <button type="submit">Register new human intervention</button>
+            <div class="disabled">
+              <h2>Maintenance</h2>
+                <div>
+                    <p>
+                        System installation date : <br>
+                        Last human intervention : <br>
+                        Next uman intervention : 
+                    </p>
+                    <button type="submit">Register new human intervention</button>
+                </div>  
             </div>
+            
             <h2>Contacts</h2>
             <vue-good-table
             :columns="columns"
@@ -64,7 +66,7 @@ import { VueGoodTable } from 'vue-good-table';
                 installation :{
                     name: ''
                 },
-                installationId : this.$route.query.id,
+                installationId : this.$route.params.id,
                 image_path : 'default_image.png',
                 image:'',
                 errorMessage : '',

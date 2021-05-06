@@ -1,0 +1,33 @@
+
+
+.settings{
+    justify-content: space-around;
+}
+
+.setting-btn{
+    margin: 25px 30px;
+}
+
+.setting-date{
+    margin: 0 20px;
+}
+.setting-filter{
+    align-content: flex-end;
+}
+
+.rover-overview-panel{
+    flex: 0 0 30%;
+    background-color: lightgray;
+}
+
+.rover-inclination-panel{
+    flex: 0 0 20%;
+    background-color: gray;
+
+}
+
+.rover-map-panel{
+    flex: 0 0 50%;
+    background-color: darkgray;
+
+}

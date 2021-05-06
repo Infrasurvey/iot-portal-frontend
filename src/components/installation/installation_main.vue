@@ -1,6 +1,6 @@
 <template>
 <div class="" >
-    <sidenav-installation :stationid="this.$route.query.id.toString()"></sidenav-installation>
+    <sidenav-installation :installationId="this.$route.params.id.toString()"></sidenav-installation>
     <div class="main-content">
         <installation-overview v-if="this.$route.meta.installFunction == 0"></installation-overview>
         <installation-manage v-if="this.$route.meta.installFunction == 1"></installation-manage>

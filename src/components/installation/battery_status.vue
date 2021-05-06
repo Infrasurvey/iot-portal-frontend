@@ -7,7 +7,8 @@
             <font-awesome-icon class="b-image" v-else-if="battery_voltage < 14" icon="battery-three-quarters" size="3x" rotation="270"/>
             <font-awesome-icon class="b-image" v-else icon="battery-full" size="3x" rotation="270" />
             <div class="battery-value">{{battery_voltage}} V</div> 
-            <div class="battery-name">{{unique_id}}</div>
+            <div class="battery-name" v-if="is_basestation">{{system_id}}</div>
+            <div class="battery-name" v-else>Rover {{system_id}}</div>
         </div>
     </div>
 </template>
@@ -24,7 +25,9 @@ export default {
   data(){
       return{
           'battery_voltage' : this.battery.battery_voltage,
-          'unique_id' : this.battery.unique_id
+          'is_basestation' : this.battery.is_basestation || false,
+          'system_id' : this.battery.system_id,
+
       }
   }
 }

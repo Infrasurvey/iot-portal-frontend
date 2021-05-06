@@ -1,13 +1,13 @@
 <template>
     <div class="sub-nav-group">
-        <span class="basic-link">{{rover.unique_id}}</span>
+        <span class="basic-link">Rover {{rover.system_id}}</span>
         <button class="dropdown-btn" :id="'dropdown-rover-'+rover.id">
             <font-awesome-icon icon="caret-down" size="2x" />
         </button>
       
         <div class="dropdown-container">
-            <router-link class="basic-link" :to="{ name: 'RoverOverview', query: { id: rover.id } }">Overview</router-link>
-            <router-link class="basic-link disabled" :to="{ name: 'RoverEvent', query: { id: rover.id }}">Events</router-link>
+            <router-link class="basic-link" :to="{ name: 'RoverOverview', params: { roverid: rover.system_id } }">Overview</router-link>
+            <router-link class="basic-link disabled" :to="{ name: 'RoverEvent', params: { roverid: rover.system_id }}">Events</router-link>
         </div>
     </div> 
 </template>
