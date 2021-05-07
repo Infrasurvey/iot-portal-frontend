@@ -56,11 +56,24 @@
                 <button type="submit" class="apply-btn">Import a configuration file   <font-awesome-icon icon="cloud-upload-alt"/></button>
                 <button type="submit" class="apply-btn" @click="applyConfig">Apply</button>
             </div>
-            <h2>Pending</h2>
-            <div>
-                <p>One configuration is pending and will be applied as soon as the base station will read the configuration gile</p>
-                <button>Cancel</button>
+            <div v-if="pendingExist">
+                <h2>Pending</h2>
+                <div>
+                    <p>One configuration is pending and will be applied as soon as the base station will read the configuration gile</p>
+                    <vue-good-table
+                    :columns="columns"
+                    :rows="pendingConfig"
+                    @on-row-click="onPendingClick"/>
+                    <button @click="removePendingConfiguration">Cancel</button>
+                    <config-modal
+                    v-if="isPendingModalVisible"
+                    :is_pending="true"
+                    :selectedConfig="selectedConfig"
+                    @close="closeModal"
+                    />
+                </div>
             </div>
+            
             <h2>History</h2>
             <vue-good-table
             :columns="columns"
@@ -69,7 +82,8 @@
 
             <config-modal
                 v-if="isConfigModalVisible"
-                :row="selectedRow"
+                :is_pending="false"
+                :selectedConfig="selectedConfig"
                 @close="closeModal"
                 />
         </div>
@@ -89,11 +103,14 @@
             return{
                 installationId : this.$route.params.id,
                 configurations : [],
+                pendingConfig : [],
                 configuration :{
                     session_period_in_wakeup_period : 1
                 },
                 isConfigModalVisible : false,
+                isPendingModalVisible : false,
                 selectedRow : [],
+                pendingExist : false,
                 columns: [
                 {
                     label: 'Filename',
@@ -104,7 +121,7 @@
                     field: 'configuration_date',
                 }
             ],
-            fileContent : ''
+                selectedConfig : '',
             }
         },
         components : {
@@ -113,6 +130,7 @@
         },
         created(){
             this.getConfigurations()
+            this.getPendingConfiguration()
         },
         methods : {
             getConfigurations(){
@@ -124,78 +142,116 @@
                         this.errorMessage = e
                     })
             },
+        getPendingConfiguration(){
+                API.get('/api/installation/'+this.installationId+'/basestation/pendingConfiguration')
+                    .then(response => {
+                        var responseCode = response.status
+                        if(parseInt(responseCode) < 204){
+                            var tmp = response.data.configuration;
+                            tmp.file_name = "GM_BASE_STATION.ini"
+                            tmp.configuration_date = response.data.date ;
+                            this.pendingConfig = [tmp];
+                            this.pendingExist = true;
+                            console.log("test")
+                        }else{
+                            this.pendingExist = false;
+                            console.log("ffr")
+                        }
+                        
+                    })
+                    .catch(e => {
+                        this.errorMessage = e
+                    })
+            },
+            removePendingConfiguration(){
+                API.get('/api/installation/'+this.installationId+'/basestation/removePendingConfiguration')
+                    .then(response => {
+                       var responseCode = response.status
+                        this.displayStatus(responseCode,'removed','removing pending')
+                        this.getPendingConfiguration()
+                        //this.$emit('getPendingConfiguration');
+
+                    })
+                    .catch(e => {
+                        this.errorMessage = e
+                    })
+            },
         onConfigClick(params) {
             this.selectedRow = params.row;
+            this.selectedConfig = this.generateConfigFile(params.row)
             this.isConfigModalVisible=true
-            this.generateConfigFile()
-            console.log(this.fileContent)
         },
-
+        onPendingClick(params){
+            this.selectedRow = params.row;
+            this.selectedConfig = this.generateConfigFile(params.row)
+            this.isPendingModalVisible=true
+        },
         closeModal() {
             this.isConfigModalVisible = false;
+            this.isPendingModalVisible = false;
         },
         applyConfig(){
-            this.generateConfigFile()
-            var f = new File(this.fileContent, "config.ini");
+            var fileContent = this.generateConfigFile(this.configuration)
+            var f = new File(fileContent, "config.ini");
             var form = new FormData();
             form.append('configuration', f);
             API.post('/api/installation/'+this.installationId+'/basestation/applyNewConfiguration',form)
             .then(response => {
                     var responseCode = response.status
-                    this.displayStatus(responseCode)
+                    this.displayStatus(responseCode,'applied','applying')
                 })
                 .catch(e => {
                 this.errorMessage = e
 
                 })
         },
-        generateConfigFile(){
-            this.fileContent = []
-            if(this.configuration.continuous_mode != null || this.configuration.reset != null || this.configuration.wakeup_period_in_minutes != null)
-                this.fileContent.push('[GENERAL]\n')
-            if(this.configuration.continuous_mode != null)
-                this.fileContent.push('CONTINUOUS_MODE='+this.configuration.continuous_mode+'\n')
-            if(this.configuration.reset != null)
-                this.fileContent.push('RESET='+this.configuration.reset+'\n')
-            if(this.configuration.wakeup_period_in_minutes != null)
-                this.fileContent.push('WAKEUP_PERIOD_IN_MINUTES='+this.configuration.wakeup_period_in_minutes+'\n')
-            this.fileContent.push('\n')
-            if(this.configuration.session_start_time != null || this.configuration.session_duration_in_minutes != null || this.configuration.session_period_in_wakeup_period != null)
-                this.fileContent.push('[MEASURE]\n')
-            if(this.configuration.session_start_time != null)
-                this.fileContent.push('SESSION_START_TIME='+this.configuration.session_start_time+'\n')
-            if(this.configuration.session_duration_in_minutes != null)
-                this.fileContent.push('SESSION_DURATION_IN_MINUTES='+this.configuration.session_duration_in_minutes+'\n')
-            if(this.configuration.session_period_in_wakeup_period != null)
-                this.fileContent.push('SESSION_PERIOD_IN_WAKEUP_PERIOD='+this.configuration.session_period_in_wakeup_period+'\n')
-            this.fileContent.push('\n')
-            if(this.configuration.reference_gps_module != null || this.configuration.reference_latitude != null || this.configuration.reference_longitude != null || this.configuration.reference_altitude != null)
-                this.fileContent.push('[GPS_REFERENCE]\n')
-            if(this.configuration.reference_gps_module != null)
-                this.fileContent.push('GPS_MODULE='+this.configuration.reference_gps_module+'\n')
-            if(this.configuration.reference_latitude != null)
-                this.fileContent.push('LATITUDE='+this.configuration.reference_latitude+'\n')
-            if(this.configuration.reference_longitude != null)
-                this.fileContent.push('LONGITUDE='+this.configuration.reference_longitude+'\n')
-            if(this.configuration.reference_altitude != null)
-                this.fileContent.push('ALTITUDE='+this.configuration.reference_altitude+'\n')
-            this.fileContent.push('\n')
-            if(this.configuration.non_continuous_store_binr_to_sd != null || this.configuration.non_continuous_store_binr_to_ftp != null)
-                this.fileContent.push('[DEBUG]\n')
-            if(this.configuration.non_continuous_store_binr_to_sd != null)
-                this.fileContent.push('NON_CONTINUOUS_STORE_BINR_TO_SD='+this.configuration.non_continuous_store_binr_to_sd+'\n')
-            if(this.configuration.non_continuous_store_binr_to_ftp != null)
-                this.fileContent.push('NON_CONTINUOUS_STORE_BINR_TO_FTP='+this.configuration.non_continuous_store_binr_to_ftp+'\n')
-
+        generateConfigFile(config){
+            var fileContent = []
+            if(config.continuous_mode != null || config.reset != null || config.wakeup_period_in_minutes != null)
+                fileContent.push('[GENERAL]\n')
+            if(config.continuous_mode != null)
+                fileContent.push('CONTINUOUS_MODE='+config.continuous_mode+'\n')
+            if(config.reset != null)
+                fileContent.push('RESET='+config.reset+'\n')
+            if(config.wakeup_period_in_minutes != null)
+                fileContent.push('WAKEUP_PERIOD_IN_MINUTES='+config.wakeup_period_in_minutes+'\n')
+            fileContent.push('\n')
+            if(config.session_start_time != null || config.session_duration_in_minutes != null || config.session_period_in_wakeup_period != null)
+                fileContent.push('[MEASURE]\n')
+            if(config.session_start_time != null)
+                fileContent.push('SESSION_START_TIME='+config.session_start_time+'\n')
+            if(config.session_duration_in_minutes != null)
+                fileContent.push('SESSION_DURATION_IN_MINUTES='+config.session_duration_in_minutes+'\n')
+            if(config.session_period_in_wakeup_period != null)
+                fileContent.push('SESSION_PERIOD_IN_WAKEUP_PERIOD='+config.session_period_in_wakeup_period+'\n')
+            fileContent.push('\n')
+            if(config.reference_gps_module != null || config.reference_latitude != null || config.reference_longitude != null || config.reference_altitude != null)
+                fileContent.push('[GPS_REFERENCE]\n')
+            if(config.reference_gps_module != null)
+                fileContent.push('GPS_MODULE='+config.reference_gps_module+'\n')
+            if(config.reference_latitude != null)
+                fileContent.push('LATITUDE='+config.reference_latitude+'\n')
+            if(config.reference_longitude != null)
+                fileContent.push('LONGITUDE='+config.reference_longitude+'\n')
+            if(config.reference_altitude != null)
+                fileContent.push('ALTITUDE='+config.reference_altitude+'\n')
+            fileContent.push('\n')
+            if(config.non_continuous_store_binr_to_sd != null || config.non_continuous_store_binr_to_ftp != null)
+                fileContent.push('[DEBUG]\n')
+            if(config.non_continuous_store_binr_to_sd != null)
+                fileContent.push('NON_CONTINUOUS_STORE_BINR_TO_SD='+config.non_continuous_store_binr_to_sd+'\n')
+            if(config.non_continuous_store_binr_to_ftp != null)
+                fileContent.push('NON_CONTINUOUS_STORE_BINR_TO_FTP='+config.non_continuous_store_binr_to_ftp+'\n')
+            return fileContent;
         },
-        displayStatus(status){
+        displayStatus(status, type,type2){
             console.log(status)
-            if(status=='201'){
-                this.flashMessage.success({title: 'Success', message: 'The configuration has been successfully applied !'});
+            if(parseInt(status) < 204){
+                this.flashMessage.success({title: 'Success', message: 'The configuration has been successfully '+type+' !'});
             }
             else
             {
-                this.flashMessage.show({status: 'error', title: 'Error', message: 'An error occured while applying configuration'})
+                this.flashMessage.show({status: 'error', title: 'Error', message: 'An error occured while '+type2+' configuration'})
             }
             }
         }
