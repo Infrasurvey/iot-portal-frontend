@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <ul class="nav">
+    <ul>
       <li><router-link :to="{ name: 'home' }">Home</router-link></li>
       <li v-if="!loggedIn"><router-link :to="{ name: 'auth' }">Login</router-link></li>
       <li v-if="!loggedIn"><router-link :to="{ name: 'register' }">Register</router-link></li>
