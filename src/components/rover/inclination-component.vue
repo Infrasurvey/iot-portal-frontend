@@ -1,0 +1,89 @@
+<template>
+    <div id="container-three">
+
+    </div>
+
+</template>
+<script>
+import * as THREE from 'three';
+import { TrackballControls } from 'three-trackballcontrols-ts';
+/*         <input type="range" name="s1" id="s1" v-model="s1" step="0.01" min="-5" max="5">
+        <input type="range" name="s2" id="s2" v-model="s2" step="0.01" min="-5" max="5">
+        <input type="range" name="s3" id="s3" v-model="s3" step="0.01" min="-5" max="5">
+        <vgl-renderer class="getting-started" camera="camera" scene="scene">
+        <vgl-scene name="scene">
+            <vgl-arrow-helper
+            :dir="`4 3 3`"
+            :length="1"
+            :head-length="0.2"
+            :head-width="0.1"
+            />
+            <vgl-axes-helper :size="size" />
+        </vgl-scene>
+        <vgl-perspective-camera :orbit-position="s1+' '+s2+' '+ s3" name="camera"></vgl-perspective-camera>
+        </vgl-renderer>*/
+//const { VglRenderer,VglPerspectiveCamera,VglAxesHelper,VglArrowHelper,VglMesh,VglBoxGeometry, VglScene} = require('vue-gl');
+export default {
+    name : 'inclination-component',
+    components :{
+       /* VglRenderer,
+        VglPerspectiveCamera,
+        VglMesh,
+        VglBoxGeometry,
+        VglAxesHelper,
+        VglArrowHelper,
+        VglScene*/
+    },
+    data(){
+        return{
+            s1:3,
+            s2:1,
+            s3:0.5,
+            perspectiveCamera:null,
+            scene : null,
+            controls : null,
+            renderer : null
+        }
+    }
+    ,
+    mounted(){
+        this.setUpThree()        
+    },
+    methods:{
+        setUpThree(){
+            const aspect = 250 / 300;
+
+            this.perspectiveCamera = new THREE.PerspectiveCamera(45,aspect,0.1,1000 );
+            this.perspectiveCamera.position.set(1.8,1.8,1.5);
+            this.scene = new THREE.Scene();
+            this.scene.background = new THREE.Color( 0xcccccc );
+            // let axiss = new THREE.CameraHelper(this.perspectiveCamera);
+            //this.scene.add(axiss); 
+            let axis = new THREE.AxisHelper();
+            this.scene.add(axis); 
+            var from = new THREE.Vector3( 0,0,0 );
+            var to = new THREE.Vector3( 0,0.8,0.8 );
+            var direction = to.clone().sub(from);
+            var length = direction.length();
+            var arrowHelper = new THREE.ArrowHelper(direction.normalize(), from, length, 0xff0000 );
+            this.scene.add( arrowHelper );
+
+            this.renderer = new THREE.WebGLRenderer( { antialias: true } );
+            this.renderer.setPixelRatio( window.devicePixelRatio );
+            this.renderer.setSize( 250, 300);
+            document.getElementById('container-three').appendChild( this.renderer.domElement );
+            this.controls = new TrackballControls( this.perspectiveCamera, this.renderer.domElement );
+
+            this.controls.rotateSpeed = 1.0;
+            this.controls.zoomSpeed = 1.2;
+            this.controls.panSpeed = 0.8;                
+            this.animate()
+        },
+        animate(){
+            requestAnimationFrame( this.animate);
+				this.controls.update();
+               this.renderer.render( this.scene, this.perspectiveCamera );
+        },
+    }
+}
+</script>

@@ -53,8 +53,9 @@
                 </div>
             </div>
             <div class="apply-container">
-                <button type="submit" class="apply-btn">Import a configuration file   <font-awesome-icon icon="cloud-upload-alt"/></button>
-                <button type="submit" class="apply-btn" @click="applyConfig">Apply</button>
+                <button type="submit" class="apply-btn" @click="onPickFile">Import a configuration file   <font-awesome-icon icon="cloud-upload-alt"/></button>
+                <input type="file" style="display: none" ref="fileInput" accept=".ini" @change="onFilePicked" multiple="false"/>
+                <button type="submit" class="apply-btn" @click="applyConfig(generateConfigFile(configuration))">Apply</button>
             </div>
             <div v-if="pendingExist">
                 <h2>Pending</h2>
@@ -68,6 +69,7 @@
                     <config-modal
                     v-if="isPendingModalVisible"
                     :is_pending="true"
+                    :row="selectedRow"
                     :selectedConfig="selectedConfig"
                     @close="closeModal"
                     />
@@ -83,6 +85,8 @@
             <config-modal
                 v-if="isConfigModalVisible"
                 :is_pending="false"
+                @apply="applyConfig"
+                :row="selectedRow"
                 :selectedConfig="selectedConfig"
                 @close="closeModal"
                 />
@@ -105,7 +109,19 @@
                 configurations : [],
                 pendingConfig : [],
                 configuration :{
-                    session_period_in_wakeup_period : 1
+                    continuous_mode : 1,
+                    wakeup_period_in_minutes : '',
+                    reference_gps_module : '',
+                    reset : false,
+                    session_start_time : '',
+                    reference_longitude : '',
+                    non_continuous_store_binr_to_ftp : false,
+                    session_duration_in_minutes : '',
+                    reference_latitude :'',
+                    non_continuous_store_binr_to_sd: '',
+                    session_period_in_wakeup_period : 1,
+                    reference_altitude : ''
+                    
                 },
                 isConfigModalVisible : false,
                 isPendingModalVisible : false,
@@ -121,6 +137,8 @@
                     field: 'configuration_date',
                 }
             ],
+                uploadedFile : '',
+                fileUrl : '',
                 selectedConfig : '',
             }
         },
@@ -152,10 +170,8 @@
                             tmp.configuration_date = response.data.date ;
                             this.pendingConfig = [tmp];
                             this.pendingExist = true;
-                            console.log("test")
                         }else{
                             this.pendingExist = false;
-                            console.log("ffr")
                         }
                         
                     })
@@ -176,6 +192,7 @@
                         this.errorMessage = e
                     })
             },
+            
         onConfigClick(params) {
             this.selectedRow = params.row;
             this.selectedConfig = this.generateConfigFile(params.row)
@@ -190,8 +207,8 @@
             this.isConfigModalVisible = false;
             this.isPendingModalVisible = false;
         },
-        applyConfig(){
-            var fileContent = this.generateConfigFile(this.configuration)
+        applyConfig(fileContent){
+            
             var f = new File(fileContent, "config.ini");
             var form = new FormData();
             form.append('configuration', f);
@@ -199,6 +216,7 @@
             .then(response => {
                     var responseCode = response.status
                     this.displayStatus(responseCode,'applied','applying')
+                    this.getPendingConfiguration()
                 })
                 .catch(e => {
                 this.errorMessage = e
@@ -253,7 +271,47 @@
             {
                 this.flashMessage.show({status: 'error', title: 'Error', message: 'An error occured while '+type2+' configuration'})
             }
-            }
+            },
+        onPickFile () {
+            this.$refs.fileInput.click()
+        },
+        onFilePicked (event) {
+            const files = event.target.files
+            let filename = files[0].name
+            const fileReader = new FileReader()
+            fileReader.addEventListener('load', () => {
+                this.uploadedFile = fileReader.result.split("\n")
+                this.setInputValues(this.uploadedFile)
+            })
+            fileReader.readAsText(files[0])
+            
+            
+        },
+        setInputValues(file){
+            var tmpConfig = {
+                    continuous_mode : 1,
+                    wakeup_period_in_minutes : '',
+                    reference_gps_module : '',
+                    reset : false,
+                    session_start_time : '',
+                    reference_longitude : '',
+                    non_continuous_store_binr_to_ftp :false,
+                    session_duration_in_minutes : '',
+                    reference_latitude :'',
+                    non_continuous_store_binr_to_sd: '',
+                    session_period_in_wakeup_period : 1,
+                    reference_altitude : ''
+                    
+                }
+            file.forEach(line => {
+                if(line != '' && !line.includes("[") ){
+                    var key = line.split("=")[0].toLowerCase()
+                    var value = line.split("=")[1]
+                    tmpConfig[key] = value
+                }
+            });
+            this.configuration = tmpConfig
+        }
         }
     }
 </script>
