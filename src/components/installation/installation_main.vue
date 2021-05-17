@@ -9,7 +9,6 @@
         <basestation-config v-if="this.$route.meta.installFunction == 4"></basestation-config>
         <rover-overview v-if="this.$route.meta.installFunction == 5"></rover-overview>
         <rover-event v-if="this.$route.meta.installFunction == 6"></rover-event>
-
     </div>
 </div>
 </template>

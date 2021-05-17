@@ -2,8 +2,7 @@
     <div>
         <div class="main-install overview-inst">
             <div class="home-header">
-
-                <h1>Manage installations</h1>
+                <section-title title= "Manage installations"></section-title>
             </div>
             <Modal
                 v-if="isModalVisible"
@@ -33,13 +32,15 @@ import API from '../../http-constants'
 import { VueGoodTable } from 'vue-good-table';
 import 'vue-good-table/dist/vue-good-table.css'
 import Modal from './modal_installation';
+import SectionTitle from '../template/SectionTitle';
 
 export default {
     name: 'm-installations',
     components : {
         'sidenav-manage' :Sidenav,
         VueGoodTable,
-        Modal
+        Modal,
+        SectionTitle
     },
     data(){
         return {

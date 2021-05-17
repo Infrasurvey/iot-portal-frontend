@@ -23,7 +23,7 @@
       </div>
     </div>
     <div>
-      <h2>Plot settings</h2>
+      <section-title title= "Plots settings"></section-title>
       <div class="flex-container settings">
         <div class="flex-container">
           <div class="setting-date">
@@ -57,7 +57,7 @@
       
     </div>
     <div>
-      Plots
+      <section-title title= "Plots"></section-title>
       <div>
         <div>
           Plot 1
@@ -83,8 +83,12 @@
 </template>
 
 <script>
+import SectionTitle from '../template/SectionTitle';
 
 export default {
-  name: 'rover-overview'
+  name: 'rover-overview',
+  components: {
+    SectionTitle
+  }
 }
 </script>

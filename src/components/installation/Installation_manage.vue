@@ -1,8 +1,7 @@
 <template>
     <div>
         <div class="main-install overview-inst">
-            <h2>Manage Installation</h2>
-            
+            <section-title title= "Manage Installation"></section-title>
             <div class="manage-form">
                 <div>
                     <label for="nameInput">Installation name : </label>
@@ -23,25 +22,24 @@
                     </div>
                     
                 </div>
-                
             </div>
             <div class="apply-container">
                 <button type="submit" @click="updateInstallation" class="apply-btn">Apply</button>
             </div>
 
             <div class="disabled">
-              <h2>Maintenance</h2>
-                <div>
-                    <p>
-                        System installation date : <br>
-                        Last human intervention : <br>
-                        Next uman intervention : 
-                    </p>
-                    <button type="submit">Register new human intervention</button>
-                </div>  
+              <section-title title= "Maintenance"></section-title>
+              <div>
+                  <p>
+                      System installation date : <br>
+                      Last human intervention : <br>
+                      Next uman intervention : 
+                  </p>
+                  <button type="submit">Register new human intervention</button>
+              </div>  
             </div>
             
-            <h2>Contacts</h2>
+            <section-title title= "Contacts"></section-title>
             <vue-good-table
             :columns="columns"
             :rows="users"/>
@@ -54,91 +52,91 @@ import API from '../../http-constants'
 import PictureInput from 'vue-picture-input'
 import FormData from 'form-data'
 import { VueGoodTable } from 'vue-good-table';
+import SectionTitle from '../template/SectionTitle';
 
-    export default {
-        name: 'installation-manage',
-        components : {
-            PictureInput,
-            VueGoodTable,
-        },
-        data(){
-            return{
-                installation :{
-                    name: ''
-                },
-                installationId : this.$route.params.id,
-                image_path : 'default_image.png',
-                image:'',
-                errorMessage : '',
-                src : '',
-                users : [],
-                columns: [
-                {
-                    label: 'First Name',
-                    field: 'name'
-                },
-                {
-                    label: 'Last Name',
-                    field: 'lastname',
-                },
-                {
-                    label: 'Phone Number',
-                    field: 'phone',
-                },
-                {
-                    label:'E-mail',
-                    field:'email'
-                },
-                {
-                    label:'Role',
-                    field:'role',
-                    hidden : true
-                }
-            ],
-            }
-        },
-        created() {
-            this.getInstallation();
-            this.getUsers()
-        },
-        methods: {
-                getInstallation: function () {
-                    API.get('/api/installation/'+this.installationId)
-                        .then(response => {
-                            this.installation = response.data
-                            this.image_path = this.installation.image_path
-                            this.src = 'http://localhost:8080/storage/images/'+this.image_path
-                        })
-                        .catch(e => {
-                            this.errorMessage = e
-                        })
-                    },
-                getUsers(){
-                    API.get('/api/getUsersByInstallation/'+this.installationId)
-                    .then(response => {
-                        this.users =response.data
-            })
-            .catch(e => {
-            this.errorMessage = e
-            })
-                },
-                updateInstallation(){
-                        var form = new FormData();
-                        form.append('image', this.image);
-                        form.append('name',this.installation.name);
-                        API.post('/api/updateInstallationImage/'+this.installationId,form)
-                        .then(response => {
+export default {
+  name: 'installation-manage',
+  components : {
+      PictureInput,
+      VueGoodTable,
+      SectionTitle
+  },
+  data(){
+    return{
+      installation :{
+          name: ''
+      },
+      installationId : this.$route.params.id,
+      image_path : 'default_image.png',
+      image:'',
+      errorMessage : '',
+      src : '',
+      users : [],
+      columns: [{
+        label: 'First Name',
+        field: 'name'
+      },
+      {
+        label: 'Last Name',
+        field: 'lastname',
+      },
+      {
+        label: 'Phone Number',
+        field: 'phone',
+      },
+      {
+        label:'E-mail',
+        field:'email'
+      },
+      {
+        label:'Role',
+        field:'role',
+        hidden : true
+      }],
+    }
+  },
+  created() {
+      this.getInstallation();
+      this.getUsers()
+  },
+  methods: {
+          getInstallation: function () {
+              API.get('/api/installation/'+this.installationId)
+                  .then(response => {
+                      this.installation = response.data
+                      this.image_path = this.installation.image_path
+                      this.src = 'http://localhost:8080/storage/images/'+this.image_path
+                  })
+                  .catch(e => {
+                      this.errorMessage = e
+                  })
+              },
+          getUsers(){
+              API.get('/api/getUsersByInstallation/'+this.installationId)
+              .then(response => {
+                  this.users =response.data
+      })
+      .catch(e => {
+      this.errorMessage = e
+      })
+          },
+          updateInstallation(){
+                  var form = new FormData();
+                  form.append('image', this.image);
+                  form.append('name',this.installation.name);
+                  API.post('/api/updateInstallationImage/'+this.installationId,form)
+                  .then(response => {
 
-                        })
-                        .catch(e => {
-                            this.errorMessage = e
-                        })
-                },
-                onChanged (image) {
-                    if (image) {
-                        this.image = this.$refs.pictureInput.file
-                    }
-                }
-            }
-        }
+                  })
+                  .catch(e => {
+                      this.errorMessage = e
+                  })
+          },
+          onChanged (image) {
+              if (image) {
+                  this.image = this.$refs.pictureInput.file
+              }
+          }
+      }
+  }
 </script>

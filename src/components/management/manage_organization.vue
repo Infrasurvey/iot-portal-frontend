@@ -2,7 +2,7 @@
     <div>
         <div class="main-install overview-inst">
             <div class="home-header">
-                <h1>Installations list</h1>
+                <section-title title= "Installations list"></section-title>
                 <h1 class="btn-create-install">
                     <button type="button" class="btn" @click="onCreateInstallationClick" disabled style="background-color:gray; border-color:gray">Create a new installation </button>
                 </h1>
@@ -24,7 +24,7 @@
         
 
             <div class="home-header">
-                <h1>Users list</h1>
+                <section-title title= "Users list"></section-title>
                 <h1 class="btn-create-install">
                     <button type="button" class="btn" @click="onAddUserClick" >Add a new user in this organization</button>
                 </h1>
@@ -45,7 +45,7 @@
             @on-row-click="onUserClick"/>
 
             <div class="home-header">
-                <h1>Responsible list</h1>
+                <section-title title= "Responsible list"></section-title>
                 <h1 class="btn-create-install">
                     <button type="button" class="btn" @click="onAddAdminClick" >Add a new admin in this organization</button>
                 </h1>
@@ -81,6 +81,7 @@ import 'vue-good-table/dist/vue-good-table.css'
 import ModalInstall from './modal_installation';
 import ModalUser from './modal_user';
 import ModalAddUser from './modal_add_user';
+import SectionTitle from '../template/SectionTitle';
 
 export default {
     name: 'ManageOrganization',
@@ -89,7 +90,8 @@ export default {
         VueGoodTable,
         'modal-installation':ModalInstall,
         'modal-user' : ModalUser,
-        'add-user' : ModalAddUser
+        'add-user' : ModalAddUser,
+        SectionTitle
     },
     data(){
         return {

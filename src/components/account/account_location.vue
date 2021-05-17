@@ -2,7 +2,7 @@
     <div>
         <sidenav-account></sidenav-account>
         <div class="main-install overview-inst">
-            <h1>Location</h1>
+            <section-title title= "Location"></section-title>
             <form action="" class="flex-input-container">
                 <div class="input-container">
                     <label for="address">Address</label>
@@ -33,11 +33,13 @@
 import Sidenav from './account_sidenav'
 import API from '../../http-constants'
 import { required } from 'vuelidate/lib/validators'
+import SectionTitle from '../template/SectionTitle';
 
 export default {
     name: 'Location',
     components : {
-        'sidenav-account' :Sidenav
+        'sidenav-account' :Sidenav,
+        SectionTitle
     },
     data(){
         return{

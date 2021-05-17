@@ -3,7 +3,7 @@
         
         <div class="main-install overview-inst">
             <div class="home-header">
-                <h1>Manage users</h1>
+                <section-title title= "Manage users"></section-title>
             </div>
             <modal-user
                 v-if="isModalVisible"
@@ -34,6 +34,7 @@ import API from '../../http-constants'
 import { VueGoodTable } from 'vue-good-table';
 import 'vue-good-table/dist/vue-good-table.css'
 import Modal from './modal_user';
+import SectionTitle from '../template/SectionTitle';
 
 export default {
     name: 'ManageUsers',
@@ -41,6 +42,7 @@ export default {
         'sidenav-manage' :Sidenav,
         VueGoodTable,
         'modal-user' :Modal,
+        SectionTitle
     },
     data(){
         return {
