@@ -16,18 +16,22 @@
 }
 
 .rover-overview-panel{
-    flex: 0 0 30%;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 30%;
     background-color: lightgray;
 }
 
 .rover-inclination-panel{
-    flex: 0 0 20%;
-    background-color: gray;
+    flex: 0 0 249px;
+    background-color: #cccccc;
 
 }
 
 .rover-map-panel{
-    flex: 0 0 50%;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: calc(70% - 249px);
     background-color: darkgray;
 
 }
@@ -38,4 +42,9 @@
 
 .plot{
     width: 90%;
+}
+
+.b-r-container{
+    padding-top: 20px;
+    background-color: #cccccc;
 }

@@ -2,7 +2,7 @@
     <div id="container-map">
         <l-map :zoom="zoom"
                 :center="center"
-                style="height: 500px; width: 100%"
+                style="height: 450px; width: 100%"
                 :maxZoom="maxZoom"> 
                     <l-tile-layer
                         :url="url"

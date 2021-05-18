@@ -9,41 +9,45 @@ export default {
     data(){
         return{
             options: {
-    responsive: true,
-      title: {
-        display: true,
-        text: 'Plot title'
-    
-    },
-    scales: {
-      xAxes: [{
-        ticks: {
-          display : true,
-          autoskip: true,
-          autoSkipPadding :50 
-        }
-      }]
-    },
-    plugins: {
-      pan: {
-								enabled: true,
-								mode: 'x'
-							},
-      zoom: {
-						zoom: {
-							enabled: true,
-							drag: false,
-							mode: 'x',
-							speed: 0.99,
-              threshold: 2,
-
-              // On category scale, minimal zoom level before actually applying zoom
-              sensitivity: 1,
+                responsive: true,
+                title: {
+                  display: false,
+                  text: 'Plot title'
               
-						}
-					}
-    }
-  },
+              },
+              scales: {
+                xAxes: [{
+                  ticks: {
+                    display : true,
+                    autoskip: true,
+                    autoSkipPadding :50 
+                  }
+                }]
+              },
+              legend :{
+                  position :'bottom'
+                },
+              plugins: {
+                
+                pan: {
+                          enabled: true,
+                          mode: 'x'
+                        },
+                zoom: {
+                      zoom: {
+                        enabled: true,
+                        drag: false,
+                        mode: 'x',
+                        speed: 0.99,
+                        threshold: 2,
+
+                        // On category scale, minimal zoom level before actually applying zoom
+                        sensitivity: 1,
+                        
+                      }
+                    }
+              }
+            },
         }
     },
     mounted() {

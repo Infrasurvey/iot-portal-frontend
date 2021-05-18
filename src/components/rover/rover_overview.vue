@@ -16,7 +16,7 @@
       </div>
       <div class="rover-inclination-panel">
         <inclination-component v-if="isMounted" :inclination="inclination"></inclination-component>
-        <div class="b-container">
+        <div class="b-r-container">
             <font-awesome-icon class="b-image" v-if="rover.battery_voltage < 10" icon="battery-empty" size="3x" rotation="270" />
             <font-awesome-icon class="b-image" v-else-if="rover.battery_voltage < 12" icon="battery-quarter" size="3x" rotation="270"/>
             <font-awesome-icon class="b-image" v-else-if="rover.battery_voltage < 13" icon="battery-half" size="3x" rotation="270"/>
@@ -43,14 +43,14 @@
           </div>
         </div>
         <div class="flex-container setting-filter">
-          <input type="checkbox" name="enable-low-pass" id="enable-low-pass">
+          <input type="checkbox" name="enable-low-pass" id="enable-low-pass" v-model="enable_low_pass">
           <label for="enable-low-pass">Enable low-pass filtering</label>
-          <input type="range" name="low-pass" id="low-pass">
+          <input type="range" name="low-pass" id="low-pass" :disabled="!enable_low_pass">
         </div>
         <div class="flex-container setting-filter">
-          <input type="checkbox" name="enable-outlier" id="enable-outlier">
+          <input type="checkbox" name="enable-outlier" id="enable-outlier" v-model="enable_outlier">
           <label for="enable-outlier">Enable outlier filtering</label>
-          <input type="range" name="outlier" id="outlier">
+          <input type="range" name="outlier" id="outlier" :disabled="!enable_outlier">
         </div>
         
         
@@ -139,6 +139,9 @@ export default {
       },
       measure_rovers : '',
       measure_devices : [],
+      enable_low_pass : false,
+      enable_outlier : false
+
 
     }
   },
