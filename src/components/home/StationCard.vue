@@ -1,6 +1,6 @@
 <template>
   <div style="width:780px; padding-right: 40px; padding-bottom: 40px;">
-    <router-link style="text-decoration: none" :to="{ name: 'Overview', params: { id: id } }">
+    <router-link style="text-decoration: none" :to="{ name: 'Overview', params: { id: id }}">
     <md-card md-with-hover>
       <md-ripple display style="display:flex; justify-content: space-between; align-items: center;">
         <div>
