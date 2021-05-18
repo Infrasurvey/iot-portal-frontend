@@ -1,8 +1,8 @@
 <template>
 <div>
-    <div style="display:flex; width: 100%; align-items: center; padding: 20px;">
-      <SectionTitle/>
-      <div><md-button class="md-raised md-primary" style="font-size: 17px; font-weight: bold;" type="button" @click="showModal">Create a new installation</md-button></div>
+    <div class="title-container">
+      <section-title title="My installations"></section-title>
+      <div><md-button class="md-raised md-primary create-installation-button" type="button" @click="showModal">Create a new installation</md-button></div>
     </div>
 
     <Modal
@@ -14,22 +14,45 @@
 
     <FlashMessage></FlashMessage>
 
-    <div style="display: flex; align-content: flex-start; align-items: flex-start; justify-content: flex-start; flex-wrap: wrap; padding-left: 40px">
-      <station-tile v-for="station in stations" :key="station.id" :station="station"></station-tile>
+    <div class="station-card-container">
+      <station-card v-for="station in stations" :key="station.id" :station="station"></station-card>
     </div>
 </div>
 </template>
 
+<style scoped>
+.title-container{
+  display:flex;
+  width: 100%;
+  align-items: center;
+  padding: 20px;
+}
+
+.create-installation-button{
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.station-card-container{
+  display: flex;
+  align-content: flex-start;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  padding-left: 40px
+}
+</style>
+
 <script>
-import API from '../http-constants'
-import StationTile from './StationTile'
-import Modal from './installation/create_installation';
+import API from '../../http-constants'
+import StationCard from './StationCard'
+import Modal from '../installation/create_installation';
 import PictureInput from 'vue-picture-input'
-import SectionTitle from './template/SectionTitle';
+import SectionTitle from '../template/SectionTitle';
 
 export default {
   components:{
-      StationTile,
+      StationCard,
       Modal,
       PictureInput,
       SectionTitle

@@ -10,6 +10,34 @@
   </div>
 </template>
 
+<style scoped>
+.breadcrumb {
+  display: inline-block;
+  width: fit-content;
+  height: fit-content;
+  text-align: center;
+  vertical-align: middle;
+  margin-left: 15px;
+  color: white;
+}
+
+.breadcrumb > ul {
+  list-style-type: none;
+  margin-block-start: 0;
+  padding-inline-start: 0;
+}
+
+.breadcrumb > ul > li {
+  float: left;
+}
+
+.breadcrumb > ul > li:not(:last-child)::after {
+  content: ' > ';
+  margin: 0 .5em;
+  cursor: default;
+}
+</style>
+
 <script>
 export default {
   name: 'breadcrumb',

@@ -30,7 +30,7 @@
       </div>
     </div>
     <div>
-      <h2>Plot settings</h2>
+      <section-title title= "Plots settings"></section-title>
       <div class="flex-container settings">
         <div class="flex-container">
           <div class="setting-date">
@@ -64,7 +64,7 @@
       
     </div>
     <div>
-      <h2>Plots</h2>
+      <section-title title= "Plots"></section-title>
       <div>
         <div>
           <h4>Easting</h4>
@@ -97,14 +97,15 @@
     import MapComponent from './map-component'
     import Plot from './plot'
     import moment from 'moment';
-
+    import SectionTitle from '../template/SectionTitle';
 export default {
   
   name: 'rover-overview',
   components :{
     'inclination-component':InclinationComponent,
     'map-component': MapComponent,
-    'plot' : Plot
+    'plot' : Plot,
+    SectionTitle
   },
   data(){
     return{
@@ -221,6 +222,5 @@ export default {
         this.inclination.push(z / n).toPrecision(2)
       }
   }
-
 }
 </script>

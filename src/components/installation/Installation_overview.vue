@@ -2,7 +2,7 @@
 <template>
     <div>
         <div class="main-install overview-inst">
-            <h1>{{installation.name}} station</h1>
+            <section-title title= "TOTO"></section-title>
             <div class="flex-container overview">
                 <div class="overview-container">
                 <img :src="src" alt="" width="230px" height="230px">
@@ -26,11 +26,12 @@
                 </div>
             </div>
             
-            <h2>Battery state</h2>
+            <section-title title = "Battery state"></section-title>
             <div class="flex-container batteries">
                 <battery-status v-for="battery in batteryDisplay" :key="battery.id" :battery="battery"> </battery-status>
             </div>
-            <h2>Landslide evolution</h2>
+
+            <section-title title = "Landslide evolution"></section-title>
             <div>
                 <l-map :zoom="zoom"
                 :center="center"
@@ -72,6 +73,7 @@
     LCircle,
     Vue2LeafletPolylineDecorator
     } from "vue2-leaflet";
+    import SectionTitle from '../template/SectionTitle';
 
     export default {
             name: 'installation-overview',
@@ -80,7 +82,8 @@
                 LMap,
                 LTileLayer,
                 LPolyline,
-                LCircle
+                LCircle,
+                SectionTitle
         },
             data () {
                       let patterns = [

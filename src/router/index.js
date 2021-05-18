@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/components/Home'
+import Home from '@/components/home/Home'
 import Auth from '@/components/auth/Auth'
 import Logout from '@/components/auth/Logout'
 import Overview from '@/components/installation/installation_overview'
@@ -15,12 +15,36 @@ import InstallationMain from '@/components/installation/installation_main'
 
 Vue.use(Router)
 
+var AuthRoute = {
+  path: '/login',
+  name: 'auth',
+  component: Auth,
+}
+
+var LogoutRoute = {
+  path: '/logout',
+  name: 'Logout',
+  component: Logout,
+  meta: {
+    requiresAuth: true,
+  }
+}
+
+var HomeRoute = {
+  path: '/',
+  name: 'home',
+  component: Home,
+  meta: {
+    requiresAuth: true,
+    breadcrumb:[{name:'Home'}] 
+  }
+}
+
 var ManageOrganizationsRoute =  {
   path: '/management/organizations',
   name: 'ManageOrganization',
   component: ManageMain,
   meta: {
-
     requiresAuth: true,
     breadcrumb:[{name: 'Home', link: '/' },{name:'Management'},{name:'Organization'}],
     manageFunction : 2
@@ -164,31 +188,6 @@ var EventRoverRoute =  {
     requiresAuth: true,
     breadcrumb:[{name: 'Home', link: '/' },{name:'Rover'},{name:'Events'}],
     installFunction : 6 
-  }
-}
-
-var HomeRoute = {
-  path: '/',
-  name: 'home',
-  component: Home,
-  meta: {
-    requiresAuth: true,
-    breadcrumb:[{name:'Home'}] 
-  }
-}
-
-var AuthRoute = {
-  path: '/login',
-  name: 'auth',
-  component: Auth,
-}
-
-var LogoutRoute = {
-  path: '/logout',
-  name: 'Logout',
-  component: Logout,
-  meta: {
-    requiresAuth: true,
   }
 }
 
