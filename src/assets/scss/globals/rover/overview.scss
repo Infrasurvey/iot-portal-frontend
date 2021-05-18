@@ -11,8 +11,24 @@
 .setting-date{
     margin: 0 20px;
 }
-.setting-filter{
-    align-content: flex-end;
+
+
+.flex-settings{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: space-around;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.flex-setting-filter{
+    display: flex;
+    flex-wrap: nowrap;
+    align-content: space-around;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .rover-overview-panel{
@@ -20,6 +36,8 @@
     flex-shrink: 0;
     flex-basis: 30%;
     background-color: lightgray;
+    padding-left: 15px;
+    line-height: normal;
 }
 
 .rover-inclination-panel{
@@ -41,7 +59,8 @@
 }
 
 .plot{
-    width: 90%;
+    width: 100%;
+    padding: 20px;
 }
 
 .b-r-container{
@@ -49,8 +68,16 @@
     background-color: #cccccc;
 }
 
-.spinner{
+.slider{
+    margin-top: 0;
+}
 
+.slider *{
+    font-size: small;
+}
+
+.slider-thumb, .slider-thumb-label, .slider-track-fill {
+    background-color: $secondary-color;
 }
 
 .spinner-container{
@@ -64,3 +91,4 @@
     background-color: gray;
     opacity: 0.5;
 }
+

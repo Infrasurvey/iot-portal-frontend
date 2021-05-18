@@ -5,6 +5,7 @@ import VueMaterial from 'vue-material'
 import App from './App'
 import router from './router'
 import { store } from './store/store'
+import 'vue-material-slider/dist/vue-material-slider.css';
 import './assets/scss/index.scss'
 import './assets/js/tools.js';
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -22,6 +23,7 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import { LMap, LTileLayer, LMarker } from 'vue2-leaflet';
 import 'leaflet/dist/leaflet.css';
 import Vue2LeafletPolylineDecorator from 'vue2-leaflet-polylinedecorator'
+import VueMaterialSlider from 'vue-material-slider';
 
 Vue.component('polyline-decorator', Vue2LeafletPolylineDecorator)
 Vue.component('l-map', LMap);
@@ -31,6 +33,7 @@ Vue.component('v-select', vSelect);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.component(Vodal.name, Vodal);
 
+Vue.use(VueMaterialSlider);
 Vue.use(require('vue-moment'));
 Vue.use(VueSweetalert2);
 Vue.use(vueCountryRegionSelect)
