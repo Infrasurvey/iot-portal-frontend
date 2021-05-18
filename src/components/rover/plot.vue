@@ -1,6 +1,6 @@
 <script>
 import { Line, mixins } from 'vue-chartjs'
-import 'chartjs-plugin-crosshair'
+import zoom from 'chartjs-plugin-zoom';
 const { reactiveProp } = mixins
 
 export default {
@@ -10,7 +10,6 @@ export default {
         return{
             options: {
     responsive: true,
-    
       title: {
         display: true,
         text: 'Plot title'
@@ -19,38 +18,43 @@ export default {
     scales: {
       xAxes: [{
         ticks: {
-          display : false
+          display : true,
+          autoskip: true,
+          autoSkipPadding :50 
         }
       }]
     },
     plugins: {
-      crosshair: {
-        sync: {
-          enabled: false,            // enable trace line syncing with other charts
-          group: 1,                 // chart group
-          suppressTooltips: false   // suppress tooltips when showing a synced tracer
-        },
-        zoom: {
-          enabled: true,                                      // enable zooming
-          zoomboxBackgroundColor: 'rgba(66,133,244,0.2)',     // background color of zoom box 
-          zoomboxBorderColor: '#48F',                         // border color of zoom box
-          zoomButtonText: 'Reset Zoom',                       // reset zoom button text
-          zoomButtonClass: 'reset-zoom',                      // reset zoom button class
-        },
-        callbacks: {
-          beforeZoom: function(start, end) {                  // called before zoom, return false to prevent zoom
-            return true;
-          },
-          afterZoom: function(start, end) {                   // called after zoom
-          }
-        }
-      }
+      pan: {
+								enabled: true,
+								mode: 'x'
+							},
+      zoom: {
+						zoom: {
+							enabled: true,
+							drag: false,
+							mode: 'x',
+							speed: 0.99,
+              threshold: 2,
+
+              // On category scale, minimal zoom level before actually applying zoom
+              sensitivity: 1,
+              
+						}
+					}
     }
   },
         }
     },
     mounted() {
+      this.addPlugin(zoom);
         this.renderChart(this.chartData, this.options)
     }
 }
+
+		window.resetZoom = function() {
+			window.myLine.resetZoom();
+		};
+
+
 </script>

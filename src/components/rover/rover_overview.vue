@@ -12,10 +12,18 @@
           Easting distance : {{(latestConvertedPosition.Easting - firstConvertedPosition.Easting).toPrecision(2)}}m<br>
           Northing distance : {{(latestConvertedPosition.Northing - firstConvertedPosition.Northing).toPrecision(2)}}m <br>
           Elevation distance : {{(latestConvertedPosition.altitude - firstConvertedPosition.altitude).toPrecision(2)}}m  <br>
-          3D distance : 
+          3D distance : {{d3Distance}}m
       </div>
       <div class="rover-inclination-panel">
-        <inclination-component></inclination-component>
+        <inclination-component v-if="isMounted" :inclination="inclination"></inclination-component>
+        <div class="b-container">
+            <font-awesome-icon class="b-image" v-if="rover.battery_voltage < 10" icon="battery-empty" size="3x" rotation="270" />
+            <font-awesome-icon class="b-image" v-else-if="rover.battery_voltage < 12" icon="battery-quarter" size="3x" rotation="270"/>
+            <font-awesome-icon class="b-image" v-else-if="rover.battery_voltage < 13" icon="battery-half" size="3x" rotation="270"/>
+            <font-awesome-icon class="b-image" v-else-if="rover.battery_voltage < 14" icon="battery-three-quarters" size="3x" rotation="270"/>
+            <font-awesome-icon class="b-image" v-else icon="battery-full" size="3x" rotation="270" />
+            <div class="battery-value">{{rover.battery_voltage}} V</div> 
+        </div>
       </div>
       <div class="rover-map-panel">
         <map-component :positions="positions"></map-component>
@@ -27,11 +35,11 @@
         <div class="flex-container">
           <div class="setting-date">
             <label for="start_date">Start date</label>
-            <input type="date" id="start_date" name="start_date">
+            <input type="date" id="start_date" name="start_date" v-model="startDate">
           </div>
           <div class="setting-date">
             <label for="end_date">End date</label>
-            <input type="date" id="end_date" name="end_date">
+            <input type="date" id="end_date" name="end_date" v-model="endDate">
           </div>
         </div>
         <div class="flex-container setting-filter">
@@ -48,7 +56,7 @@
         
       </div>
       <div class="flex-container">
-          <button class="setting-btn">Apply and plot</button>
+          <button class="setting-btn" @click="processPlot">Apply and plot</button>
           <button class="setting-btn">Download raw data as CSV</button>
           <button class="setting-btn">Download filtered data as CSV</button>
       </div>
@@ -56,7 +64,7 @@
       
     </div>
     <div>
-      Plots
+      <h2>Plots</h2>
       <div>
         <div>
           <h4>Easting</h4>
@@ -88,6 +96,8 @@
     import InclinationComponent from './inclination-component'
     import MapComponent from './map-component'
     import Plot from './plot'
+    import moment from 'moment';
+
 export default {
   
   name: 'rover-overview',
@@ -102,10 +112,14 @@ export default {
       roverId : this.$route.params.roverid,
       isMounted : false,
       rover : '',
+      startDate : '2015-01-01',
+      endDate : moment().format('YYYY-MM-DD'),
       positions : [],
       convertedPositions :[],
       latestConvertedPosition : '',
       firstConvertedPosition : '',
+      d3Distance :0,
+      inclination : [],
       eastings : {
         labels :[],
         datasets : []
@@ -132,6 +146,9 @@ export default {
     this.isMounted = true
   },
   methods : {
+      processPlot(){
+        this.processData()
+      },
       getRover(){
           return API.get('/api/installation/'+this.installationId+'/basestation/rovers/'+this.roverId)
           .then(response => {
@@ -143,6 +160,7 @@ export default {
           })
           .catch(e => {
               this.errorMessage = e
+              
           })
       },
       processData(){
@@ -151,35 +169,56 @@ export default {
         var easts = []
         var norths = []
         var altis = []
+        var dates = []
+        var i =1
+
         this.positions.forEach(position => {
-          var tmp = utm.convertLatLngToUtm(position.latitude, position.longitude,2);
-          tmp.altitude = position.height      
-          tmp.date = position.date  
-          this.convertedPositions.push(tmp)
+          var date = moment(position.date)
+          if(moment(this.startDate) < date && date < moment(this.endDate)){
+            var tmp = utm.convertLatLngToUtm(position.latitude, position.longitude,2);
+            tmp.altitude = position.height      
+            tmp.date = position.date  
+            this.convertedPositions.push(tmp)
 
-          this.eastings.labels.push(position.date)
-          easts.push(Number(tmp.Easting))
-
-          this.northings.labels.push(position.date)
-          norths.push(Number(tmp.Northing))
-
-          this.altitudes.labels.push(position.date)
-          altis.push(Number(tmp.altitude))
+           dates.push(moment(position.date).format('MM.DD.YYYY'))
+           //dates.push(i)
+           i +=1
+            easts.push(Number(tmp.Easting))
+            norths.push(Number(tmp.Northing))
+            altis.push(Number(tmp.altitude))
+          }
         });
-        this.eastings.datasets.push({'label':'Easting', 'data' : easts,'backgroundColor':'rgba(229, 57, 53, 0.51)'})
-        this.northings.datasets.push({'label':'Northing', 'data' : norths,'backgroundColor':'rgba(229, 57, 53, 0.51)'})
-        this.altitudes.datasets.push({'label':'Elevation', 'data' : altis,'backgroundColor':'rgba(229, 57, 53, 0.51)'})
+        this.eastings = {'labels' : dates,'datasets': [{'label':'Easting', 'data' : easts,'backgroundColor':'rgba(229, 57, 53, 0.51)'}]}
+        this.northings = {'labels' : dates,'datasets': [{'label':'Northing', 'data' : norths,'backgroundColor':'rgba(229, 57, 53, 0.51)'}]}
+        this.altitudes = {'labels' : dates,'datasets': [{'label':'Elevation', 'data' : altis,'backgroundColor':'rgba(229, 57, 53, 0.51)'}]}
 
         this.latestConvertedPosition = this.convertedPositions.slice(-1)[0]
         this.firstConvertedPosition = this.convertedPositions[0]
+        this.d3Distance = Math.sqrt(Math.pow(this.latestConvertedPosition.Easting - this.firstConvertedPosition.Easting,2) 
+          + Math.pow(this.latestConvertedPosition.Northing - this.firstConvertedPosition.Northing,2)
+          + Math.pow(this.latestConvertedPosition.altitude - this.firstConvertedPosition.altitude,2)).toPrecision(2)
+        this.normalize()
 
         var bats = []
+        dates = []
         this.measure_devices.forEach(measure_device => {
-  
-          this.batteries.labels.push(measure_device.date)
-          bats.push(measure_device.battery_voltage)
+          var date = moment(measure_device.date)
+          if(moment(this.startDate) < date && date < moment(this.endDate)){
+            dates.push(moment(measure_device.date).format('MM.DD.YYYY'))
+            bats.push(measure_device.battery_voltage)
+          }
+          
         });
-        this.batteries.datasets.push({'label':'Battery Voltage', 'data' : bats,'backgroundColor':'rgba(229, 57, 53, 0.51)'})
+        this.batteries = {'labels' : dates,'datasets': [{'label':'Easting', 'data' : bats,'backgroundColor':'rgba(229, 57, 53, 0.51)'}]}
+      },
+      normalize(){
+        var x = this.latestConvertedPosition.Easting
+        var y = this.latestConvertedPosition.Northing
+        var z = this.latestConvertedPosition.altitude
+        var n = Math.sqrt(Math.pow(x,2) + Math.pow(y,2) + Math.pow(z,2))
+        this.inclination.push(x / n).toPrecision(2)
+        this.inclination.push(y / n).toPrecision(2)
+        this.inclination.push(z / n).toPrecision(2)
       }
   }
 
