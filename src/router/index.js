@@ -7,6 +7,7 @@ import Overview from '@/components/installation/installation_overview'
 import Manage from '@/components/installation/installation_manage'
 import OverviewStation from '@/components/base_station/basestation_overview'
 import ConfigurationStation from '@/components/base_station/basestation_config'
+import RoverOverview from '@/components/rover/rover_overview'
 import AccountMain from '@/components/account/account_main'
 import Informations from '@/components/account/account_information'
 import AccountLocation from '@/components/account/account_location'
@@ -173,7 +174,7 @@ var InstallationRoutes =  {
     {
       path: 'rover/:roverid/overview',
       name: 'RoverOverview',
-      //component: ,
+      component: RoverOverview,
       meta: {
         requiresAuth: true,
         breadcrumb:[{name: 'Home', link: '/' },{name:'Rover'},{name:'Overview'}],
