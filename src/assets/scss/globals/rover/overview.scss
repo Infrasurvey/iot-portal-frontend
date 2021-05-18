@@ -48,3 +48,19 @@
     padding-top: 20px;
     background-color: #cccccc;
 }
+
+.spinner{
+
+}
+
+.spinner-container{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 1999;
+}
+
+.grayed {
+    background-color: gray;
+    opacity: 0.5;
+}

@@ -1,6 +1,9 @@
 <template>
-<div class="" >
-    <div class="flex-container">
+<div > 
+    <div class="spinner-container">
+      <vue-simple-spinner v-if="!this.isMounted" class="spinner" size="large" line-fg-color="#AB000D" :spacing="55" message="Loading..."></vue-simple-spinner>
+    </div>
+    <div v-if="isMounted" :class="loadClass" class="flex-container">
       <div class="rover-overview-panel">
           <h3>Latest data overview</h3>
           Date : {{rover.last_communication | formatDate}} <br>
@@ -29,7 +32,7 @@
         <map-component :positions="positions"></map-component>
       </div>
     </div>
-    <div>
+    <div v-if="isMounted" :class="loadClass">
       <section-title title= "Plots settings"></section-title>
       <div class="flex-container settings">
         <div class="flex-container">
@@ -63,7 +66,7 @@
       
       
     </div>
-    <div>
+    <div v-if="isMounted" :class="loadClass">
       <section-title title= "Plots"></section-title>
       <div>
         <div>
@@ -98,6 +101,7 @@
     import Plot from './plot'
     import moment from 'moment';
     import SectionTitle from '../template/SectionTitle';
+    import Spinner from 'vue-simple-spinner'
 export default {
   
   name: 'rover-overview',
@@ -105,7 +109,8 @@ export default {
     'inclination-component':InclinationComponent,
     'map-component': MapComponent,
     'plot' : Plot,
-    SectionTitle
+    SectionTitle,
+    'vue-simple-spinner' : Spinner
   },
   data(){
     return{
@@ -140,13 +145,15 @@ export default {
       measure_rovers : '',
       measure_devices : [],
       enable_low_pass : false,
-      enable_outlier : false
+      enable_outlier : false,
+      loadClass : 'grayed'
 
 
     }
   },
   async created(){
     await this.getRover()
+    this.loadClass = ''
     this.isMounted = true
   },
   methods : {
