@@ -1,7 +1,9 @@
 <template>
   <md-list>
     <md-list-item>
-      <span class="md-list-item-text md-no-proxy">{{ organization.name }}</span>
+      <span class="md-list-item-text">
+        <router-link :to="{ name: 'ManageOrganization', query: { id: organization.id }}">{{ organization.name }}</router-link>
+      </span>
       <md-button class="md-icon-button" @click="expandMore">
         <md-icon>expand_more</md-icon>
       </md-button>
