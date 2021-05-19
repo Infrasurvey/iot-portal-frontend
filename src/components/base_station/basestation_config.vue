@@ -5,7 +5,7 @@
             <div class="flex-container configurations">
                 <div class="basestation-field">
                     <label for="mode" class="disabled" >Continous mode : </label>
-                    <input type="checkbox" name="mode" id="mode" v-model="configuration.continous_mode" checked disabled>
+                    <md-checkbox name="mode" id="mode" v-model="configuration.continous_mode" checked disabled></md-checkbox>
                 </div>
                 <div class="basestation-field">
                     <label for="wake">Wake up period : </label>

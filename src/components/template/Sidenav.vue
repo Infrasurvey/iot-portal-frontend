@@ -1,5 +1,5 @@
 <template>
-  <md-app-drawer md-permanent="clipped" style="padding: 20px;">
+  <div style="padding: 20px;">
     <span style="font-weight: bold;">Installation</span>
     <md-list>
       <md-list-item :to="{ name: 'Overview' }">Overview</md-list-item>
@@ -17,7 +17,7 @@
     <md-list>
       <rover-item v-for="rover in rovers" :key="rover.system_id" :rover="rover" @updateList="getRovers"/>
     </md-list>
-  </md-app-drawer>
+  </div>
 </template>
 
 <script>
@@ -46,7 +46,7 @@ export default {
     this.getRovers()
   },
   mounted(){
-    setDropdownListener('dropdown-rover-main')
+    //setDropdownListener('dropdown-rover-main')
   },
   methods:{
     getRovers(){

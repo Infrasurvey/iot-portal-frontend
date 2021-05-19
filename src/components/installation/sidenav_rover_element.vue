@@ -21,7 +21,7 @@ export default {
       }
     },
     mounted(){
-        setDropdownListener('dropdown-rover-'+this.rover.id)
+        //setDropdownListener('dropdown-rover-'+this.rover.id)
     },
 }
 </script>

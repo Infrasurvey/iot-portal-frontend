@@ -1,6 +1,6 @@
 <template>
   <md-list-item md-expand>
-    <span class="md-list-item-text">{{ organization.name }}</span>
+    <span class="md-list-item-text"> {{ organization.name }}</span>
 
     <md-list slot="md-expand">
       <md-list-item  v-for="group in organization.groups" :key="group.id" :to="{ name: 'ManageGroup', query: { id: group.id }}" class="md-inset">{{ group.name }}</md-list-item>
@@ -64,7 +64,7 @@ export default {
         }
     },
     mounted(){
-        setDropdownListener('dropdown-btn-'+this.organization.id)
+        //setDropdownListener('dropdown-btn-'+this.organization.id)
     },
     methods:{
         onCreateClick() {

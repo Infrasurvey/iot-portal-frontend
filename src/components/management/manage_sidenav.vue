@@ -1,20 +1,22 @@
 <template>
-  <md-app-drawer md-permanent="clipped" style="padding: 20px;">
+  <div style="padding: 20px;">
     <span style="font-weight: bold; padding: 0px;">Management board</span>
     <md-list>
       <md-list-item :to="{ name: 'ManageInstallations' }">Installations</md-list-item>
       <md-list-item :to="{ name: 'ManageUsers'}">Users</md-list-item>
       <md-list-item md-expand>
         <span class="md-list-item-text">Organizations</span>
-
-        <md-list>
-          <organization-item v-for="organization in organizations" :key="organization.id" :organization="organization" @updateList="getOrganizations"/>
+        <md-list slot="md-expand">
+           <organization-item v-for="organization in organizations" :key="organization.id" :organization="organization" @updateList="getOrganizations"/>
         </md-list>
       </md-list-item>
     </md-list>
-  </md-app-drawer>
+  </div>
 
   <!-- <nav class="sidenav-install">
+    <md-list>
+          <organization-item v-for="organization in organizations" :key="organization.id" :organization="organization" @updateList="getOrganizations"/>
+        </md-list>
     <ul class="sidenav-install-ul">
       <li>
         <input type="checkbox" id="btn"/>
@@ -72,7 +74,7 @@ export default {
     this.getOrganizations()
   },
   mounted(){
-    setDropdownListener('dropdown-btn-main')
+    //setDropdownListener('dropdown-btn-main')
   },
   methods:{
     getOrganizations(){
