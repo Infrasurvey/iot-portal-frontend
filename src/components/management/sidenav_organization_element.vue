@@ -5,13 +5,13 @@
       <md-button class="md-icon-button" @click="expandMore">
         <md-icon>expand_more</md-icon>
       </md-button>
+      <md-button class="md-icon-button" @click="onCreateClick">
+        <md-icon>add</md-icon>
+      </md-button>
     </md-list-item>
     <div v-if="myExpand == true">
       <md-list-item v-for="group in organization .groups" :key="group.id" class="md-inset">
         <router-link :to="{ name: 'ManageInstallations' }" class="navigation-menu-item">{{ group.name }}</router-link>
-        <md-button class="md-icon-button" @click="onCreateClick">
-          <md-icon>add</md-icon>
-        </md-button>
       </md-list-item>
     </div>
 
