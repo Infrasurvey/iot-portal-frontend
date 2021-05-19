@@ -1,12 +1,8 @@
 <template>
     <div>
         <div class="main-install overview-inst">
-            <div class="home-header">
-                <section-title title= "Installations list"></section-title>
-                <h1 class="btn-create-install">
-                    <button type="button" class="btn" @click="onCreateInstallationClick" disabled style="background-color:gray; border-color:gray">Create a new installation </button>
-                </h1>
-            </div>
+            <section-title title= "Installations list"></section-title>
+
             <modal-installation
                 v-if="isInstallModalVisible"
                 :row="selectedRow"
@@ -23,12 +19,8 @@
             @on-row-click="onInstallationClick"/>
         
 
-            <div class="home-header">
-                <section-title title= "User list"></section-title>
-                <h1 class="btn-create-install">
-                    <button type="button" class="btn" @click="onAddUserClick" >Add a new user in this group</button>
-                </h1>
-            </div>
+            <section-title title= "User list"></section-title>
+                
             <modal-user
                 v-if="isUserModalVisible"
                 :row="selectedRow"
@@ -44,7 +36,9 @@
             :rows="users"
             @on-row-click="onUserClick"/>
 
-            
+            <h1 class="btn-create-install">
+                    <button type="button" class="btn" @click="onAddUserClick" >Add a new user in this group</button>
+            </h1>
 
             <add-user
                 v-if="isUserAddModalVisible"

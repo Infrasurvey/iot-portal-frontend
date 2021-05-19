@@ -1,12 +1,12 @@
 <template>
-  <md-app-drawer md-permanent="clipped" style="padding: 20px;">
+  <div style="padding: 20px;">
     <span style="font-weight: bold;">Account settings</span>
     <md-list>
       <md-list-item :to="{ name: 'Informations' }">Personal information</md-list-item>
       <md-list-item :to="{ name: 'Location'}">Address</md-list-item>
       <md-list-item :to="{ name: 'Password'}">Password</md-list-item>
     </md-list>
-  </md-app-drawer>
+  </div>
 </template>
 
   <!-- <nav class="sidenav-install">

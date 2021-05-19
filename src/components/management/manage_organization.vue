@@ -1,12 +1,7 @@
 <template>
     <div>
         <div class="main-install overview-inst">
-            <div class="home-header">
-                <section-title title= "Installations list"></section-title>
-                <h1 class="btn-create-install">
-                    <button type="button" class="btn" @click="onCreateInstallationClick" disabled style="background-color:gray; border-color:gray">Create a new installation </button>
-                </h1>
-            </div>
+            <section-title title= "Installations list"></section-title>
             <modal-installation
                 v-if="isInstallModalVisible"
                 :row="selectedRow"
@@ -21,14 +16,9 @@
             :columns="installationcolumns"
             :rows="installations"
             @on-row-click="onInstallationClick"/>
-        
 
-            <div class="home-header">
-                <section-title title= "Users list"></section-title>
-                <h1 class="btn-create-install">
-                    <button type="button" class="btn" @click="onAddUserClick" >Add a new user in this organization</button>
-                </h1>
-            </div>
+            <section-title title= "Users list"></section-title>
+                
             <modal-user
                 v-if="isUserModalVisible"
                 :row="selectedRow"
@@ -44,13 +34,11 @@
             :rows="users"
             @on-row-click="onUserClick"/>
 
-            <div class="home-header">
-                <section-title title= "Responsible list"></section-title>
                 <h1 class="btn-create-install">
-                    <button type="button" class="btn" @click="onAddAdminClick" >Add a new admin in this organization</button>
+                    <button type="button" class="btn" @click="onAddUserClick" >Add a new user in this organization</button>
                 </h1>
-            </div>
-
+            <section-title title= "Responsible list"></section-title>
+                
             <add-user
                 v-if="isUserAddModalVisible"
                 :isAdmin="isAdmin"
@@ -65,6 +53,10 @@
             :columns="usercolumns"
             :rows="admins"
             @on-row-click="onUserClick"/>
+                <h1 class="btn-create-install">
+                    <button type="button" class="btn" @click="onAddAdminClick" >Add a new admin in this organization</button>
+                </h1>
+            
             <div >
                 <router-link class="basic-link cancel-btn" :to="{ name: 'home' }">Cancel</router-link>
             </div>
