@@ -7,7 +7,7 @@
       <div class="rover-overview-panel">
           <h3>Latest data overview</h3>
           Date : {{rover.last_communication | formatDate}} <br>
-          Easting : {{latestConvertedPosition.Easting }}m <br>
+          Easting : {{latestConvertedPosition.Easting}}m <br>
           Northing : {{latestConvertedPosition.Northing }}m <br>
           Elevation : {{latestConvertedPosition.altitude }}m <br>
           Battery voltage : {{rover.battery_voltage}}V
@@ -183,34 +183,34 @@ export default {
         var altis = []
         var dates = []
         var i =1
+        if(this.positions.length > 0){
+            this.positions.forEach(position => {
+              var date = moment(position.date)
+              if(moment(this.startDate) < date && date < moment(this.endDate)){
+                var tmp = utm.convertLatLngToUtm(position.latitude, position.longitude,2);
+                tmp.altitude = position.height      
+                tmp.date = position.date  
+                this.convertedPositions.push(tmp)
 
-        this.positions.forEach(position => {
-          var date = moment(position.date)
-          if(moment(this.startDate) < date && date < moment(this.endDate)){
-            var tmp = utm.convertLatLngToUtm(position.latitude, position.longitude,2);
-            tmp.altitude = position.height      
-            tmp.date = position.date  
-            this.convertedPositions.push(tmp)
+              dates.push(moment(position.date).format('MM.DD.YYYY'))
+              //dates.push(i)
+              i +=1
+                easts.push(Number(tmp.Easting))
+                norths.push(Number(tmp.Northing))
+                altis.push(Number(tmp.altitude))
+              }
+            });
+            this.eastings = {'labels' : dates,'datasets': [{'label':'Easting', 'data' : easts,'backgroundColor':'rgba(229, 57, 53, 0.51)'}]}
+            this.northings = {'labels' : dates,'datasets': [{'label':'Northing', 'data' : norths,'backgroundColor':'rgba(229, 57, 53, 0.51)'}]}
+            this.altitudes = {'labels' : dates,'datasets': [{'label':'Elevation', 'data' : altis,'backgroundColor':'rgba(229, 57, 53, 0.51)'}]}
 
-           dates.push(moment(position.date).format('MM.DD.YYYY'))
-           //dates.push(i)
-           i +=1
-            easts.push(Number(tmp.Easting))
-            norths.push(Number(tmp.Northing))
-            altis.push(Number(tmp.altitude))
-          }
-        });
-        this.eastings = {'labels' : dates,'datasets': [{'label':'Easting', 'data' : easts,'backgroundColor':'rgba(229, 57, 53, 0.51)'}]}
-        this.northings = {'labels' : dates,'datasets': [{'label':'Northing', 'data' : norths,'backgroundColor':'rgba(229, 57, 53, 0.51)'}]}
-        this.altitudes = {'labels' : dates,'datasets': [{'label':'Elevation', 'data' : altis,'backgroundColor':'rgba(229, 57, 53, 0.51)'}]}
-
-        this.latestConvertedPosition = this.convertedPositions.slice(-1)[0]
-        this.firstConvertedPosition = this.convertedPositions[0]
-        this.d3Distance = Math.sqrt(Math.pow(this.latestConvertedPosition.Easting - this.firstConvertedPosition.Easting,2) 
-          + Math.pow(this.latestConvertedPosition.Northing - this.firstConvertedPosition.Northing,2)
-          + Math.pow(this.latestConvertedPosition.altitude - this.firstConvertedPosition.altitude,2)).toPrecision(2)
-        this.normalize()
-
+            this.latestConvertedPosition = this.convertedPositions.slice(-1)[0]
+            this.firstConvertedPosition = this.convertedPositions[0]
+            this.d3Distance = Math.sqrt(Math.pow(this.latestConvertedPosition.Easting - this.firstConvertedPosition.Easting,2) 
+              + Math.pow(this.latestConvertedPosition.Northing - this.firstConvertedPosition.Northing,2)
+              + Math.pow(this.latestConvertedPosition.altitude - this.firstConvertedPosition.altitude,2)).toPrecision(2)
+            this.normalize()
+        }
         var bats = []
         dates = []
         this.measure_devices.forEach(measure_device => {
