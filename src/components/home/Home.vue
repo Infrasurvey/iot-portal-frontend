@@ -37,7 +37,7 @@
   display: flex;
   align-content: flex-start;
   align-items: flex-start;
-  justify-content: flex-start;
+  justify-content: space-evenly;
   flex-wrap: wrap;
   padding-left: 40px
 }

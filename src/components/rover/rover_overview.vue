@@ -231,6 +231,20 @@ export default {
         this.inclination.push(x / n).toPrecision(2)
         this.inclination.push(y / n).toPrecision(2)
         this.inclination.push(z / n).toPrecision(2)
+      },
+      downloadCSVData() {
+        this.processData()
+        let csv = 'Put,Column,Titles,Here\n';
+        this.csvdata.forEach((row) => {
+                csv += row.join(',');
+                csv += "\n";
+        });
+    
+        const anchor = document.createElement('a');
+        anchor.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+        anchor.target = '_blank';
+        anchor.download = 'nameYourFileHere.csv';
+        anchor.click();
       }
   }
 }
