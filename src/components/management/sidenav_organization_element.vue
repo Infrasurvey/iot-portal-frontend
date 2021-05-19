@@ -10,9 +10,7 @@
       </md-button>
     </md-list-item>
     <div v-if="myExpand == true">
-      <md-list-item v-for="group in organization .groups" :key="group.id" class="md-inset">
-        <router-link :to="{ name: 'ManageInstallations' }" class="navigation-menu-item">{{ group.name }}</router-link>
-      </md-list-item>
+      <md-list-item  v-for="group in organization.groups" :key="group.id" :to="{ name: 'ManageGroup', query: { id: group.id }}" class="md-inset">{{ group.name }}</md-list-item>
     </div>
 
     <Modal
