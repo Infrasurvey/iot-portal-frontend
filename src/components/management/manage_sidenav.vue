@@ -1,52 +1,28 @@
 <template>
   <div style="padding: 20px;">
-    <span style="font-weight: bold; padding: 0px;">Management board</span>
+    <span style="font-weight: bold; height: 50px;">Management board</span>
     <md-list>
       <md-list-item :to="{ name: 'ManageInstallations' }">Installations</md-list-item>
       <md-list-item :to="{ name: 'ManageUsers'}">Users</md-list-item>
-      <md-list-item md-expand>
-        <span class="md-list-item-text">Organizations</span>
-        <md-list slot="md-expand">
-           <organization-item v-for="organization in organizations" :key="organization.id" :organization="organization" @updateList="getOrganizations"/>
-        </md-list>
-      </md-list-item>
     </md-list>
-  </div>
 
-  <!-- <nav class="sidenav-install">
-    <md-list>
-          <organization-item v-for="organization in organizations" :key="organization.id" :organization="organization" @updateList="getOrganizations"/>
-        </md-list>
-    <ul class="sidenav-install-ul">
-      <li>
-        <input type="checkbox" id="btn"/>
-        <label for="btn" class="show">
-        <div class="nav-group"><router-link class="basic-link" :to="{ name: 'ManageInstallations'}">Installations</router-link></div>
-        <div class="nav-group"><router-link class="basic-link" :to="{ name: 'ManageUsers'}">Users</router-link></div> 
-        <div class="nav-group">
-           <span>Organizations</span>
-          <button v-if="this.$store.getters.isAdmin" class="add-btn-right" @click="onCreateClick">
-            <font-awesome-icon class="" icon="plus-circle" size="2x" />
-          </button>
-          <button class="dropdown-btn" :id="'dropdown-btn-main'">
-            <font-awesome-icon icon="caret-down" size="2x" />
-          </button>
-          <div class="dropdown-container">
-            <organization-item v-for="organization in organizations" :key="organization.id" :organization="organization" @updateList="getOrganizations"/>
-          </div>
-        </div> 
-        </label>
-      </li>
-    </ul>
-    <Modal
-      v-if="isModalVisible"
-      :row="selectedRow"
-      :isUpdate="isUpdate"
-      @close="closeModal"
-      @updateList="getOrganizations"
-      @displaySuccess="displayStatus"
-      />
-  </nav> -->
+    <div style="font-weight: bold; display: flex; justify-content: space-between; align-items: center; height: 50px">
+      <div>Organizations</div>
+      <md-button class="md-icon-button" @click="onCreateClick">
+        <md-icon>add</md-icon>
+      </md-button>
+    </div>
+    <organization-item v-for="organization in organizations" :key="organization.id" :organization="organization" @updateList="getOrganizations"/>
+
+  <Modal
+    v-if="isModalVisible"
+    :row="selectedRow"
+    :isUpdate="isUpdate"
+    @close="closeModal"
+    @updateList="getOrganizations"
+    @displaySuccess="displayStatus"
+    />
+  </div>
 </template>
 
 <script>
