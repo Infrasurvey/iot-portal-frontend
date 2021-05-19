@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-        <div v-if="loggedIn" class="navigation">
+    <div v-if="loggedIn" class="navigation">
       <md-toolbar class="md-accent navigation-title" md-elevation="5">
         <h3>Geomon IoT Portal</h3>
       </md-toolbar>

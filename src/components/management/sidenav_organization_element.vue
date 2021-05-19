@@ -1,5 +1,22 @@
 <template>
-    <div class="sub-nav-group">
+  <md-list-item md-expand>
+    <span class="md-list-item-text">{{ organization.name }}</span>
+
+    <md-list slot="md-expand">
+      <md-list-item  v-for="group in organization.groups" :key="group.id" :to="{ name: 'ManageGroup', query: { id: group.id }}" class="md-inset">{{ group.name }}</md-list-item>
+    </md-list>
+
+    <Modal
+      v-if="isModalVisible"
+      :row="selectedRow"
+      :isUpdate="isUpdate"
+      @close="closeModal"
+      @updateList="updateList"
+      @displaySuccess="displayStatus"
+    />
+  </md-list-item>
+
+    <!-- <div class="sub-nav-group">
         <router-link class="basic-link" :to="{ name: 'ManageOrganization', query: { id: organization.id } }">{{organization.name}}</router-link>
           <button class="add-btn-right" @click="onCreateClick">
             <font-awesome-icon class="" icon="plus-circle" size="2x" />
@@ -21,7 +38,7 @@
                 @updateList="updateList"
                 @displaySuccess="displayStatus"
                 />
-    </div> 
+    </div>  -->
 </template>
 
 <script>

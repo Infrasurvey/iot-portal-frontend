@@ -1,5 +1,15 @@
 <template>
-  <nav class="sidenav-install">
+  <md-app-drawer md-permanent="clipped" style="padding: 20px;">
+    <span style="font-weight: bold;">Account settings</span>
+    <md-list>
+      <md-list-item :to="{ name: 'Informations' }">Personal information</md-list-item>
+      <md-list-item :to="{ name: 'Location'}">Address</md-list-item>
+      <md-list-item :to="{ name: 'Password'}">Password</md-list-item>
+    </md-list>
+  </md-app-drawer>
+</template>
+
+  <!-- <nav class="sidenav-install">
     <ul class="sidenav-install-ul">
       <li>
         <input type="checkbox" id="btn"/>
@@ -13,8 +23,7 @@
         </label>
       </li>
     </ul>
-  </nav>
-</template>
+  </nav> -->
 
 <script>
 export default {

@@ -1,15 +1,12 @@
 <template>
-    <div class="sub-nav-group">
-        <span class="basic-link">Rover {{rover.system_id}}</span>
-        <button class="dropdown-btn" :id="'dropdown-rover-'+rover.id">
-            <font-awesome-icon icon="caret-down" size="2x" />
-        </button>
-      
-        <div class="dropdown-container">
-            <router-link class="basic-link" :to="{ name: 'RoverOverview', params: { roverid: rover.system_id } }">Overview</router-link>
-            <router-link class="basic-link disabled" :to="{ name: 'RoverEvent', params: { roverid: rover.system_id }}">Events</router-link>
-        </div>
-    </div> 
+  <md-list-item md-expand>
+    <span class="md-list-item-text">Rover {{rover.system_id}}</span>
+
+    <md-list slot="md-expand">
+      <md-list-item :to="{ name: 'RoverOverview', params: { roverid: rover.system_id }}" class="md-inset">Overview</md-list-item>
+      <md-list-item :to="{ name: 'RoverEvent', params: { roverid: rover.system_id }}" class="md-inset disabled">Events</md-list-item>
+    </md-list>
+  </md-list-item>
 </template>
 
 <script>

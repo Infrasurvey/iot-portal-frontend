@@ -1,5 +1,20 @@
 <template>
-  <nav class="sidenav-install">
+  <md-app-drawer md-permanent="clipped" style="padding: 20px;">
+    <span style="font-weight: bold; padding: 0px;">Management board</span>
+    <md-list>
+      <md-list-item :to="{ name: 'ManageInstallations' }">Installations</md-list-item>
+      <md-list-item :to="{ name: 'ManageUsers'}">Users</md-list-item>
+      <md-list-item md-expand>
+        <span class="md-list-item-text">Organizations</span>
+
+        <md-list>
+          <organization-item v-for="organization in organizations" :key="organization.id" :organization="organization" @updateList="getOrganizations"/>
+        </md-list>
+      </md-list-item>
+    </md-list>
+  </md-app-drawer>
+
+  <!-- <nav class="sidenav-install">
     <ul class="sidenav-install-ul">
       <li>
         <input type="checkbox" id="btn"/>
@@ -29,8 +44,7 @@
       @updateList="getOrganizations"
       @displaySuccess="displayStatus"
       />
-  </nav>
-  
+  </nav> -->
 </template>
 
 <script>
