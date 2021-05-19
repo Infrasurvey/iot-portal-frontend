@@ -42,7 +42,7 @@
 .flex-left {
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-content: space-around;
 }
 
@@ -65,7 +65,7 @@
 
 .overview-actual-p{
     margin: 15px;
-    padding: 0 20px;
+    line-height: normal;
 }
 
 //----------------BAse station manage-----------------------------------------

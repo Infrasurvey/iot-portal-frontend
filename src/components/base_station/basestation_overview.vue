@@ -3,14 +3,14 @@
     <div class="main-install overview-inst">
       <section-title title= "System information"></section-title>
       <div class="flex-left">
-        <div class="overview-info-tile">
+        <md-content class="md-elevation-3 overview-info-tile">
           <h3>Connection</h3>
           <p>
-            Last Configuration : <br>
-            Last communication : 
+            Last configuration <br> <em>{{configuration.configuration_date | formatDate}}</em> <br>
+            Last communication <br> <em>{{basestation.last_communication | formatDate}} </em>
           </p>
-        </div>
-        <div class="overview-info-tile">
+        </md-content>
+        <md-content class="md-elevation-3 overview-info-tile">
           <h3>General</h3>
           <p>
             Name : {{ basestation.name }}<br>
@@ -18,39 +18,37 @@
             Battery voltage : {{ basestation.battery_voltage || 'Undefined'}}<br>
             Available memory : {{ basestation.available_memory || 'Undefined'}}
           </p>
-        </div>
-        <div class="overview-info-tile">
+        </md-content>
+        <md-content class="md-elevation-3 overview-info-tile">
           <h3>BBB Info</h3>
           <p>
             Version : {{ basestation.bbb_version || 'Undefined'}}<br>
             MD5 : {{ basestation.bbb_md5 || 'Undefined'}}<br>
             MAC : {{ basestation.bbb_mac_address || 'Undefined' }}
           </p>
-        </div>
+        </md-content>
       </div>
 
       <section-title title= "Current configuration"></section-title>
       <div class="flex-left">
-        <p class="overview-actual-p">
+        <div class="overview-actual-p">
           Application date : <br>
           Wake up period : {{ configuration.wakeup_period_in_minutes || 'Null' }} <span v-if="configuration.wakeup_period_in_minutes">min.</span> <br>
+          Non continous store bind to FTP : {{ configuration.non_continuous_store_binr_to_ftp || 'Null'}}<br>
           Reference GPS module : {{ configuration.reference_gps_module || 'Null'}}
-        </p>
-        <p class="overview-actual-p">
+        </div>
+        <div class="overview-actual-p">
           Continuous mode : {{ configuration.continuous_mode || 'Null' }}<br>
           Session start time : {{ configuration.session_start_time || 'Null' }}<br>
+          Session period in wakeup period : {{ configuration.session_period_in_wakeup_period || 'Null' }}<br>
           Reference longitude : {{ configuration.reference_longitude || 'Null' }}
-        </p>
-        <p class="overview-actual-p">
+        </div>
+        <div class="overview-actual-p">
           Reset : {{ configuration.reset || 'Null' }}<br>
           Session duration : {{ configuration.session_duration_in_minutes || 'Null' }} <span v-if="configuration.session_duration_in_minutes">min.</span><br>
-          Reference latitude : {{ configuration.reference_latitude || 'Null' }}
-        </p>
-        <p class="overview-actual-p">
-          Non continous store bind to FTP : {{ configuration.non_continuous_store_binr_to_ftp || 'Null'}}<br>
-          Session period in wakeup period : {{ configuration.session_period_in_wakeup_period || 'Null' }}<br>
+          Reference latitude : {{ configuration.reference_latitude || 'Null' }} <br>
           Reference altitude : {{ configuration.reference_altitude || 'Null' }}
-        </p>
+        </div>
       </div>
       
       <vue-slider class="slider-1" v-model="value" :min="min" :max="max" :marks="marks" :enable-cross="false" :tooltip="showTooltip" :tooltip-formatter="formatter" :disabled="true">
@@ -78,6 +76,7 @@
         basestation:'',
         configuration : '',
         errorMessage: '',
+        active : true,
         start_time : 1,
         stop_time : 2,
         showTooltip : 'always',
@@ -90,8 +89,9 @@
         formatter: v =>  `${moment().startOf('day').add(v, 'minutes').format('hh:mm')}`,
       }
     },
-    created(){
-      this.getBaseStationConfig()
+    async created(){
+      await this.getBaseStationConfig()
+      this.setActive()
     },
     methods:{
       getBaseStationConfig(){
@@ -117,7 +117,25 @@
           .catch(e => {
             this.errorMessage = e
           })
-      }
+      },
+      setActive(){
+         // Check station activity
+          var today = new Date();
+          var today = Date.parse(today);
+          var lastCommunication = Date.parse(this.basestation.last_communication);
+
+          // Compute the difference
+          var difference = today - lastCommunication;
+
+          // Compute the number of day of inactivity
+          this.inactivityDays = Math.round(difference / 1000  / (24 * 60 * 60));
+
+          // Set active or inactive
+          if (this.inactivityDays >= 7)
+          {
+            this.active = false;
+          }
+        }
     }
   }
 </script>
