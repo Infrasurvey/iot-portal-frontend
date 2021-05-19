@@ -53,7 +53,7 @@
         </p>
       </div>
       
-      <vue-slider class="slider" v-model="value" :min="min" :max="max" :marks="marks" :enable-cross="false" :tooltip="showTooltip" :tooltip-formatter="formatter" :disabled="true">
+      <vue-slider class="slider-1" v-model="value" :min="min" :max="max" :marks="marks" :enable-cross="false" :tooltip="showTooltip" :tooltip-formatter="formatter" :disabled="true">
       </vue-slider>
     </div>
   </div>

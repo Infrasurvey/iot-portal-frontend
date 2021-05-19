@@ -1,12 +1,12 @@
 <template>
-  <div style="width:780px; padding-right: 40px; padding-bottom: 40px;">
+  <div style="width:720px; padding-right: 40px; padding-bottom: 40px;">
     <router-link style="text-decoration: none" :to="{ name: 'Overview', params: { id: id }}">
     <md-card md-with-hover>
       <md-ripple display style="display:flex; justify-content: space-between; align-items: center;">
         <div>
           <md-card-header>
             <div class="md-title" style="font-size: 40px; padding: 10px;">{{name}}</div>
-            <div class="md-subhead" style="font-size: 25px; padding: 10px;">
+            <div class="md-subhead" style="font-size: 25px; padding: 10px; padding-right:0;">
               <div v-if="active == true">
                 <font-awesome-icon  icon="check-circle" style="color: green;"/>
                 Active
@@ -26,7 +26,7 @@
           </md-card-content>
         </div>
         <div>
-            <l-map style="height: 300px; width: 300px; margin: 20px" :zoom="zoom" :center="center">
+            <l-map style="height: 270px; width: 270px; margin: 20px" :zoom="zoom" :center="center">
             <l-tile-layer  :url="url" :attribution="attribution" :options="{ maxNativeZoom: 18, maxZoom: 25 }"/>
             <l-marker :lat-lng="center" ></l-marker>
             </l-map>

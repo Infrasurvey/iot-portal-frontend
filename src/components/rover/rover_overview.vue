@@ -37,31 +37,31 @@
       <div class="flex-container settings">
         <div class="flex-container">
           <div class="setting-date">
-            <label for="start_date">Start date</label>
-            <input type="date" id="start_date" name="start_date" v-model="startDate">
+            <md-datepicker id="start_date" name="start_date" v-model="startDate">
+              <label>Select start date</label>
+            </md-datepicker>
           </div>
           <div class="setting-date">
-            <label for="end_date">End date</label>
-            <input type="date" id="end_date" name="end_date" v-model="endDate">
+            <md-datepicker id="end_date" name="end_date" v-model="endDate">
+              <label>Select end date</label>
+            </md-datepicker>
           </div>
         </div>
-        <div class="flex-container setting-filter">
-          <input type="checkbox" name="enable-low-pass" id="enable-low-pass" v-model="enable_low_pass">
-          <label for="enable-low-pass">Enable low-pass filtering</label>
-          <input type="range" name="low-pass" id="low-pass" :disabled="!enable_low_pass">
+        <div class="flex-settings">
+            <div class="flex-setting-filter">
+            <md-checkbox name="enable-low-pass" id="enable-low-pass" v-model="enable_low_pass">Enable low-pass filtering</md-checkbox>
+            <vue-material-slider name="low-pass" id="low-pass" :min="0" :max="100" :thumbLabel="true" :disabled="!enable_low_pass"/>
+          </div>
+          <div class="flex-setting-filter">
+            <md-checkbox name="enable-outlier" id="enable-outlier" v-model="enable_outlier">Enable outlier filtering</md-checkbox>
+            <vue-material-slider name="outlier" id="outlier"  :min="0" :max="100" :thumbLabel="true" :disabled="!enable_outlier"/>
+          </div>
         </div>
-        <div class="flex-container setting-filter">
-          <input type="checkbox" name="enable-outlier" id="enable-outlier" v-model="enable_outlier">
-          <label for="enable-outlier">Enable outlier filtering</label>
-          <input type="range" name="outlier" id="outlier" :disabled="!enable_outlier">
-        </div>
-        
-        
       </div>
       <div class="flex-container">
-          <button class="setting-btn" @click="processPlot">Apply and plot</button>
-          <button class="setting-btn">Download raw data as CSV</button>
-          <button class="setting-btn">Download filtered data as CSV</button>
+          <button class="setting-btn apply-btn" @click="processPlot">Apply and plot</button>
+          <button class="setting-btn apply-btn">Download raw data as CSV</button>
+          <button class="setting-btn apply-btn">Download filtered data as CSV</button>
       </div>
       
       
@@ -102,6 +102,7 @@
     import moment from 'moment';
     import SectionTitle from '../template/SectionTitle';
     import Spinner from 'vue-simple-spinner'
+
 export default {
   
   name: 'rover-overview',
@@ -110,7 +111,7 @@ export default {
     'map-component': MapComponent,
     'plot' : Plot,
     SectionTitle,
-    'vue-simple-spinner' : Spinner
+    'vue-simple-spinner' : Spinner,
   },
   data(){
     return{
@@ -230,6 +231,20 @@ export default {
         this.inclination.push(x / n).toPrecision(2)
         this.inclination.push(y / n).toPrecision(2)
         this.inclination.push(z / n).toPrecision(2)
+      },
+      downloadCSVData() {
+        this.processData()
+        let csv = 'Put,Column,Titles,Here\n';
+        this.csvdata.forEach((row) => {
+                csv += row.join(',');
+                csv += "\n";
+        });
+    
+        const anchor = document.createElement('a');
+        anchor.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+        anchor.target = '_blank';
+        anchor.download = 'nameYourFileHere.csv';
+        anchor.click();
       }
   }
 }
