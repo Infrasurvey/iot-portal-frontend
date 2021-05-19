@@ -1,19 +1,31 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
+// Other
 import Home from '@/components/home/Home'
 import Auth from '@/components/auth/Auth'
 import Logout from '@/components/auth/Logout'
+
+// Management
+import ManageMain from '@/components/management/manage_main'
+import ManageOrganization from '@/components/management/manage_organization'
+import ManageGroup from '@/components/management/manage_group'
+import ManageInstallations from '@/components/management/manage_installations'
+import ManageUsers from '@/components/management/manage_users'
+
+// Account settings
+import AccountMain from '@/components/account/account_main'
+import Informations from '@/components/account/account_information'
+import AccountLocation from '@/components/account/account_location'
+import Password from '@/components/account/account_pwd'
+
+//Installations
+import InstallationMain from '@/components/installation/installation_main'
 import Overview from '@/components/installation/installation_overview'
 import Manage from '@/components/installation/installation_manage'
 import OverviewStation from '@/components/base_station/basestation_overview'
 import ConfigurationStation from '@/components/base_station/basestation_config'
 import RoverOverview from '@/components/rover/rover_overview'
-import AccountMain from '@/components/account/account_main'
-import Informations from '@/components/account/account_information'
-import AccountLocation from '@/components/account/account_location'
-import Password from '@/components/account/account_pwd'
-import ManageMain from '@/components/management/manage_main'
-import InstallationMain from '@/components/installation/installation_main'
 
 Vue.use(Router)
 
@@ -44,11 +56,13 @@ var HomeRoute = {
 
 var ManagementRoutes =  {
   path: '/management',
+  name: 'ManageMain',
+  component: ManageMain,
   children: [
     {
       path: 'organizations',
       name: 'ManageOrganization',
-      component: ManageMain,
+      component: ManageOrganization,
       meta: {
         requiresAuth: true,
         breadcrumb:[{name: 'Home', link: '/' },{name:'Management'},{name:'Organization'}],
@@ -58,7 +72,7 @@ var ManagementRoutes =  {
     {
       path: 'groups',
       name: 'ManageGroup',
-      component: ManageMain,
+      component: ManageGroup,
       meta: {
         requiresAuth: true,
         breadcrumb:[{name: 'Home', link: '/' },{name:'Management'},{name:'Group'}],
@@ -68,7 +82,7 @@ var ManagementRoutes =  {
     {
       path: 'installations',
       name: 'ManageInstallations',
-      component: ManageMain,
+      component: ManageInstallations,
       meta: {
         requiresAuth: true,
         breadcrumb:[{name: 'Home', link: '/' },{name:'Management'},{name:'Installations'}],
@@ -78,7 +92,7 @@ var ManagementRoutes =  {
     {
       path: 'users',
       name: 'ManageUsers',
-      component: ManageMain,
+      component: ManageUsers,
       meta: {
         requiresAuth: true,
         breadcrumb:[{name: 'Home', link: '/' },{name:'Management'},{name:'Users'}],
@@ -90,6 +104,7 @@ var ManagementRoutes =  {
 
 var AccountSettingsRoutes =  {
   path: '/account-settings',
+  name: 'AccountMain',
   component: AccountMain,
   children: [
     {
@@ -124,6 +139,7 @@ var AccountSettingsRoutes =  {
 
 var InstallationRoutes =  {
   path: '/installation/:id',
+  name: 'InstallationMain',
   component: InstallationMain,
   children: [
     {
@@ -147,7 +163,7 @@ var InstallationRoutes =  {
     {
       path: 'event-log',
       name: 'Event',
-      component: InstallationMain,
+      // component: ,
       meta: {
         requiresAuth: true,
         breadcrumb:[{name: 'Home', link: '/' },{name:'Installation'},{name:'Event Log'}],
