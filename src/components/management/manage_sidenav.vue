@@ -1,13 +1,13 @@
 <template>
   <div style="padding: 20px;">
-    <span style="font-weight: bold; height: 50px;">Management board</span>
-    <md-list>
+    <div style="font-weight: bold; margin-bottom: 10px;">Management board</div>
+    <md-list  style="background-color: inherit;">
       <md-list-item :to="{ name: 'ManageInstallations' }">Installations</md-list-item>
       <md-list-item :to="{ name: 'ManageUsers'}">Users</md-list-item>
     </md-list>
 
-    <div style="font-weight: bold; display: flex; justify-content: space-between; align-items: center; height: 50px">
-      <div>Organizations</div>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+      <div style="font-weight: bold;">Organizations</div>
       <md-button class="md-icon-button" @click="onCreateClick">
         <md-icon>add</md-icon>
       </md-button>

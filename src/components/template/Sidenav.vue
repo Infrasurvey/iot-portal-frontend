@@ -1,20 +1,20 @@
 <template>
   <div style="padding: 20px;">
-    <span style="font-weight: bold;">Installation</span>
-    <md-list>
+    <div style="font-weight: bold; margin-bottom: 10px;">Installation</div>
+    <md-list style="background-color: inherit;">
       <md-list-item :to="{ name: 'Overview' }">Overview</md-list-item>
       <md-list-item :to="{ name: 'Manage'}">Manage</md-list-item>
       <md-list-item class="disabled" :to="{ name: 'Event'}">Event log</md-list-item>
     </md-list>
 
-    <span style="font-weight: bold;">Base station</span>
-    <md-list>
+    <div style="font-weight: bold; margin-bottom: 10px; margin-top: 10px;">Base station</div>
+    <md-list style="background-color: inherit;">
       <md-list-item :to="{ name: 'OverviewStation'}">Overview</md-list-item>
       <md-list-item :to="{ name: 'ConfigurationStation'}">Configuration</md-list-item>
     </md-list>
 
-    <span style="font-weight: bold;">Rovers</span>
-    <md-list>
+    <div style="font-weight: bold; margin-bottom: 10px; margin-top: 10px;">Rovers</div>
+    <md-list style="background-color: inherit;">
       <rover-item v-for="rover in rovers" :key="rover.system_id" :rover="rover" @updateList="getRovers"/>
     </md-list>
   </div>

@@ -1,11 +1,14 @@
 <template>
-  <md-list>
+  <md-list style="background-color: inherit;">
     <md-list-item>
       <span class="md-list-item-text">
-        <router-link :to="{ name: 'ManageOrganization', query: { id: organization.id }}">{{ organization.name }}</router-link>
+      <md-button style="text-transform: inherit; text-align: inherit; color: inherit; font-size: inherit;">{{ organization.name }}</md-button>
+
+        <!-- <router-link style="color: inherit; text-decoration: none;" :to="{ name: 'ManageOrganization', query: { id: organization.id }}">{{ organization.name }}</router-link> -->
       </span>
       <md-button class="md-icon-button" @click="expandMore">
-        <md-icon>expand_more</md-icon>
+        <md-icon v-if="myExpand == false">expand_more</md-icon>
+        <md-icon v-else>expand_less</md-icon>
       </md-button>
       <md-button class="md-icon-button" @click="onCreateClick">
         <md-icon>add</md-icon>
