@@ -29,8 +29,8 @@
       <battery-status v-for="battery in batteryDisplay" :key="battery.id" :battery="battery"> </battery-status>
     </div>
 
-    <section-title title = "Landslide evolution"></section-title>
-    <div>
+    <section-title title = "Rovers positions"></section-title>
+    <div v-if="isMounted">
       <l-map :zoom="zoom"
       :center="center"
       style="height: 500px; width: 100%"
@@ -40,12 +40,12 @@
           :attribution="attribution"
           :options="{ maxNativeZoom: 18, maxZoom: 25 }"
         />
-        <l-polyline 
-          v-for="polyline in polylines"
-          :key="polyline.key"
-          :lat-lngs="polyline"
-          color="#AB000D"
-        />
+        <l-marker 
+            v-for="position in positions"
+            :key="position.id"
+            :lat-lng="position.pos">
+            <l-popup :content="'Rover '+position.id+'<br>'+position.pos"/>
+          </l-marker> 
       </l-map>
     </div>
   </div>
@@ -60,7 +60,7 @@
   import BatteryStatus from './battery_status'
   import API from '../../http-constants'
   import L from "leaflet";
-  import { LMap, LTileLayer, LPolyline, LCircle, Vue2LeafletPolylineDecorator } from "vue2-leaflet";
+  import { LMap, LTileLayer,LMarker, LPolyline,LPopup, LCircle, Vue2LeafletPolylineDecorator } from "vue2-leaflet";
   import SectionTitle from '../template/SectionTitle';
 
   export default {
@@ -70,7 +70,9 @@
       LMap,
       LTileLayer,
       LPolyline,
+      LPopup,
       LCircle,
+      LMarker,
       SectionTitle
     },
     data () {
@@ -82,26 +84,17 @@
       installation:'',
       station: '',
       src : '',
+      isMounted : false,
       batteryDisplay : '',
       rovers : '',
       errorMessage: '',
       zoom: 11, 
       center: [46.68002385,7.312523534],
-      polylines:[],
-      /*
-      polyline: {
-        latlngs: [
-        [47.334852, -1.509485],
-        [47.342596, -1.328731],
-        [47.241487, -1.190568],
-        [47.234787, -1.358337]
-        ],
-        color: "#AB000D"
-      },
-      https://wmts20.geo.admin.ch/1.0.0/ch.swisstopo.swissimage/default/current/3857/{z}/{x}/{y}.jpeg*/
+      positions:[],
+      //https://wmts20.geo.admin.ch/1.0.0/ch.swisstopo.swissimage/default/current/3857/{z}/{x}/{y}.jpeg*/
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-      
+      tmp : '',
       maxZoom:25,
       options:{
         maxNativeZoom:19
@@ -110,13 +103,14 @@
       }
       
     },
-    created(){
-      this.getInstallation()
-      this.getStation(this.$route.params.id)
+    async created(){
+      await this.getInstallation()
+      await this.getStation(this.$route.params.id)
+      this.isMounted = true
     },
     methods: {
       getInstallation(){
-        API.get('/api/installation/'+this.installationId)
+        return API.get('/api/installation/'+this.installationId)
         .then(response => {
           this.installation =response.data;
           this.src = 'http://localhost:8080/storage/images/'+this.installation.image_path
@@ -126,7 +120,7 @@
         })
       },
       getStation: function (installationId) {
-      API.get('/api/device/basestation/'+installationId+'/rovers')
+      return API.get('/api/installation/'+installationId+'/basestation/roversPositions')
         .then(response => {
           this.station =response.data;
           this.rovers = this.station.rovers
@@ -140,17 +134,12 @@
         })
       },
       createMapOverlay(){
-        this.rovers.forEach(rover => {
-          console.log(rover)
-          var polyline = []
-          //polyline.push([rover.coordinate_x,coordinate_y])
-          /*rover.positions.forEach(position=>{
-            polyline.push([position.latitude,position.longitude])
-          })*/
-          polyline.push([rover.positions[0].latitude,rover.positions[0].longitude])
-          polyline.push([rover.positions[rover.positions.length-1].latitude,rover.positions[rover.positions.length-1].longitude])
+        this.center = [this.rovers[0].default_position.latitude,this.rovers[0].default_position.longitude]
+       this.rovers.forEach(rover => {
+         if(rover.default_position != null){
+          this.positions.push({'id':rover.system_id, 'pos':[rover.default_position.latitude,rover.default_position.longitude]})
 
-          this.polylines.push(polyline)
+         }
         });
       }
     }
