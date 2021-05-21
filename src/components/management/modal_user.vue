@@ -73,9 +73,6 @@ import Multiselect from 'vue-multiselect'
     validations: {
         name:{
           required
-        },
-        final_groups_selected:{
-          required
         }
    },
     async created(){
@@ -151,6 +148,10 @@ import Multiselect from 'vue-multiselect'
       setSelectedGroups(){
         
         var selectedGroups = Array()
+        if(this.organizations_selected.length > 0)
+        {
+          this.organizations_of_user = this.organizations_selected
+        }
 
         this.organizations_of_user.forEach(organization => {
           var orga = this.organizations.find(function(orga) {
@@ -194,7 +195,6 @@ import Multiselect from 'vue-multiselect'
                 group['$isDisabled'] = false
             }
         });
-        console.log(this.organizations_selected)
       },
       updateUser: function (){
           var newUserOrganizationRelations = []

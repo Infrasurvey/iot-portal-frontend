@@ -2,7 +2,7 @@
   <md-list style="background-color: inherit;">
     <md-list-item>
       <span class="md-list-item-text">
-      <md-button style="text-transform: inherit; text-align: inherit; color: inherit; font-size: inherit;">{{ organization.name }}</md-button>
+      <md-button style="text-transform: inherit; text-align: inherit; color: inherit; font-size: inherit;" :to="{ name: 'ManageOrganization', query: { id: organization.id }}">{{ organization.name }}</md-button>
 
         <!-- <router-link style="color: inherit; text-decoration: none;" :to="{ name: 'ManageOrganization', query: { id: organization.id }}">{{ organization.name }}</router-link> -->
       </span>
