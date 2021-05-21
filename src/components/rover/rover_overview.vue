@@ -200,9 +200,9 @@ export default {
                 altis.push(Number(tmp.altitude))
               }
             });
-            this.eastings = {'labels' : dates,'datasets': [{'label':'Easting', 'data' : easts,'backgroundColor':'rgba(229, 57, 53, 0.51)'}]}
-            this.northings = {'labels' : dates,'datasets': [{'label':'Northing', 'data' : norths,'backgroundColor':'rgba(229, 57, 53, 0.51)'}]}
-            this.altitudes = {'labels' : dates,'datasets': [{'label':'Elevation', 'data' : altis,'backgroundColor':'rgba(229, 57, 53, 0.51)'}]}
+            this.eastings = {'labels' : dates,'datasets': [{'label':'Easting','fill':false, 'data' : easts,'borderColor':'rgba(229, 57, 53, 0.51)'}]}
+            this.northings = {'labels' : dates,'datasets': [{'label':'Northing','fill':false, 'data' : norths,'borderColor':'rgba(229, 57, 53, 0.51)'}]}
+            this.altitudes = {'labels' : dates,'datasets': [{'label':'Elevation','fill':false, 'data' : altis,'borderColor':'rgba(229, 57, 53, 0.51)'}]}
 
             this.latestConvertedPosition = this.convertedPositions.slice(-1)[0]
             this.firstConvertedPosition = this.convertedPositions[0]
@@ -221,7 +221,7 @@ export default {
           }
           
         });
-        this.batteries = {'labels' : dates,'datasets': [{'label':'Easting', 'data' : bats,'backgroundColor':'rgba(229, 57, 53, 0.51)'}]}
+        this.batteries = {'labels' : dates,'datasets': [{'label':'Easting', 'data' : bats,'fill':false,'borderColor':'rgba(229, 57, 53, 0.51)'}]}
       },
       normalize(){
         var x = this.latestConvertedPosition.Easting
