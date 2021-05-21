@@ -1,62 +1,90 @@
 <template>
-  <div class="main-install overview-inst">
-    <section-title title= "Personal information"></section-title>
-    <form action="" class="flex-input-container">
-      <div class="input-container">
-        <label for="first-name">First name</label>
-        <input type="text" v-model="user.name" name="first-name" id="first-name" class="base-input" :class="{ 'hasError': $v.user.name.$error }">
-      </div>
-      <div class="input-container">
-        <label for="last-name">Last name</label>
-        <input type="text" v-model="user.lastname" name="last-name" id="last-name" class="base-input" :class="{ 'hasError': $v.user.lastname.$error }">
-      </div>
-      <div class="input-container">
-        <label for="email">Email</label>
-        <input type="text" v-model="user.email" name="email" id="email" class="base-input" :class="{ 'hasError': $v.user.email.$error }">
-      </div>
-      <div class="input-container">
-        <label for="phone">Phone number</label>
-        <input type="text" v-model="user.phone" name="phone" id="phone" class="base-input" :class="{ 'hasError': $v.user.phone.$error }">
-      </div>
-      <div class="input-container">
-        <label for="language">Language</label>
-        <select name="language" id="language" v-model="user.language" class="base-select" :class="{ 'hasErrorRegister': $v.user.language.$error }">
-          <option value="" disabled selected>Select a preferred language</option>
-          <option value="en" selected>English</option>
-          <option value="fr">French</option>
-        </select>
-      </div>
-    </form>
-    <div >
-      <button type="submit" @click="updateUser" class="apply-btn">Apply</button>
+  <div style="display: flex; flex-direction: column; justify-content: space-between;">
+    <div>
+      <section-title style="flex-grow: 1;" title= "Personal information"></section-title>
+      <form novalidate class="md-layout" @submit.prevent="updateUser" style="display: flex; flex-wrap: wrap;">
+        <md-field :class="getValidationClass('name')" style="width: 300px; margin-right: 20px;">
+          <label>First Name*</label>
+          <md-input v-model="user.name" maxlength="30"></md-input>
+          <span class="md-error" v-if="!$v.user.name.required">The first name is required</span>
+          <span class="md-error" v-else-if="!$v.user.name.alpha">Must contains only letters</span>
+          <span class="md-error" v-else-if="!$v.user.name.maxLength">Must contains max. 30 characters</span>
+        </md-field>
+
+        <md-field :class="getValidationClass('lastname')" style="width: 300px; margin-right: 20px;">
+          <label>Last Name*</label>
+          <md-input v-model="user.lastname" maxlength="30"></md-input>
+          <span class="md-error" v-if="!$v.user.lastname.required">The last name is required</span>
+          <span class="md-error" v-else-if="!$v.user.lastname.alpha">Must contains only letters</span>
+          <span class="md-error" v-else-if="!$v.user.lastname.maxLength">Must contains max. 30 characters</span>
+        </md-field>
+
+        <md-field :class="getValidationClass('phone')" style="width: 300px; margin-right: 20px;">
+          <label>Phone number*</label>
+          <md-input v-model="user.phone" maxlength="30"></md-input>
+          <span class="md-error" v-if="!$v.user.phone.required">The phone number is required</span>
+        </md-field>
+
+        <md-field :class="getValidationClass('email')" style="width: 300px; margin-right: 20px;">
+          <label>E-mail*</label>
+          <md-input v-model="user.email"></md-input>
+          <span class="md-error" v-if="!$v.user.email.required">The email is required</span>
+          <span class="md-error" v-else-if="!$v.user.email.email">Invalid email</span>
+        </md-field>
+
+        <md-autocomplete v-model="user.language" :md-options="languages" style="width: 300px; margin-right: 20px;">
+          <label>Language*</label>
+          <span class="md-error" v-if="!$v.user.language.required">The language is required</span>
+        </md-autocomplete>
+      </form>
+    </div>
+
+    <div style="align-self: flex-end;">
+        <md-button type="submit" @click="updateUser" class="md-raised md-primary btn-login" style="width: 300px;">Apply</md-button>
     </div>
   </div>
 </template>
 
 <script>
 import API from '../../http-constants'
-import { required,email } from 'vuelidate/lib/validators'
+import { alpha, required, email, maxLength } from 'vuelidate/lib/validators'
 import SectionTitle from '../template/SectionTitle';
 
 export default {
-  name: 'Informations',
   components : {
     SectionTitle
   },
   data(){
     return{
-      user:'',
+      user:{
+        name: '',
+        lastname:'',
+        address:'',
+        phone:'',
+        language:'',
+        email: '',
+    },
       errorMessage:'',
-      status:''
+      status:'',
+      languages: [
+        "English",
+        "Français",
+        "Deutsch",
+        "Italiano"
+      ]
     }
   },
   validations: {
     user:{
       name:{
-        required
+        required,
+        alpha,
+        maxLength: maxLength(30)
       },
       lastname:{
-        required
+        required,
+        alpha,
+        maxLength: maxLength(30)
       },
       phone:{
         required
@@ -77,7 +105,7 @@ export default {
     getUser(){
       API.get('/api/getCurrentUser')
       .then(response => {
-        this.user =response.data
+        this.user = response.data
       })
       .catch(e => {
       this.errorMessage = e
@@ -93,6 +121,15 @@ export default {
       .catch(e => {
         this.errorMessage = e
       })
+    },
+    getValidationClass (fieldName) {
+      const field = this.$v.user[fieldName]
+
+      if (field) {
+        return {
+          'md-invalid': field.$invalid && field.$dirty
+        }
+      }
     }
   }
 }
