@@ -29,7 +29,7 @@
       <battery-status v-for="battery in batteryDisplay" :key="battery.id" :battery="battery"> </battery-status>
     </div>
 
-    <section-title title = "Landslide evolution"></section-title>
+    <section-title title = "Rovers positions"></section-title>
     <div v-if="isMounted">
       <l-map :zoom="zoom"
       :center="center"

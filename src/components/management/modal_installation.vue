@@ -104,9 +104,10 @@ import FormData from 'form-data'
             })
       },
       getBasestations: function (){
-          API.get('/api/device/basestation/all')
+          API.get('/api/device/basestation/available')
           .then(response => {
                 this.basestations = response.data
+                this.basestations.push(this.row.basestation)
             })
             .catch(e => {
                 this.errorMessage = e

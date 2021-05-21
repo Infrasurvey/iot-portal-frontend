@@ -97,7 +97,7 @@ import { required } from 'vuelidate/lib/validators'
         this.$emit('close');
       },
       getStations: function () {
-        API.get('/api/device/basestation/all')
+        API.get('/api/device/basestation/available')
             .then(response => {
             this.stations = response.data
             })
