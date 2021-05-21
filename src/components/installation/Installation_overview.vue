@@ -97,7 +97,8 @@
         [47.234787, -1.358337]
         ],
         color: "#AB000D"
-      },*/
+      },
+      https://wmts20.geo.admin.ch/1.0.0/ch.swisstopo.swissimage/default/current/3857/{z}/{x}/{y}.jpeg*/
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       

@@ -3,53 +3,70 @@
         <div class="main-install overview-inst">
             <section-title title= "Edit"></section-title>
             <div class="flex-container configurations">
-                <div class="basestation-field">
+                <div class="basestation-field ">
                     <label for="mode" class="disabled" >Continous mode : </label>
-                    <md-checkbox name="mode" id="mode" v-model="configuration.continous_mode" checked disabled></md-checkbox>
+                    <md-checkbox class="input-config"  name="mode" id="mode" v-model="configuration.continuous_mode" disabled></md-checkbox>
                 </div>
                 <div class="basestation-field">
                     <label for="wake">Wake up period : </label>
-                    <input type="text" name="wake" id="wake" v-model="configuration.wakeup_period_in_minutes"> <span>min</span>
+                    <md-field class="input-config">
+                        <md-input name="wake" id="wake" v-model="configuration.wakeup_period_in_minutes"></md-input>
+                    </md-field>
+                    <span>min.</span>
                 </div>
                 <div class="basestation-field">
                     <label for="gps">Reference GPS module : </label>
-                    <input type="text" name="gps" id="gps" v-model="configuration.reference_gps_module">
+                    <md-field class="input-config">
+                        <md-input name="gps" id="gps" v-model="configuration.reference_gps_module"></md-input>
+                    </md-field>
                 </div>
                 <div class="basestation-field">
                     <label for="reset">Reset : </label>
-                    <input type="checkbox" name="reset" id="reset" v-model="configuration.reset">
+                    <md-checkbox name="reset" id="reset" v-model="configuration.reset"></md-checkbox>
                 </div>
                 <div class="basestation-field">
                     <label for="start">Session start time : </label> 
-                    <input type="text" name="start" id="start" v-model="configuration.session_start_time">
+                    <md-field class="input-config">
+                        <md-input name="start" id="start" v-model="configuration.session_start_time"></md-input>
+                    </md-field>
                 </div>
                 <div class="basestation-field">
                     <label for="longitude">Reference longitude : </label>
-                    <input type="text" name="longitude" id="longitude" v-model="configuration.reference_longitude">
+                    <md-field class="input-config">
+                        <md-input name="longitude" id="longitude" v-model="configuration.reference_longitude"></md-input>
+                    </md-field>
                 </div>
                 <div class="basestation-field">
                     <label for="ncsbf">Non continous stor binr to FTP : </label>
-                    <input type="checkbox" name="ncsbf" id="ncsbf" v-model="configuration.non_continuous_store_binr_to_ftp">
+                    <md-checkbox name="ncsbf" id="ncsbf" v-model="configuration.non_continuous_store_binr_to_ftp"></md-checkbox>
                 </div>
                 <div class="basestation-field">
                     <label for="duration">Session duration : </label>
-                    <input type="text" name="duration" id="duration" v-model="configuration.session_duration_in_minutes"> <span>min</span>
+                    <md-field class="input-config">
+                        <md-input  name="duration" id="duration" v-model="configuration.session_duration_in_minutes"></md-input>
+                    </md-field>
+                    <span>min.</span>
                 </div>
                 <div class="basestation-field">
                     <label for="latitude">Reference latitude : </label>
-                    <input type="text" name="latitude" id="latitude" v-model="configuration.reference_latitude"> <span>min</span>
+                    <md-field class="input-config">
+                        <md-input  name="latitude" id="latitude" v-model="configuration.reference_latitude"></md-input>
+                    </md-field>
+                    <span>min.</span>
                 </div>
                 <div class="basestation-field">
                     <label for="ncsbs">Non continous store binr to SD : </label>
-                    <input type="checkbox" name="ncsbs" id="ncsbs" v-model="configuration.non_continuous_store_binr_to_sd">
+                    <md-checkbox name="ncsbs" id="ncsbs" v-model="configuration.non_continuous_store_binr_to_sd"></md-checkbox>
                 </div>
                 <div class="basestation-field">
-                    
                     <label for="period" class="disabled">Session period in wakeup period : 1</label>
                 </div>
                 <div class="basestation-field">
                     <label for="alttitude">Reference altitude : </label>
-                    <input type="text" name="alttitude" id="alttitude"  v-model="configuration.reference_altitude">
+                    <md-field class="input-config">
+                        <md-input  name="alttitude" id="alttitude"  v-model="configuration.reference_altitude"></md-input>
+                    </md-field>
+                    <span>m.</span>
                 </div>
             </div>
             <div class="apply-container">
@@ -109,7 +126,7 @@
                 configurations : [],
                 pendingConfig : [],
                 configuration :{
-                    continuous_mode : 1,
+                    continuous_mode : true,
                     wakeup_period_in_minutes : '',
                     reference_gps_module : '',
                     reset : false,

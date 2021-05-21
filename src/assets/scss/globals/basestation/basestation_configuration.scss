@@ -1,11 +1,8 @@
 
 .basestation-field label{
-    display: inline-block;
 }
 
-.basestation-field label{
-    display: inline-block;
-}
+
 
 .basestation-field input[type=text]{
     width: 70px;
@@ -16,12 +13,31 @@
 }
 
 .basestation-field{
-    margin: 10px 0;
     flex: 1 0 30%;
+    vertical-align: middle;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
+    justify-content: flex-start;
+}
+
+.basestation-field > *{
+    vertical-align: middle;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.cb:after{
+
+}
+
+.vgt-wrap {
+    margin: 20px;
 }
 
 .configurations{
     justify-content: space-between;
+    margin-left: 10px;
 }
 
 .slider-1{
@@ -43,4 +59,9 @@
 
 .config-footer button{
     height: auto;
+}
+
+.input-config{
+    display: inline-block;
+    width: auto;
 }
