@@ -57,7 +57,10 @@
                     <button type="button" class="btn" @click="onAddAdminClick" >Add a new admin in this organization</button>
                 </h1>
             
-            <div >
+            <div class="manage-footer">
+                <md-button class="md-icon-button del-btn" @click="onDeleteClick">
+                    <md-icon style="color :#AB000D">delete</md-icon>
+                </md-button>
                 <router-link class="basic-link cancel-btn" :to="{ name: 'home' }">Cancel</router-link>
             </div>
             <FlashMessage></FlashMessage>
@@ -292,13 +295,41 @@ export default {
         },
         displayStatus(type,status,model){
             if(status){
-                this.flashMessage.success({title: 'Success', message: 'The new '+model+' has been succesfully '+type+' !'});
+                this.flashMessage.success({title: 'Success', message: 'The '+model+' has been succesfully '+type+' !'});
             }
             else
             {
                 this.flashMessage.show({status: 'error', title: 'Error', message: 'An error occured during '+model+' '+type+'.'})
             }
-        }
+        },
+        onDeleteClick(){
+          this.$swal({
+              title: "Delete this organization?",
+              text: "Are you sure? You won't be able to revert this!",
+              type: "warning",
+              icon:"warning",
+              customClass:{
+                container :'swa-container' 
+              },
+              showCancelButton: true,
+              confirmButtonColor: "#E53935",
+              confirmButtonText: "Yes, Delete it!"
+          }).then((result) => { // <--
+                if (result.value) { // <-- if confirmed
+                  API.delete('/api/organization/'+this.organization_id)
+                .then(response => {
+                    this.installations =response.data
+                    this.displayStatus("deleted",true,'organization')
+                    this.$emit('updateList');
+                    this.$router.push({ name: 'ManageInstallations' })
+                })
+                .catch(e => {
+                    this.errorMessage = e
+                    this.displayStatus("delete",false,'organization')
+                })
+                  }
+            });
+      },
     }
 }
 </script>

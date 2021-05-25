@@ -18,7 +18,7 @@
     :rows="users"
     @on-row-click="onRowClick"/>
 
-    <div >
+    <div class="manage-footer">
       <router-link class="basic-link cancel-btn" :to="{ name: 'home' }">Cancel</router-link>
     </div>
     <FlashMessage></FlashMessage>

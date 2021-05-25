@@ -1,6 +1,15 @@
 
+.manage-footer{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  align-content: space-around;
+  flex-wrap: nowrap;
+  margin-right: 20px;
+  margin-bottom: 20px;
+}
 .cancel-btn{
-    float: right;
     margin-top: 20px;
   background-color: $tile-color;
   padding: 15px;
@@ -13,6 +22,20 @@
     border-radius: 8px;
 }
 
+.del-btn {
+  height: auto;
+    width: auto;
+    margin-top: 20px;
+    background-color: $tile-color;
+    padding: 15px;
+    font-size: 0.7em;
+    font-weight: 600;
+    letter-spacing: .1rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    border: 5px solid $tile-color;
+      border-radius: 8px;
+}
 
 
 .cancel-btn:hover{

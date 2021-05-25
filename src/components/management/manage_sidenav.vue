@@ -12,14 +12,14 @@
         <md-icon>add</md-icon>
       </md-button>
     </div>
-    <organization-item v-for="organization in organizations" :key="organization.id" :organization="organization" @updateList="getOrganizations"/>
+    <organization-item v-for="organization in organizations" :key="organization.id" :organization="organization" @updateList="updateList"/>
 
   <Modal
     v-if="isModalVisible"
     :row="selectedRow"
     :isUpdate="isUpdate"
     @close="closeModal"
-    @updateList="getOrganizations"
+    @updateList="updateList"
     @displaySuccess="displayStatus"
     />
   </div>
@@ -38,29 +38,27 @@ export default {
     'organization-item':OrganizationItem,
     Modal
   },
+  props :{
+    organizations :{
+      required : true
+    }
+  },
   data(){
     return{
-      organizations : [],
       isModalVisible: false,
       selectedRow : Object(),
       isUpdate : false
     }
   },
   created(){
-    this.getOrganizations()
+    //this.getOrganizations()
   },
   mounted(){
     //setDropdownListener('dropdown-btn-main')
   },
   methods:{
-    getOrganizations(){
-      API.get('/api/getCurrentVisibleOrganizations')
-      .then(response => {
-        this.organizations =response.data        
-      })
-      .catch(e => {
-        this.errorMessage = e
-      })
+    updateList(){
+      this.$emit('updateList');
     },
     onCreateClick() {
       this.showModal(false,Object({name:''}));

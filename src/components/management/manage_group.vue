@@ -49,7 +49,10 @@
                 @updateList="updateUsersLists"
                 @displaySuccess="displayStatus"
                 />
-            <div>
+            <div class="manage-footer">
+                <md-button class="md-icon-button del-btn" @click="onDeleteClick">
+                    <md-icon style="color :#AB000D">delete</md-icon>
+                </md-button>
                 <router-link class="basic-link cancel-btn" :to="{ name: 'home' }">Cancel</router-link>
             </div>
             <FlashMessage></FlashMessage>
@@ -247,7 +250,35 @@ export default {
             {
                 this.flashMessage.show({status: 'error', title: 'Error', message: 'An error occured during '+model+' '+type+'.'})
             }
-        }
+        },
+        onDeleteClick(){
+          this.$swal({
+              title: "Delete this group?",
+              text: "Are you sure? You won't be able to revert this!",
+              type: "warning",
+              icon:"warning",
+              customClass:{
+                container :'swa-container' 
+              },
+              showCancelButton: true,
+              confirmButtonColor: "#E53935",
+              confirmButtonText: "Yes, Delete it!"
+          }).then((result) => { // <--
+                if (result.value) { // <-- if confirmed
+                  API.delete('/api/group/'+this.group_id)
+                    .then(response => {
+                        this.installations =response.data
+                        this.displayStatus("deleted",true,'group')
+                        this.$emit('updateList');
+                        this.$router.push({ name: 'ManageInstallations' })
+                    })
+                    .catch(e => {
+                        this.errorMessage = e
+                        this.displayStatus("delete",false,'group')
+                    })
+                  }
+            });
+      },
     }
 }
 </script>
