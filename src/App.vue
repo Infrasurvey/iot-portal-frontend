@@ -41,6 +41,7 @@
 .navigation{
   display: flex;
   align-items: stretch;
+  height: 80px;
 }
 
 .navigation-title{
