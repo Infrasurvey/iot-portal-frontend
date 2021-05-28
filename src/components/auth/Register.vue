@@ -419,7 +419,6 @@ export default {
     register() {
       this.$v.$touch();
       if(this.$v.$error) return
-      console.log(this.user);
       this.$store.dispatch('register', this.user)
         .then(response => {
           this.$store.dispatch('retrieveToken', {
