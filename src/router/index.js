@@ -21,8 +21,8 @@ import Password from '@/components/account/account_pwd'
 
 //Installations
 import InstallationMain from '@/components/installation/installation_main'
-import Overview from '@/components/installation/installation_overview'
-import Manage from '@/components/installation/installation_manage'
+import Overview from '@/components/installation/Installation_overview'
+import Manage from '@/components/installation/Installation_manage'
 import OverviewStation from '@/components/base_station/basestation_overview'
 import ConfigurationStation from '@/components/base_station/basestation_config'
 import RoverOverview from '@/components/rover/rover_overview'
