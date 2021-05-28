@@ -27,7 +27,8 @@
     </div>
 
     <div style="align-self: flex-end;">
-        <md-button type="submit" @click="updatePwd" class="md-raised md-primary btn-login" style="width: 300px;">Apply</md-button>
+        <md-button type="submit" to="/home" class="md-raised md-accent btn-login" style="width: 200px;">Close</md-button>
+        <md-button type="submit" @click="updateUser" class="md-raised md-primary btn-login" style="width: 200px;">Apply</md-button>
     </div>
   </div>
 </template>
