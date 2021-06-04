@@ -56,6 +56,8 @@ export default {
     },
     methods:{
         setUpThree(){
+
+            
             const aspect = 250 / 300;
 
             this.perspectiveCamera = new THREE.PerspectiveCamera(45,aspect,0.1,1000 );
@@ -76,39 +78,44 @@ export default {
             colors.setXYZ( 5, 0, 0, 0  ); // blue
             //this.scene.add(axis); 
 
+            if(this.inclination.length > 0){
+                var from = new THREE.Vector3( 0,0-0.4,0 );
+                console.log(this.inclination)
+                var to = new THREE.Vector3( this.inclination[0],this.inclination[1]-0.4,this.inclination[2] );
+                var direction = to.clone().sub(from);
+                var length = direction.length();
+                var arrowHelper = new THREE.ArrowHelper(direction.normalize(), from, length, 0xff0000,0.1);
+                this.scene.add( arrowHelper );
 
-            var from = new THREE.Vector3( 0,0-0.4,0 );
-            console.log(this.inclination)
-            var to = new THREE.Vector3( this.inclination[0],this.inclination[1]-0.4,this.inclination[2] );
-            var direction = to.clone().sub(from);
-            var length = direction.length();
-            var arrowHelper = new THREE.ArrowHelper(direction.normalize(), from, length, 0xff0000,0.1);
-            this.scene.add( arrowHelper );
+                var points = [];
+                points.push( new THREE.Vector3(this.inclination[0],0-0.4,this.inclination[2]) );
+                points.push( new THREE.Vector3(this.inclination[0],this.inclination[1]-0.4,this.inclination[2]) );
+                var geometry = new THREE.BufferGeometry().setFromPoints( points );
+                var material = new THREE.LineDashedMaterial( { color: 0x000000, dashSize: 0.01, gapSize:0.01,transparent: true,opacity: 0.5 } );
+                var line = new THREE.Line( geometry, material );
+                line.computeLineDistances();
+                this.scene.add(line); 
 
-            var points = [];
-            points.push( new THREE.Vector3(this.inclination[0],0-0.4,this.inclination[2]) );
-            points.push( new THREE.Vector3(this.inclination[0],this.inclination[1]-0.4,this.inclination[2]) );
-            var geometry = new THREE.BufferGeometry().setFromPoints( points );
-            var material = new THREE.LineDashedMaterial( { color: 0x000000, dashSize: 0.01, gapSize:0.01,transparent: true,opacity: 0.5 } );
-            var line = new THREE.Line( geometry, material );
-            line.computeLineDistances();
-            this.scene.add(line); 
+                points = [];
+                points.push( new THREE.Vector3(0,this.inclination[1]-0.4,this.inclination[2]) );
+                points.push( new THREE.Vector3(this.inclination[0],this.inclination[1]-0.4,this.inclination[2]) );
+                geometry = new THREE.BufferGeometry().setFromPoints( points );
+                line = new THREE.Line( geometry, material );
+                line.computeLineDistances();
+                this.scene.add(line); 
 
-            points = [];
-            points.push( new THREE.Vector3(0,this.inclination[1]-0.4,this.inclination[2]) );
-            points.push( new THREE.Vector3(this.inclination[0],this.inclination[1]-0.4,this.inclination[2]) );
-            geometry = new THREE.BufferGeometry().setFromPoints( points );
-            line = new THREE.Line( geometry, material );
-            line.computeLineDistances();
-            this.scene.add(line); 
-
-            points = [];
-            points.push( new THREE.Vector3(this.inclination[0],this.inclination[1]-0.4,0) );
-            points.push( new THREE.Vector3(this.inclination[0],this.inclination[1]-0.4,this.inclination[2]) );
-            geometry = new THREE.BufferGeometry().setFromPoints( points );
-            line = new THREE.Line( geometry, material );
-            line.computeLineDistances();
-            this.scene.add(line); 
+                points = [];
+                points.push( new THREE.Vector3(this.inclination[0],this.inclination[1]-0.4,0) );
+                points.push( new THREE.Vector3(this.inclination[0],this.inclination[1]-0.4,this.inclination[2]) );
+                geometry = new THREE.BufferGeometry().setFromPoints( points );
+                line = new THREE.Line( geometry, material );
+                line.computeLineDistances();
+                this.scene.add(line); 
+            }
+            else{
+                //this.$emit('displayStatus','Unable to display inclination axis system.');
+            }
+            
 
             material = new THREE.LineBasicMaterial( { color: 0x000000 } );
 

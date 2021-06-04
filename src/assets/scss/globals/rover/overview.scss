@@ -97,3 +97,11 @@
     opacity: 0.5;
 }
 
+#container-map > *{
+    z-index: 1;
+}
+
+._vue-flash-msg-body_error,._vue-flash-msg-body,._vue-flash-msg-_right-bottom{
+    z-index: 1000;
+}
+

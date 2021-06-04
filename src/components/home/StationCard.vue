@@ -99,7 +99,7 @@ export default {
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       zoom: 10,
-      center: [this.station.basestation.last_configuration.reference_latitude, this.station.basestation.last_configuration.reference_longitude],
+      center: [this.station.latitude, this.station.longitude],
       active: true,
       inactivityDays: 0
     }

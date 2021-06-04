@@ -26,7 +26,7 @@
     
     <section-title title = "Battery state"></section-title>
     <div class="flex-container batteries">
-      <battery-status v-for="battery in batteryDisplay" :key="battery.id" :battery="battery"> </battery-status>
+      <battery-status v-for="battery in batteryDisplay" :key="battery.system_id" :battery="battery"> </battery-status>
     </div>
 
     <section-title title = "Rovers positions"></section-title>
@@ -122,7 +122,7 @@
       getStation: function (installationId) {
       return API.get('/api/installation/'+installationId+'/basestation/roversPositions')
         .then(response => {
-          this.station =response.data;
+          this.station =response.data[0];
           this.rovers = this.station.rovers
           this.batteryDisplay = [{'system_id':this.station.name,'battery_voltage':this.station.battery_voltage,'is_basestation':true}]
           this.batteryDisplay = this.batteryDisplay.concat(this.rovers)

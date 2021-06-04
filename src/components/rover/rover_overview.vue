@@ -18,7 +18,7 @@
           3D distance : {{d3Distance}}m
       </div>
       <div class="rover-inclination-panel">
-        <inclination-component v-if="isMounted" :inclination="inclination"></inclination-component>
+        <inclination-component @displayStatus="displayStatus" v-if="isMounted" :inclination="inclination"></inclination-component>
         <div class="b-r-container">
             <font-awesome-icon class="b-image" v-if="rover.battery_voltage < 10" icon="battery-empty" size="3x" rotation="270" />
             <font-awesome-icon class="b-image" v-else-if="rover.battery_voltage < 12" icon="battery-quarter" size="3x" rotation="270"/>
@@ -91,6 +91,7 @@
 
       </div>
     </div>
+    <FlashMessage></FlashMessage>
 </div>
 </template>
 
@@ -157,7 +158,45 @@ export default {
     this.loadClass = ''
     this.isMounted = true
   },
+  watch: {
+    async $route(to, from) {
+      this.installationId = this.$route.params.id
+      this.roverId = this.$route.params.roverid,
+      this.isMounted = false
+      this.resetData()
+      await this.getRover()
+      this.loadClass = ''
+      this.isMounted = true
+    }
+  },
   methods : {
+      resetData(){
+        this.rover = '',
+        this.positions = [],
+        this.convertedPositions =[],
+        this.latestConvertedPosition = '',
+        this.firstConvertedPosition = '',
+        this.d3Distance =0,
+        this.inclination = [],
+        this.eastings = {
+          labels :[],
+          datasets : []
+        },
+        this.northings = {
+          labels :[],
+          datasets : []
+        },
+        this.altitudes= {
+          labels :[],
+          datasets : []
+        },
+        this.batteries = {
+          labels :[],
+          datasets : []
+        },
+        this.measure_rovers = '',
+        this.measure_devices = []
+      },
       processPlot(){
         this.processData()
       },
@@ -165,9 +204,9 @@ export default {
           return API.get('/api/installation/'+this.installationId+'/basestation/rovers/'+this.roverId)
           .then(response => {
               this.rover =response.data;
-              this.positions = this.rover.positions
-              this.measure_rovers = this.rover.measure_rovers
-              this.measure_devices = this.rover.device.measure_devices
+              this.positions = this.rover.r_positions
+              this.measure_rovers = this.rover.r_measure_rovers
+              this.measure_devices = this.rover.r_measure_devices
               this.processData()
           })
           .catch(e => {
@@ -211,17 +250,24 @@ export default {
               + Math.pow(this.latestConvertedPosition.altitude - this.firstConvertedPosition.altitude,2)).toPrecision(2)
             this.normalize()
         }
+        else{
+          this.displayStatus("Unable to display data overview, map and inclination axis system.")
+        }
         var bats = []
         dates = []
-        this.measure_devices.forEach(measure_device => {
-          var date = moment(measure_device.date)
-          if(moment(this.startDate) < date && date < moment(this.endDate)){
-            dates.push(moment(measure_device.date).format('MM.DD.YYYY'))
-            bats.push(measure_device.battery_voltage)
-          }
-          
-        });
-        this.batteries = {'labels' : dates,'datasets': [{'label':'Easting', 'data' : bats,'fill':false,'borderColor':'rgba(229, 57, 53, 0.51)'}]}
+        if(this.measure_devices.length > 0){
+          this.measure_devices.forEach(measure_device => {
+            var date = moment(measure_device.date)
+            if(moment(this.startDate) < date && date < moment(this.endDate)){
+              dates.push(moment(measure_device.date).format('MM.DD.YYYY'))
+              bats.push(measure_device.battery_voltage)
+            }
+            
+          });
+          this.batteries = {'labels' : dates,'datasets': [{'label':'Easting', 'data' : bats,'fill':false,'borderColor':'rgba(229, 57, 53, 0.51)'}]}
+        }else{
+          this.displayStatus("Unable to display battery voltage")
+        }
       },
       normalize(){
         var x = this.latestConvertedPosition.Easting
@@ -245,7 +291,11 @@ export default {
         anchor.target = '_blank';
         anchor.download = 'nameYourFileHere.csv';
         anchor.click();
-      }
+      },
+      displayStatus(message){
+         this.flashMessage.setStrategy('multiple');
+        this.flashMessage.show({status: 'error', title: 'Missing data', message: message,clickable:true})
+      },
   }
 }
 </script>

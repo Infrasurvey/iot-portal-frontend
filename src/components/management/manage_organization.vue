@@ -166,13 +166,13 @@ export default {
         }
     },
     watch: {
-    async $route(to, from) {
-        this.organization_id = this.$route.query.id
-        this.getInstallations();
-        await this.getUsers();
-        await this.getAdmins()
-        this.setDiffUsersList()
-    }
+        async $route(to, from) {
+            this.organization_id = this.$route.query.id
+            this.getInstallations();
+            await this.getUsers();
+            await this.getAdmins()
+            this.setDiffUsersList()
+        }
     },
     async created(){
         this.getInstallations();

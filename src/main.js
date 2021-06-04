@@ -5,6 +5,8 @@ import VueMaterial from 'vue-material'
 import App from './App'
 import router from './router'
 import { store } from './store/store'
+import FlashMessage from '@smartweb/vue-flash-message';
+
 import 'vue-material-slider/dist/vue-material-slider.css';
 import './assets/scss/index.scss'
 import './assets/js/tools.js';
@@ -15,7 +17,6 @@ import { AbilityBuilder, Ability } from '@casl/ability'
 import { abilityPlugin } from '@casl/vue'
 import Vodal from 'vodal';
 import Vuelidate from 'vuelidate'
-import FlashMessage from '@smartweb/vue-flash-message';
 import vSelect from 'vue-select'
 import vueCountryRegionSelect from 'vue-country-region-select'
 import VueSweetalert2 from 'vue-sweetalert2';
