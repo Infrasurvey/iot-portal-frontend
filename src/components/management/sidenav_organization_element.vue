@@ -1,5 +1,5 @@
 <template>
-  <md-list style="background-color: inherit;">
+  <md-list v-if="this.$store.getters.getAbility.can('manage_orga', this.organization.id.toString()) || this.$store.getters.getAbility.can('manage','all')" style="background-color: inherit;">
     <md-list-item>
       <span class="md-list-item-text">
       <md-button style="text-transform: inherit; text-align: inherit; color: inherit; font-size: inherit;" :to="{ name: 'ManageOrganization', query: { id: organization.id }}">{{ organization.name }}</md-button>

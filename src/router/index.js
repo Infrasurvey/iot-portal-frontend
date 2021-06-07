@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
+import { store } from '../store/store'
 // Other
 import Home from '@/components/home/Home'
 import Auth from '@/components/auth/Auth'
@@ -58,6 +58,20 @@ var ManagementRoutes =  {
   path: '/management',
   name: 'ManageMain',
   component: ManageMain,
+  beforeEnter: (to, from, next) => {
+    var ability = store.getters.getAbility;
+    console.log(JSON.stringify(ability))
+    if(ability.can('manage','organization') || ability.can('manage','all'))
+    {
+      next()
+    }
+    else{
+      next({
+        name: 'home',
+      })
+    }
+    
+  },
   children: [
     {
       path: 'organizations',
@@ -141,6 +155,18 @@ var InstallationRoutes =  {
   path: '/installation/:id',
   name: 'InstallationMain',
   component: InstallationMain,
+  beforeEnter: (to, from, next) => {
+    var ability = store.getters.getAbility;
+    if(ability.can('read_install',to.params.id.toString()) || ability.can('manage','all'))
+    {
+      next()
+    }
+    else  {
+      next({
+        name: 'home',
+      })
+    }
+  },
   children: [
     {
       path: 'overview',
@@ -155,6 +181,18 @@ var InstallationRoutes =  {
       path: 'manage',
       name: 'Manage',
       component: Manage,
+      beforeEnter: (to, from, next) => {
+        var ability = store.getters.getAbility;
+        if(ability.can('manage_install',to.params.id.toString()) || ability.can('manage','all'))
+        {
+          next()
+        }
+        else  {
+          next({
+            name: 'home',
+          })
+        }
+      },
       meta: {
         requiresAuth: true,
         breadcrumb:[{name: 'Home', link: '/' },{name:'Installation'},{name:'Manage'}],
@@ -182,6 +220,18 @@ var InstallationRoutes =  {
       path: 'basestation/configuration',
       name: 'ConfigurationStation',
       component: ConfigurationStation,
+      beforeEnter: (to, from, next) => {
+        var ability = store.getters.getAbility;
+        if(ability.can('manage_install',to.params.id.toString()) || ability.can('manage','all'))
+        {
+          next()
+        }
+        else  {
+          next({
+            name: 'home',
+          })
+        }
+      },
       meta: {
         requiresAuth: true,
         breadcrumb:[{name: 'Home', link: '/' },{name:'Base station'},{name:'Configuration'}],

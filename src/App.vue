@@ -16,7 +16,7 @@
               <md-icon>expand_more</md-icon>
             </md-button>
             <md-menu-content>
-              <md-menu-item>
+              <md-menu-item v-if="manageable">
                 <md-icon>admin_panel_settings</md-icon>
                 <router-link :to="{ name: 'ManageInstallations' }" class="navigation-menu-item">System management</router-link>
               </md-menu-item>
@@ -33,7 +33,7 @@
         </div>
       </md-toolbar>
     </div>
-    <router-view></router-view>
+    <router-view v-if="isMounted" @updateUserInfo="updateUserInfo" @updateAbility="updateAbility"></router-view>
   </div>
 </template>
 
@@ -80,6 +80,8 @@
 
 <script>
 import Breadcrumb from './components/template/Breadcrumb'
+import defineRulesFor from './assets/js/abilityBuild'
+
 export default {
     name: 'App'
 ,
@@ -90,11 +92,16 @@ components: {
     return{
       firstName:'',
       lastName:'',
-      mail:''
+      mail:'',
+      isMounted : false,
+      manageable : false
+
     }
   },
   created(){
-    this.updateUserInfo();
+    this.updateUserInfo()
+    this.updateAbility()
+    this.isMounted = true
   },
   computed: {
     loggedIn() {
@@ -106,6 +113,21 @@ components: {
       this.firstName = this.$store.getters.getFirstName;
       this.lastName = this.$store.getters.getLastName;
       this.mail = this.$store.getters.getMail;
+    },
+    updateAbility(){
+      this.$store.commit('setAbility')
+      this.manageable = this.$store.getters.getAbility.can('manage','organization') || this.$store.getters.getAbility.can('manage','all')
+      /* console.log(this.$store.getters.getOrganizations)
+      console.log(this.$store.getters.getGroups)
+      console.log(this.$store.getters.isAdmin) */
+      /* if (this.$store.getters.getGroups != null && this.$store.getters.getOrganizations != null && this.$store.getters.isAdmin != null){
+        
+        this.$ability = defineRulesFor(this.$store.getters.getGroups,this.$store.getters.getOrganizations,this.$store.getters.isAdmin)
+        this.manageable = this.$ability.can('manage','organization')
+        console.log(this.$ability.can('manage','organization'))
+       /*  console.log(JSON.stringify(this.$ability)) */
+      
+      return true;
     }
   }
 }

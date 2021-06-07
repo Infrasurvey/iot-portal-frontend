@@ -2,7 +2,7 @@
 <div>
     <div class="title-container">
       <section-title title="My installations"></section-title>
-      <div><md-button class="md-raised md-primary create-installation-button" type="button" @click="showModal">Create a new installation</md-button></div>
+      <div><md-button v-if="manageable" class="md-raised md-primary create-installation-button" type="button" @click="showModal">Create a new installation</md-button></div>
     </div>
 
     <Modal
@@ -49,7 +49,7 @@ import StationCard from './StationCard'
 import Modal from '../installation/create_installation';
 import PictureInput from 'vue-picture-input'
 import SectionTitle from '../template/SectionTitle';
-
+import defineRulesFor from '../../assets/js/abilityBuild'
 export default {
   components:{
       StationCard,
@@ -62,16 +62,22 @@ export default {
       stations: '',
       errorMessage: '',
       isModalVisible: false,
+      manageable : false
     }
   },
-  created(){
+  async created(){
       this.getStations();
       this.$emit('updateUserInfo');
-      var ability = this.$store.getters.getAbility;
-      console.log(ability.can('read', 'User'))      // true
-      console.log(ability.can('update', 'User') )   // true
-      console.log(ability.can('delete', 'User') )   // false
-      console.log(ability.cannot('delete', 'User')) // true
+      this.$emit('updateAbility');
+      /* if (this.$store.getters.getGroups != null && this.$store.getters.getOrganizations != null && this.$store.getters.isAdmin != null){
+        this.$ability = defineRulesFor(this.$store.getters.getGroups,this.$store.getters.getOrganizations,this.$store.getters.isAdmin)
+      }  */
+/*       console.log(JSON.stringify(this.$store.getters.getAbility))      // true
+ */      var ability = this.$store.getters.getAbility
+      this.manageable = ability.can('manage', 'organization') || ability.can('manage','all')
+    /*   console.log(ability.can('manage', 'organization'))
+      console.log(ability.can('manage_orga', 1) ) 
+      console.log(ability.can('manage_orga', '1') )  */
   },
   methods: {
     getStations () {

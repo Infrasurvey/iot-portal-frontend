@@ -8,7 +8,7 @@
 
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
       <div style="font-weight: bold;">Organizations</div>
-      <md-button class="md-icon-button" @click="onCreateClick">
+      <md-button v-if="this.$store.getters.getAbility.can('manage', 'all')" class="md-icon-button" @click="onCreateClick">
         <md-icon>add</md-icon>
       </md-button>
     </div>
@@ -52,8 +52,11 @@ export default {
   },
   created(){
     //this.getOrganizations()
+    
   },
   mounted(){
+    console.log(JSON.stringify(this.$store.getters.getAbility))
+    console.log(this.$store.getters.getAbility.can('manage_orga', '1') )
     //setDropdownListener('dropdown-btn-main')
   },
   methods:{

@@ -13,8 +13,7 @@ import './assets/js/tools.js';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faBatteryEmpty,faBatteryHalf,faBatteryFull,faBatteryQuarter,faBatteryThreeQuarters,faUserCircle,faCheckCircle, faExclamationCircle,faTimes,faChevronDown, faCaretDown, faPlusCircle,faCloudUploadAlt,faCloudDownloadAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { AbilityBuilder, Ability } from '@casl/ability'
-import { abilityPlugin } from '@casl/vue'
+import { Ability } from '@casl/ability'
 import Vodal from 'vodal';
 import Vuelidate from 'vuelidate'
 import vSelect from 'vue-select'

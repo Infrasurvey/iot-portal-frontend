@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import API from '../http-constants'
 import defineRulesFor from '../assets/js/abilityBuild'
-import {ability} from '../assets/js/ability.js'
 import { Ability } from '@casl/ability'
 
 Vue.use(Vuex)
@@ -10,8 +9,9 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
   state: {
     token: sessionStorage.getItem('token') || null,
-    groups : sessionStorage.getItem('groups') || null,
-    ability : sessionStorage.getItem('ability') || new Ability([]),
+    groups : JSON.parse(sessionStorage.getItem('groups')) || null,
+    organizations : JSON.parse(sessionStorage.getItem('organizations')) || null,
+    ability : new Ability([]),
     first_name : sessionStorage.getItem('first_name') || null,
     last_name : sessionStorage.getItem('last_name') || null,
     mail : sessionStorage.getItem('mail') || null,
@@ -23,6 +23,9 @@ export const store = new Vuex.Store({
     },
     getGroups(state){
       return state.groups
+    },
+    getOrganizations(state){
+      return state.organizations
     },
     getAbility(state){
       return state.ability
@@ -49,11 +52,23 @@ export const store = new Vuex.Store({
     },
     setGroups(state,groups){
       state.groups = groups
-      sessionStorage.setItem('groups', groups)
+      sessionStorage.setItem('groups', JSON.stringify(groups))
     },
-    updateAbility(state,groups){
-      state.ability = defineRulesFor(groups)
-      sessionStorage.setItem('token', state.ability)
+    setOrganizations(state,organizations){
+      state.organizations = organizations
+      sessionStorage.setItem('organizations', JSON.stringify(organizations))
+    },
+    updateAbility(state,{groups,organizations,is_admin}){
+      state.ability = defineRulesFor(groups,organizations,is_admin)
+      //sessionStorage.setItem('ability', JSON.stringify(state.ability))
+    }, 
+    setAbility(state){
+      state.ability = defineRulesFor(state.groups,state.organizations,state.is_admin)
+      //sessionStorage.setItem('ability', JSON.stringify(state.ability))
+    }, 
+    setIsAdmin(state,is_admin){
+      state.is_admin = is_admin
+      sessionStorage.setItem('is_admin', is_admin)
     },
     setFirstName(state,first_name){
       state.first_name = first_name
@@ -89,9 +104,15 @@ export const store = new Vuex.Store({
   
       sessionStorage.removeItem('groups')
       context.commit('setGroups', null)
+
+      sessionStorage.removeItem('organizations')
+      context.commit('setOrganizations', null)
   
-      sessionStorage.removeItem('ability')
-  
+/*       sessionStorage.removeItem('ability')
+ */  
+      sessionStorage.removeItem('is_admin')
+      context.commit('setIsAdmin',null)
+
       sessionStorage.removeItem('first_name')
       context.commit('setFirstName',null)
   
@@ -109,7 +130,8 @@ export const store = new Vuex.Store({
 
       if (context.getters.loggedIn) {
         return new Promise((resolve, reject) => {
-          API.post('/api/logout')
+          API.get('/sanctum/csrf-cookie').then(response => {
+            API.post('/api/logout')
             .then(response => {
               context.dispatch('cleanSession')
               resolve(response)
@@ -118,6 +140,8 @@ export const store = new Vuex.Store({
               context.dispatch('cleanSession')
               reject(error)
             })
+          })
+          
         })
       }
     },
@@ -139,10 +163,20 @@ export const store = new Vuex.Store({
                 const groupsAsJSON = response.data.data.groups
                 for(var i in groupsAsJSON){
                   const group = groupsAsJSON[i]
-                  groups.push(group.name) 
+                  groups.push({'id':group.id,'organization_id':group.organization_id}) 
                 }
+
+                var organizations =[];
+                const orgasAsJSON = response.data.data.organizations
+                for(var i in orgasAsJSON){
+                  const organization = orgasAsJSON[i]
+                  organizations.push({'id':organization.id}) 
+                }
+                var is_admin = response.data.data.is_admin
                 context.commit('setGroups', groups)
-                context.commit('updateAbility',groups)
+                context.commit('setOrganizations', organizations)
+                context.commit('updateAbility',{groups,organizations,is_admin})
+                context.commit('setIsAdmin',is_admin)
                 context.commit('setFirstName',response.data.data.name)
                 context.commit('setLastName',response.data.data.lastname)
                 context.commit('setMail',response.data.data.email)
@@ -154,6 +188,7 @@ export const store = new Vuex.Store({
               })
         });
         })
-    }
+    },
+
   }
 })
