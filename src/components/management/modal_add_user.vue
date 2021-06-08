@@ -84,7 +84,16 @@ import Multiselect from 'vue-multiselect'
       },
       getUsers(){
           var url = ''
-          url = '/api/user'
+          if(this.group_id == null){
+            if(this.isAdmin)
+              url = '/api/availableAdminsForOrganization/'+this.organization_id
+            else
+              url = '/api/availableUsersForOrganization/'+this.organization_id
+          }
+          else{
+            url = '/api/availableUsersForGroup/'+this.group_id
+          }
+            
           return API.get(url)
           .then(response => {
                 this.users = response.data
