@@ -26,9 +26,9 @@
           </md-card-content>
         </div>
         <div>
-            <l-map style="height: 270px; width: 270px; margin: 20px" :zoom="zoom" :center="center">
-            <l-tile-layer  :url="url" :attribution="attribution" :options="{ maxNativeZoom: 18, maxZoom: 25 }"/>
-            <l-marker :lat-lng="center" ></l-marker>
+            <l-map style="height: 270px; width: 270px; margin: 20px" :zoom="zoom" :center="center" :options="{dragging:false,zoomControl:false }">
+            <l-tile-layer  :url="url" :attribution="attribution" :options="{ maxNativeZoom: zoom, maxZoom: zoom, minZoom: zoom }"/>
+            <l-marker v-if="isPosAvailable" :lat-lng="center" ></l-marker>
             </l-map>
         </div>
       </md-ripple>
@@ -83,6 +83,8 @@ export default {
     if (this.center[0] == null)
     {
       this.center = [46.800663464, 8.222665776];
+      this.zoom = 4;
+      this.isPosAvailable = false
     }
   },
   data () {
@@ -101,7 +103,8 @@ export default {
       zoom: 10,
       center: [this.station.latitude, this.station.longitude],
       active: true,
-      inactivityDays: 0
+      inactivityDays: 0,
+      isPosAvailable : true
     }
   }
 }
