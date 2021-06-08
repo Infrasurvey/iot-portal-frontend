@@ -1,4 +1,6 @@
 import axios from 'axios'
+import { store } from './store/store'
+import router from './router'
 
 let baseURL
 
@@ -15,4 +17,17 @@ let API = axios.create({
 
 API.defaults.withCredentials = true;
 
+API.interceptors.response.use(function (response) {
+  return response;
+}, function (error) {
+  if (error.response.status === 401) {
+      store.dispatch('destroyToken').then(response => {
+        router.push({ name: 'auth' })
+      })
+    }
+  return Promise.reject(error);
+});
+
 export default API;
+
+
