@@ -164,6 +164,13 @@
             ConfigModal,
             SectionTitle
         },
+        watch: {
+        async $route(to, from) {
+          this.installationId = to.params.id.toString()
+          this.getConfigurations()
+          this.getPendingConfiguration()
+        }
+        },
         created(){
             this.getConfigurations()
             this.getPendingConfiguration()

@@ -174,6 +174,18 @@ export default {
             this.setDiffUsersList()
         }
     },
+    beforeRouteUpdate(to, from, next) {
+        var ability = this.$store.getters.getAbility;
+            if(ability.can('manage_orga',to.query.id.toString()) || ability.can('manage','all'))
+            {
+            next()
+            }
+            else{
+            next({
+                name: 'home',
+            })
+            }
+    },
     async created(){
         this.getInstallations();
         await this.getUsers();

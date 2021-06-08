@@ -95,6 +95,13 @@ export default {
       }],
     }
   },
+  watch: {
+        async $route(to, from) {
+            this.installationId = to.params.id.toString()
+          this.getInstallation();
+          this.getUsers()
+        }
+    },
   created() {
       this.getInstallation();
       this.getUsers()

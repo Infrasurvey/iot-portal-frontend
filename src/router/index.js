@@ -60,7 +60,7 @@ var ManagementRoutes =  {
   component: ManageMain,
   beforeEnter: (to, from, next) => {
     var ability = store.getters.getAbility;
-    console.log(JSON.stringify(ability))
+    
     if(ability.can('manage','organization') || ability.can('manage','all'))
     {
       next()
@@ -155,18 +155,6 @@ var InstallationRoutes =  {
   path: '/installation/:id',
   name: 'InstallationMain',
   component: InstallationMain,
-  beforeEnter: (to, from, next) => {
-    var ability = store.getters.getAbility;
-    if(ability.can('read_install',to.params.id.toString()) || ability.can('manage','all'))
-    {
-      next()
-    }
-    else  {
-      next({
-        name: 'home',
-      })
-    }
-  },
   children: [
     {
       path: 'overview',

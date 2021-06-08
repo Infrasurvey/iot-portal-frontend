@@ -164,15 +164,25 @@ export default {
         await this.getUsers();
     }
     },
+    beforeRouteUpdate(to, from, next) {
+        var ability = this.$store.getters.getAbility;
+            if(ability.can('manage_group',to.query.id.toString()) || ability.can('manage','all'))
+            {
+            next()
+            }
+            else{
+            next({
+                name: 'home',
+            })
+            }
+    },
     async created(){
         this.getInstallations();
         await this.getUsers();
-        console.log(this.users)
     },
     methods:{
         async updateUsersLists(){
             await this.getUsers();
-            console.log(this.users)
         },
         getInstallations(){
             API.get('/api/getInstallationsByGroup/'+this.group_id)

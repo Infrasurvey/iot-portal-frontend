@@ -52,11 +52,6 @@
 </template>
   
 <script>
-  //<polyline-decorator v-for="polyline in polylines" :key="polyline.key" :paths="[polyline]" :patterns="patterns"></polyline-decorator>
-  //https://developers.google.com/maps/documentation/javascript/examples/polyline-simple
-  //https://developers.google.com/maps/documentation/javascript/examples/overlay-symbol-arrow
-  // https://docs.mapbox.com/mapbox.js/example/v1.0.0/dynamically-drawing-a-line/
-  // https://developer.here.com/documentation/examples/maps-js/geoshapes/polyline-on-the-map
   import BatteryStatus from './battery_status'
   import API from '../../http-constants'
   import L from "leaflet";
@@ -102,6 +97,16 @@
       patterns,
       }
       
+    },
+    watch: {
+        async $route(to, from) {
+          this.isMounted = false
+          this.installationId = to.params.id.toString()
+          this.positions =[],
+          await this.getInstallation()
+          await this.getStation(to.params.id)
+          this.isMounted = true
+        }
     },
     async created(){
       await this.getInstallation()

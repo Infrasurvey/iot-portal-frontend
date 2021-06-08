@@ -156,14 +156,21 @@ export const store = new Vuex.Store({
             })
               .then(response => {
                 const token = response.data.data.token
+                console.log(response.data)
                 sessionStorage.setItem('token', token)
                 context.commit('retrieveToken', token)
                 API.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
                 var groups =[];
+                
                 const groupsAsJSON = response.data.data.groups
                 for(var i in groupsAsJSON){
                   const group = groupsAsJSON[i]
-                  groups.push({'id':group.id,'organization_id':group.organization_id}) 
+                  var installations =[];
+                  for(var i in group.installations){
+                      var install = group.installations[i]
+                      installations.push({'id':install.id})
+                  }
+                  groups.push({'id':group.id,'organization_id':group.organization_id,'installations':installations}) 
                 }
 
                 var organizations =[];

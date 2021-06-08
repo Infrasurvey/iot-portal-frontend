@@ -45,7 +45,7 @@ Vue.use(VueMaterial)
 library.add([faBatteryEmpty,faBatteryHalf,faBatteryFull,faBatteryQuarter,faBatteryThreeQuarters,faUserCircle,faCheckCircle, faExclamationCircle,faTimes,faChevronDown, faCaretDown, faPlusCircle,faCloudUploadAlt,faCloudDownloadAlt])
 Vue.config.productionTip = false;
 Vue.prototype.$ability = new Ability();
-
+store.commit('setAbility');
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!store.getters.loggedIn) {

@@ -17,9 +17,17 @@ export default function defineRulesFor(groups,organizations,is_admin){
 
       groups.forEach(group => {
         if(orga_ids.includes(String(group.organization_id))){
-          can('manage_install',String(group.id))
+          can('manage_group',String(group.id))
+          group.installations.forEach(installation =>{
+            can('manage_install',String(installation.id))
+          })
+        }else{
+          group.installations.forEach(installation =>{
+            can('read_install',String(installation.id))
+          })
         }
-        can('read_install',String(group.id))
+        
+        //can('read_install',String(group.id))
       })
       
     }

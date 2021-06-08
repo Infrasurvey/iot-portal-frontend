@@ -89,6 +89,13 @@
         formatter: v =>  `${moment().startOf('day').add(v, 'minutes').format('hh:mm')}`,
       }
     },
+    watch: {
+        async $route(to, from) {
+          this.installationId = to.params.id.toString()
+          await this.getBaseStationConfig()
+          this.setActive()
+        }
+    },
     async created(){
       await this.getBaseStationConfig()
       this.setActive()
