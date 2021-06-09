@@ -1,11 +1,11 @@
 <template>
-  <div>
-    <section-title title= "TOTO"></section-title>
+  <div class="main-install overview-inst">
+    <section-title v-if="isMounted" :title="installation.name +' installation'"></section-title>
     <div class="flex-container overview">
-      <div class="overview-container">
+      <div class="overview-container md-elevation-3">
       <img :src="src" alt="" width="230px" height="230px">
       </div>
-      <div class="overview-container">
+      <div class="overview-container overview-text">
         <div>
           Installed rovers : {{installation.device_rover_count}}
         </div>
@@ -30,7 +30,7 @@
     </div>
 
     <section-title title = "Rovers positions"></section-title>
-    <div v-if="isMounted">
+    <div v-if="isMounted" class="rovers-map">
       <l-map :zoom="zoom"
       :center="center"
       style="height: 500px; width: 100%"
@@ -48,6 +48,7 @@
           </l-marker> 
       </l-map>
     </div>
+    <div class="bottom"></div>
   </div>
 </template>
   

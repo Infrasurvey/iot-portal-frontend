@@ -35,12 +35,33 @@
 }
 
 .overview-container{
+    margin: 5px 30px 5px 30px;
+}
+
+.overview-text{
+    line-height: normal;
+    font-size: larger;
+    height: inherit;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+    align-content: flex-start;
 }
 
 .overview{
     display: flex;
+    height: 230px;
     flex-wrap: wrap;
     justify-content: flex-start;
     align-content: space-around;
     align-items: flex-start;
+}
+
+.rovers-map{
+    margin: 5px 5px;
+}
+
+.bottom{
+    height: 230px;
 }

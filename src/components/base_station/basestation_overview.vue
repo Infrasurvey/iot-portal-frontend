@@ -15,8 +15,8 @@
           <p>
             Name : {{ basestation.name }}<br>
             Installed rovers : {{ basestation.device_rover_count || 'Undefined'}}<br>
-            Battery voltage : {{ basestation.battery_voltage || 'Undefined'}}<br>
-            Available memory : {{ basestation.available_memory || 'Undefined'}}
+            Battery voltage : {{ basestation.battery_voltage || 'Undefined'}}V<br>
+            Available memory : {{ basestation.available_memory || 'Undefined'}}MB
           </p>
         </md-content>
         <md-content class="md-elevation-3 overview-info-tile">
@@ -32,7 +32,7 @@
       <section-title title= "Current configuration"></section-title>
       <div class="flex-left">
         <div class="overview-actual-p">
-          Application date : <br>
+          Application date : {{configuration.configuration_date | formatDate}}<br>
           Wake up period : {{ configuration.wakeup_period_in_minutes || 'Null' }} <span v-if="configuration.wakeup_period_in_minutes">min.</span> <br>
           Non continous store bind to FTP : {{ configuration.non_continuous_store_binr_to_ftp || 'Null'}}<br>
           Reference GPS module : {{ configuration.reference_gps_module || 'Null'}}

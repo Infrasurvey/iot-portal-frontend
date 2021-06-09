@@ -4,11 +4,13 @@
             <section-title title= "Manage Installation"></section-title>
             <div class="manage-form">
                 <div>
-                    <label for="nameInput">Installation name : </label>
-                    <input type="text" name="nameInput" id="nameInput" v-model="installation.name">
+                    <label for="nameInput" class="install-name-label">Installation name : </label>
+                    <md-field class="install-name-input">
+                        <md-input name="nameInput" id="nameInput" v-model="installation.name"></md-input>
+                    </md-field>
                 </div>
                 <div class="img-container">
-                    <label for="">Installation Image</label>
+                    <label for="">Installation image</label>
                     <div class="img-struct">
                         <div class="image-container">
                         <img :src="src" alt="" width="230px" height="230px">
@@ -24,7 +26,7 @@
                 </div>
             </div>
             <div class="apply-container">
-                <button type="submit" @click="updateInstallation" class="apply-btn">Apply</button>
+                <button type="submit" @click="updateInstallation" class="apply-btn">Update informations</button>
             </div>
 
             <div class="disabled">
@@ -44,6 +46,7 @@
             :columns="columns"
             :rows="users"/>
         </div>
+        <FlashMessage></FlashMessage>
     </div>
 </template>
 
@@ -126,24 +129,33 @@ export default {
       .catch(e => {
       this.errorMessage = e
       })
-          },
-          updateInstallation(){
-                  var form = new FormData();
-                  form.append('image', this.image);
-                  form.append('name',this.installation.name);
-                  API.post('/api/updateInstallationImage/'+this.installationId,form)
-                  .then(response => {
-
-                  })
-                  .catch(e => {
-                      this.errorMessage = e
-                  })
-          },
-          onChanged (image) {
-              if (image) {
-                  this.image = this.$refs.pictureInput.file
-              }
-          }
+        },
+        updateInstallation(){
+                var form = new FormData();
+                form.append('image', this.image);
+                form.append('name',this.installation.name);
+                API.post('/api/updateInstallationImage/'+this.installationId,form)
+                .then(response => {
+                    this.displayStatus(true)
+                })
+                .catch(e => {
+                    this.errorMessage = e
+                    this.displayStatus(false)
+                })
+        },
+        onChanged (image) {
+            if (image) {
+                this.image = this.$refs.pictureInput.file
+            }
+        },
+        displayStatus(success){
+            if(success){
+                this.flashMessage.success({title: 'Success', message: 'Installation successfully updated'});
+            }
+            else{
+                this.flashMessage.show({status: 'error',title: 'Error', message: 'An error ocured during installation update'});
+            }
+        },
       }
   }
 </script>

@@ -2,21 +2,26 @@
 .image-container {
     display: inline-block;
     margin: 0 0 0 50px;
-    width: 30%;
+    width: 300px;
     height: inherit;
     vertical-align: top;
 }
 
 .image-input {
     display: inline-block;
-    width: 30%;
+    width: 300px;
     height: inherit;
     vertical-align: top;
 }
 
 .install-name-input {
     display: inline-block;
-    vertical-align: middle;
+    width: 200px;
+}
+
+.install-name-label {
+    display: inline-block;
+    margin-right: 20px;
 }
 
 .img-container{
