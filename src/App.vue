@@ -33,7 +33,7 @@
         </div>
       </md-toolbar>
     </div>
-    <router-view v-if="isMounted" @updateUserInfo="updateUserInfo" @updateAbility="updateAbility"></router-view>
+    <router-view class="main-app" v-if="isMounted" @updateUserInfo="updateUserInfo" @updateAbility="updateAbility"></router-view>
   </div>
 </template>
 

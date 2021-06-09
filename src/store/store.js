@@ -63,7 +63,9 @@ export const store = new Vuex.Store({
       //sessionStorage.setItem('ability', JSON.stringify(state.ability))
     }, 
     setAbility(state){
-      state.ability = defineRulesFor(state.groups,state.organizations,state.is_admin)
+      if (state.groups != null && state.organizations != null && state.is_admin != null){
+        state.ability = defineRulesFor(state.groups,state.organizations,state.is_admin)
+      }
       //sessionStorage.setItem('ability', JSON.stringify(state.ability))
     }, 
     setIsAdmin(state,is_admin){
