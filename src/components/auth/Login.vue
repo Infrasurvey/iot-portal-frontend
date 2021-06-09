@@ -20,6 +20,7 @@
       <!-- Sign in button -->
       <md-button class="md-raised md-primary btn-login" type="submit">Log in</md-button>
     </form>
+    <FlashMessage></FlashMessage>
   </div>
 </template>
 
@@ -62,7 +63,9 @@ export default {
         })
           .then(response => {
             this.$router.push({ name: 'home' })
-          })
+          }).catch(error => {
+                this.displayStatus()
+              })
       },
       getValidationClass (fieldName) {
         const field = this.$v.form[fieldName]
@@ -72,6 +75,9 @@ export default {
             'md-invalid': field.$invalid && field.$dirty
           }
         }
+      },
+      displayStatus(){
+        this.flashMessage.show({status: 'error', title: 'Login failed', message: 'Invalid e-mail or password',clickable:true})
       }
     }
   }

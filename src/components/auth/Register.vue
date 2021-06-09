@@ -80,6 +80,7 @@
 
     <md-button class="md-raised md-primary btn-login" type="submit">Create an account</md-button>
     </form>
+    <FlashMessage></FlashMessage>
   </div>
 </template>
 
@@ -419,7 +420,6 @@ export default {
     register() {
       this.$v.$touch();
       if(this.$v.$error) return
-      console.log(this.user);
       this.$store.dispatch('register', this.user)
         .then(response => {
           this.$store.dispatch('retrieveToken', {
@@ -429,8 +429,13 @@ export default {
             .then(response => {
               this.$router.push({ name: 'home' })
             })
+        }).catch(error => {
+          this.displayStatus(error.response.data.message)
         })
-    }
+    },
+      displayStatus(error){
+        this.flashMessage.show({status: 'error', title: 'Register failed', message: error,clickable:true})
+      }
   }
 }
 </script>
