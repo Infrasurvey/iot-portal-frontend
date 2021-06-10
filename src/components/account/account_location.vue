@@ -2,15 +2,15 @@
   <div style="display: flex; flex-direction: column; justify-content: space-between;">
     <div>
       <section-title style="flex-grow: 1;" title= "Address"></section-title>
-      <form novalidate class="md-layout" @submit.prevent="updateUser" style="display: flex; flex-wrap: wrap;">
-        <md-field :class="getValidationClass('address')" style="width: 300px; margin-right: 20px;">
+      <form novalidate class="flex-input-container" @submit.prevent="updateUser" style="display: flex; flex-wrap: wrap;">
+        <md-field :class="getValidationClass('address')" class="input-container" style="width: 300px; margin-right: 20px;">
           <label>Address*</label>
           <md-input v-model="user.address" maxlength="30"></md-input>
           <span class="md-error" v-if="!$v.user.address.required">The address is required</span>
           <span class="md-error" v-else-if="!$v.user.address.maxLength">Must contains max. 30 characters</span>
         </md-field>
 
-        <md-field :class="getValidationClass('zip')" style="width: 300px; margin-right: 20px;">
+        <md-field :class="getValidationClass('zip')" class="input-container" style="width: 300px; margin-right: 20px;">
           <label>ZIP code*</label>
           <md-input v-model="user.zip" maxlength="6"></md-input>
           <span class="md-error" v-if="!$v.user.zip.required">The ZIP code is required</span>
@@ -18,14 +18,14 @@
           <span class="md-error" v-else-if="!$v.user.zip.maxLength">Must contains max. 6 characters</span>
         </md-field>
 
-        <md-field :class="getValidationClass('city')" style="width: 300px; margin-right: 20px;">
+        <md-field :class="getValidationClass('city')" class="input-container" style="width: 300px; margin-right: 20px;">
           <label>City*</label>
           <md-input v-model="user.city" maxlength="30"></md-input>
           <span class="md-error" v-if="!$v.user.city.required">The city code is required</span>
           <span class="md-error" v-else-if="!$v.user.city.maxLength">Must contains max. 6 characters</span>
         </md-field>
 
-        <md-autocomplete v-model="user.country" :md-options="countries" style="width: 300px; margin-right: 20px;">
+        <md-autocomplete v-model="user.country" :md-options="countries" class="input-container" style="width: 300px; margin-right: 20px;">
           <label>Country*</label>
           <span class="md-error" v-if="!$v.user.country.required">The country is required</span>
         </md-autocomplete>
@@ -33,7 +33,7 @@
     </div>
 
     <div style="align-self: flex-end;">
-        <md-button type="submit" to="/home" class="md-raised md-accent btn-login" style="width: 200px;">Close</md-button>
+        <md-button type="submit" :to="{ name: 'home' }" class="md-raised md-accent btn-login" style="width: 200px;">Close</md-button>
         <md-button type="submit" @click="updateUser" class="md-raised md-primary btn-login" style="width: 200px;">Apply</md-button>
     </div>
   </div>
