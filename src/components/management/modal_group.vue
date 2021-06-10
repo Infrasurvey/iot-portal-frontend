@@ -19,7 +19,7 @@
             </md-field>
             <md-field :class="getValidationClass('organization_id')" style="width: 300px; margin-right: 50px; margin-left: 50px;">
               <label for="organization">Select an existing organization*</label>
-              <md-select v-model="organization_id" name="organization" id="organization">
+              <md-select v-model="organization_id" name="organization" id="organization" disabled>
                 <md-option v-for="organization in organizations" :key="organization.id" v-bind:value="organization.id">{{organization.name}}</md-option>
               </md-select>
               <span class="md-error" v-if="!$v.organization_id.required">The group must be linked with an organization</span>
