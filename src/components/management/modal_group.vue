@@ -3,31 +3,35 @@
     <div class="modal">
         <header class="modal-header">
         <div name="header">
-          <h1 v-if="!isUpdate" class="installation-title">Create a new group</h1>
+          <h1 v-if="!isUpdate" class="installation-title">Create group</h1>
           <h1 v-if="isUpdate" class="installation-title">Update group</h1>
         </div>
           <button type="button" class="btn-close" @click="close"><font-awesome-icon class="close" icon="times" size="2x"/></button>
       </header>
       <section class="modal-body">
         <div name="body">
-          <form enctype="multipart/form-data" class="installation-form">
-              <label for="name">Group's name : </label>
-              <input type="text" v-model="name" name="name" id="name" placeholder="Name" class="base-input" :class="{ 'hasError': $v.name.$error }">
-               <label for="organization">Group's organization :</label>
-              <select type="text" v-model="organization_id" name="organization" id="organization" class="base-select" :class="{ 'hasError': $v.organization_id.$error }" :disabled="!isUpdate ? true : false" >
-                    <option v-for="organization in organizations" :key="organization.id" v-bind:value="organization.id" :selected="organization_id == organization.id">
-                        {{ organization.name }}
-                    </option>
-              </select>
+          <form novalidate class="md-layout" @submit.prevent="onSubmit" style="display: flex;align-content: space-around; flex-direction: column; justify-content: center;">
+            <md-field :class="getValidationClass('name')"  style="width: 300px; margin-right: 50px; margin-left: 50px;">
+              <label>Group's name</label>
+              <md-input v-model="name" name="name" id="name"  maxlength="30"></md-input>
+              <span class="md-error" v-if="!$v.name.required">The group must have a name</span>
+              <span class="md-error" v-if="!$v.name.maxlength">The group name must have less than 30 characters</span>
+            </md-field>
+            <md-field :class="getValidationClass('organization_id')" style="width: 300px; margin-right: 50px; margin-left: 50px;">
+              <label for="organization">Select an existing organization*</label>
+              <md-select v-model="organization_id" name="organization" id="organization">
+                <md-option v-for="organization in organizations" :key="organization.id" v-bind:value="organization.id">{{organization.name}}</md-option>
+              </md-select>
+              <span class="md-error" v-if="!$v.organization_id.required">The group must be linked with an organization</span>
+            </md-field>
           </form>
         </div>
-       </section>
-       <footer class="modal-footer">
-            <button type="button" v-if="isUpdate" class="" @click="showDeleteAlert">Delete group</button>
-            <button type="submit" v-if="!isUpdate" class="btn-create" @click.prevent="onCreate">Create new group</button>
-            <button type="submit" v-if="isUpdate" class="btn-create" @click.prevent="onUpdate">Update group</button>
-      </footer>
-
+      </section>
+      <md-dialog-actions>
+        <md-button class="md-primary" v-if="isUpdate" @click="showDeleteAlert">Delete group</md-button>
+        <md-button class="md-primary" v-if="!isUpdate" @click.prevent="onCreate">Create new group</md-button>
+        <md-button class="md-primary" v-if="isUpdate" @click.prevent="onUpdate">Update group</md-button>
+      </md-dialog-actions>
     </div>
   </div>
 </template>
@@ -61,7 +65,8 @@ import FormData from 'form-data'
     },
     validations: {
         name:{
-          required
+          required,
+          maxlength : 30
         },
         organization_id:{
           required
@@ -152,7 +157,15 @@ import FormData from 'form-data'
             this.$v.$touch();
             if(this.$v.$error) return
             this.updateGroup();
+        },
+        getValidationClass (fieldName) {
+          const field = this.$v[fieldName]
+          if (field) {
+            return {
+              'md-invalid': field.$invalid && field.$dirty
+            }
+          }
         }
     },
-  };
+  }
 </script>

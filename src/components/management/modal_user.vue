@@ -9,24 +9,26 @@
       </header>
       <section class="modal-body">
         <div name="body">
-          <form enctype="multipart/form-data" class="installation-form">
-              <label for="name">User's name : </label>
-              <input type="text" v-model="name" name="name" id="name" class="base-input" placeholder="Name" :class="{ 'hasError': $v.name.$error }" readonly>
-               <label for="organizations">Is organization admin for :</label>
+          <form novalidate class="md-layout" @submit.prevent="onSubmit" style="display: flex;align-content: space-around; flex-direction: column; justify-content: center;">
+            <md-field  style="width: 300px; margin-right: 50px; margin-left: 50px;">
+              <label>User's name</label>
+              <md-input v-model="name" name="name" id="name" maxlength="30" disabled></md-input>
+            </md-field>
+            <md-field  style="width: 300px; margin-right: 50px; margin-left: 50px;">
+              <label for="organizations">Is organization admin for</label>
               <multiselect @input="setSelectedGroups" :disabled="group_id !=null ? true : false" @remove="removeOrganization" v-model="organizations_selected" :options="organizations" label="name" :showLabels="true"  selectedLabel="Selected" selectLabel="Select this organization" deselect-label="Remove this organization" track-by="id" :taggable="true" :searchable="false" :close-on-select="true" :multiple="true" ></multiselect> 
-              
-               <label for="groups">User's group :</label>
+            </md-field>
+            <md-field class="multi-input"  style="width: 300px; margin-right: 50px; margin-left: 50px;">
+              <label for="groups">User's group</label>
               <multiselect v-model="final_groups_selected" @remove="removeGroup" :options="groups" label="name" :showLabels="true"  selectedLabel="Selected" selectLabel="Select this group" deselect-label="Remove this group" track-by="id" :taggable="true" :searchable="false" :close-on-select="true" :multiple="true" ></multiselect> 
-
+            </md-field>
           </form>
-
         </div>
-       </section>
-       <footer class="modal-footer">
-            <button type="button" v-if="isUpdate" class="" @click="showDeleteAlert" disabled>Delete user</button>
-            <button type="submit" v-if="isUpdate" class="btn-create" @click.prevent="onUpdate">Update group</button>
-      </footer>
-
+      </section>
+      <md-dialog-actions>
+        <md-button class="md-primary" @click="showDeleteAlert">Delete user</md-button>
+        <md-button class="md-primary" @click.prevent="onUpdate">Update user</md-button>
+      </md-dialog-actions>
     </div>
   </div>
 </template>

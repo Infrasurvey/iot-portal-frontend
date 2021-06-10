@@ -10,27 +10,32 @@
       </header>
       <section class="modal-body">
         <div name="body">
-          <form enctype="multipart/form-data" class="installation-form">
-              <label for="name">Installation's name : </label>
-              <input type="text" v-model="installation.name" name="name" id="name" class="base-input" placeholder="Name" readonly>
-               <label for="organization">installation's group :</label>
-               <select name="group" id="group" v-model="installation.group_id" class="base-select">
-                   <option :value="group.id" v-for="group in groups" :key="group.id" :selected="installation.group_id == group.id">{{group.name}}</option>
-               </select>
-               <label for="admin">Installation's base station :</label>
-               <select name="basestation" id="basestation" v-model="installation.device_base_station_id" class="base-select">
-                   <option :value="basestation.id" v-for="basestation in basestations" :key="basestation.id" :selected="installation.device_base_station_id == basestation.id">{{basestation.name}}</option>
-               </select>
-
+          <form novalidate class="md-layout" @submit.prevent="onSubmit" style="display: flex;align-content: space-around; flex-direction: column; justify-content: center;">
+            <md-field  style="width: 300px; margin-right: 50px; margin-left: 50px;">
+              <label>Installation's name</label>
+              <md-input v-model="installation.name" maxlength="30" disabled></md-input>
+            </md-field>
+            <md-field :class="getValidationClass('device_base_station_id')" style="width: 300px; margin-right: 50px; margin-left: 50px;">
+              <label for="basestation">Select an existing base station*</label>
+              <md-select v-model="installation.device_base_station_id" name="basestation" id="basestation">
+                <md-option v-for="station in basestations" :key="station.id" v-bind:value="station.id">{{station.name}}</md-option>
+              </md-select>
+              <span class="md-error" v-if="!$v.installation.device_base_station_id.required">The installation must be linked with a base station</span>
+            </md-field>
+            <md-field :class="getValidationClass('group_id')" style="width: 300px; margin-right: 50px; margin-left: 50px;">
+              <label for="group">Select an existing group*</label>
+              <md-select v-model="installation.group_id" name="group" id="group">
+                <md-option v-for="group in groups" :key="group.id" v-bind:value="group.id">{{group.name}}</md-option>
+              </md-select>
+              <span class="md-error" v-if="!$v.installation.group_id.required">The installation must be linked with a group</span>
+            </md-field>
           </form>
-
         </div>
-       </section>
-       <footer class="modal-footer">
-            <button type="button" v-if="isUpdate" class="" @click="showDeleteAlert">Delete installation</button>
-            <button type="submit" v-if="isUpdate" class="btn-create" @click.prevent="onUpdate">Update installation</button>
-      </footer>
-
+      </section>
+      <md-dialog-actions>
+        <md-button class="md-primary" @click="showDeleteAlert">Delete installation</md-button>
+        <md-button class="md-primary" @click.prevent="onSubmit">Create a new installation</md-button>
+      </md-dialog-actions>
     </div>
   </div>
 </template>
@@ -39,6 +44,7 @@
 import API from '../../http-constants'
 import { required } from 'vuelidate/lib/validators'
 import FormData from 'form-data'
+import SectionTitle from '../template/SectionTitle.vue';
 
   export default {
     name: 'Modal',
@@ -52,6 +58,7 @@ import FormData from 'form-data'
       group_id : String
   },
     components:{
+        SectionTitle
         
     },
     data(){
@@ -160,7 +167,15 @@ import FormData from 'form-data'
             this.$v.$touch();
             if(this.$v.$error) return
             this.updateInstallation();
-        }
+        },
+        getValidationClass (fieldName) {
+          const field = this.$v.installation[fieldName]
+          if (field) {
+            return {
+              'md-invalid': field.$invalid && field.$dirty
+            }
+          }
+    }
     },
   };
 </script>

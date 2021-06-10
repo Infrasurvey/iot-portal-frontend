@@ -10,21 +10,27 @@
       </header>
       <section class="modal-body">
         <div name="body">
-          <form enctype="multipart/form-data" class="installation-form">
+          <form novalidate class="md-layout" @submit.prevent="onSubmit" style="display: flex;align-content: space-around; flex-direction: column; justify-content: center;">
+            <md-field :class="getValidationClass('selected_user')" class="multi-input"  style="width: 300px; margin-right: 50px; margin-left: 50px;">
               <label for="name">Select a user to add : </label>
               <multiselect  v-model="selected_user" :options="users" label="name" :showLabels="true"  selectedLabel="Selected" selectLabel="Select this user" deselect-label="Remove this user" track-by="id" :searchable="false" :close-on-select="true" :class="{ 'hasError': $v.selected_user.$error }"></multiselect> 
-               <label for="organizations" v-if="isAdmin">Is organization admin for :</label>
-              <multiselect v-if="isAdmin" disabled v-model="organization_selected" :options="organization" label="name" :showLabels="true"  selectedLabel="Selected" selectLabel="Select this organization" deselect-label="Remove this organization" track-by="id" :taggable="true" :searchable="false" :close-on-select="true" :multiple="true" ></multiselect> 
-              
-               <label for="groups" >User's group :</label>
+              <span class="md-error" v-if="!$v.selected_user.required">You must select a user</span>
+            </md-field>
+            <md-field v-if="isAdmin" class="multi-input"  style="width: 300px; margin-right: 50px; margin-left: 50px;">
+              <label for="organizations">Is organization admin for</label>
+              <multiselect disabled v-model="organization_selected" :options="organization" label="name" :showLabels="true"  selectedLabel="Selected" selectLabel="Select this organization" deselect-label="Remove this organization" track-by="id" :taggable="true" :searchable="false" :close-on-select="true" :multiple="true" ></multiselect> 
+            </md-field>
+            <md-field :class="getValidationClass('final_groups_selected')" class="multi-input"  style="width: 300px; margin-right: 50px; margin-left: 50px;">
+              <label for="groups">User's group</label>
               <multiselect v-model="final_groups_selected" :disabled="isAdmin || group_id !=null ? true : false" :options="groups" label="name" :showLabels="true"  selectedLabel="Selected" selectLabel="Select this group" deselect-label="Remove this group" track-by="id" :taggable="true" :searchable="false" :close-on-select="true" :multiple="true" :class="{ 'hasError': $v.final_groups_selected.$error }"></multiselect> 
+              <span class="md-error" v-if="!$v.selected_user.required">You must select a group</span>
+            </md-field>
           </form>
-
         </div>
-       </section>
-       <footer class="modal-footer">
-            <button type="submit" class="btn-create" @click.prevent="addUser">Add user</button>
-      </footer>
+      </section>
+      <md-dialog-actions>
+        <md-button class="md-primary"  @click.prevent="onUpdate">Add user</md-button>
+      </md-dialog-actions>
 
     </div>
   </div>
@@ -181,6 +187,14 @@ import Multiselect from 'vue-multiselect'
             this.$v.$touch();
             if(this.$v.$error) return
             this.addUser();
+        },
+        getValidationClass (fieldName) {
+          const field = this.$v[fieldName]
+          if (field) {
+            return {
+              'md-invalid': field.$invalid && field.$dirty
+            }
+          }
         }
     },
   };

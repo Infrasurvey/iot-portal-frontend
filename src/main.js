@@ -6,6 +6,7 @@ import App from './App'
 import router from './router'
 import { store } from './store/store'
 import FlashMessage from '@smartweb/vue-flash-message';
+import VueMaterialSlider from 'vue-material-slider';
 
 import 'vue-material-slider/dist/vue-material-slider.css';
 import './assets/scss/index.scss'
@@ -23,7 +24,6 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import { LMap, LTileLayer, LMarker } from 'vue2-leaflet';
 import 'leaflet/dist/leaflet.css';
 import Vue2LeafletPolylineDecorator from 'vue2-leaflet-polylinedecorator'
-import VueMaterialSlider from 'vue-material-slider';
 
 Vue.component('polyline-decorator', Vue2LeafletPolylineDecorator)
 Vue.component('l-map', LMap);

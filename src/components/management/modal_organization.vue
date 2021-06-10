@@ -3,25 +3,28 @@
     <div class="modal">
         <header class="modal-header">
         <div name="header">
-          <h1 v-if="!isUpdate" class="installation-title">Create a new organization</h1>
+          <h1 v-if="!isUpdate" class="installation-title">Create organization</h1>
           <h1 v-if="isUpdate" class="installation-title">Update organization</h1>
         </div>
           <button type="button" class="btn-close" @click="close"><font-awesome-icon class="close" icon="times" size="2x"/></button>
       </header>
       <section class="modal-body">
         <div name="body">
-          <form enctype="multipart/form-data" class="installation-form">
-              <label for="name">Organization's name : </label>
-              <input type="text" v-model="name" name="name" id="name" class="base-input" placeholder="Name" :class="{ 'hasError': $v.name.$error }">
+          <form novalidate class="md-layout" @submit.prevent="onSubmit" style="display: flex;align-content: space-around; flex-direction: column; justify-content: center;">
+            <md-field :class="getValidationClass('name')"  style="width: 300px; margin-right: 50px; margin-left: 50px;">
+              <label>Organization's name</label>
+              <md-input   v-model="name" name="name" id="name"  maxlength="30"></md-input>
+              <span class="md-error" v-if="!$v.name.required">The organization must have a name</span>
+              <span class="md-error" v-if="!$v.name.maxlength">The organization name must have less than 30 characters</span>
+            </md-field>
           </form>
         </div>
-       </section>
-       <footer class="modal-footer">
-            <button type="button" v-if="isUpdate" class="" @click="showDeleteAlert">Delete organization</button>
-            <button type="submit" v-if="!isUpdate" class="btn-create" @click.prevent="onCreate">Create new organization</button>
-            <button type="submit" v-if="isUpdate" class="btn-create" @click.prevent="onUpdate">Update organization</button>
-      </footer>
-
+      </section>
+      <md-dialog-actions>
+        <md-button class="md-primary" v-if="isUpdate" @click="showDeleteAlert">Delete organization</md-button>
+        <md-button class="md-primary" v-if="!isUpdate" @click.prevent="onCreate">Create organization</md-button>
+        <md-button class="md-primary" v-if="isUpdate" @click.prevent="onUpdate">Update organization</md-button>
+      </md-dialog-actions>
     </div>
   </div>
 </template>
@@ -53,7 +56,8 @@ import FormData from 'form-data'
     },
     validations: {
         name:{
-          required
+          required,
+          maxlength : 30
         }
    },
     created(){
@@ -133,6 +137,14 @@ import FormData from 'form-data'
             this.$v.$touch();
             if(this.$v.$error) return
             this.updateOrganization();
+        },
+        getValidationClass (fieldName) {
+          const field = this.$v[fieldName]
+          if (field) {
+            return {
+              'md-invalid': field.$invalid && field.$dirty
+            }
+          }
         }
     },
   };

@@ -1,45 +1,52 @@
 <template>
   <div class="modal-backdrop">
     <div class="modal">
-        <header class="modal-header">
+      <header class="modal-header">
         <div name="header">
-          <h1 class="installation-title">Create new installation</h1>
+          <h1 class="installation-title">Create installation</h1>
         </div>
           <button type="button" class="btn-close" @click="close"><font-awesome-icon class="close" icon="times" size="2x"/></button>
       </header>
-
       <section class="modal-body">
         <div name="body">
-
-          <form enctype="multipart/form-data" class="installation-form">
-              <label for="name">Installation's name : </label>
-              <input type="text" v-model="installation.name" name="name" id="name" placeholder="Name" class="base-input" :class="{ 'hasError': $v.installation.name.$error }">
-              <label for="date">Comissioning date : </label>
-              <input type="date" v-model="installation.installation_date" name="date" id="date" class="base-input" :class="{ 'hasError': $v.installation.installation_date.$error }">
-              <label for="basestation">Select an existing base station :</label>
-              <select type="text" v-model="installation.device_base_station_id" name="basestation" id="basestation" class="base-select" :class="{ 'hasError': $v.installation.device_base_station_id.$error }"> 
-                    <option v-for="station in stations" :key="station.id" v-bind:value="station.id">
-                        {{ station.name }}
-                    </option>
-              </select>
-                <label for="group">Select an existing group :</label>
-              <select type="text" v-model="installation.group_id" name="group" id="group" class="base-select" :class="{ 'hasError': $v.installation.group_id.$error }"> 
-                    <option v-for="group in groups" :key="group.id" v-bind:value="group.id">
-                        {{ group.name }}
-                    </option>
-              </select>
-              <label for="">Select an image : </label>
-                <picture-input class="pic-input" ref="pictureInput" @change="onChanged" :width="230" :removable="true"
-                    :height="230" accept="image/jpeg, image/png" size="10" removeButtonClass="pic-btn" buttonClass="pic-btn" :customStrings="{ upload: '<h1>Upload it!</h1>', drag: 'Drag and drop your image here'}">
-                </picture-input>
+          <form novalidate class="md-layout" @submit.prevent="onSubmit" style="display: flex;align-content: space-around; flex-direction: column; justify-content: center;">
+            <md-field :class="getValidationClass('name')" style="width: 300px; margin-right: 50px; margin-left: 50px;">
+              <label>Installation's name*</label>
+              <md-input v-model="installation.name" maxlength="30"></md-input>
+              <span class="md-error" v-if="!$v.installation.name.required">The installation name is required</span>
+              <span class="md-error" v-else-if="!$v.installation.name.maxLength">Must contains max. 30 characters</span>
+            </md-field>
+            <md-datepicker :class="getValidationClass('installation_date')" v-model="installation.installation_date" style="width: 300px; margin-right: 50px; margin-left: 50px;">
+              <label>Comissioning date*</label>
+              <span class="md-error" v-if="!$v.installation.installation_date.required">The comissioning date is required</span>
+            </md-datepicker>
+            <md-field :class="getValidationClass('device_base_station_id')" style="width: 300px; margin-right: 50px; margin-left: 50px;">
+              <label for="basestation">Select an existing base station*</label>
+              <md-select v-model="installation.device_base_station_id" name="basestation" id="basestation">
+                <md-option v-for="station in stations" :key="station.id" v-bind:value="station.id">{{station.name}}</md-option>
+              </md-select>
+              <span class="md-error" v-if="!$v.installation.device_base_station_id.required">The installation must be linked with a base station</span>
+            </md-field>
+            <md-field :class="getValidationClass('group_id')" style="width: 300px; margin-right: 50px; margin-left: 50px;">
+              <label for="group">Select an existing group*</label>
+              <md-select v-model="installation.group_id" name="group" id="group">
+                <md-option v-for="group in groups" :key="group.id" v-bind:value="group.id">{{group.name}}</md-option>
+              </md-select>
+              <span class="md-error" v-if="!$v.installation.group_id.required">The installation must be linked with a group</span>
+            </md-field>
+            <div style="width: 300px; margin-right: 50px; margin-left: 50px;">
+              <label for="" style="font-size: 16px;color: rgba(0, 0, 0, 0.54);">Select an image : </label>
+              <picture-input class="pic-input" ref="pictureInput" @change="onChanged" :width="230" :removable="true"
+                :height="230" accept="image/jpeg, image/png" size="10" removeButtonClass="pic-btn" buttonClass="pic-btn" :customStrings="{ upload: '<h1>Upload it!</h1>', drag: 'Drag and drop your image here'}">
+              </picture-input>
+            </div>
           </form>
+          <md-dialog-actions>
+            <md-button class="md-primary" @click="close">Cancel</md-button>
+            <md-button class="md-primary" @click.prevent="onSubmit">Create a new installation</md-button>
+          </md-dialog-actions>
         </div>
        </section>
-       <footer class="modal-footer">
-            <button type="button" class="btnclose" @click="close">Cancel</button>
-            <button type="submit" class="btn-create" @click.prevent="onSubmit">Create new installation</button>
-      </footer>
-
     </div>
   </div>
 </template>
@@ -49,6 +56,7 @@ import API from '../../http-constants'
 import PictureInput from 'vue-picture-input'
 import FormData from 'form-data'
 import { required } from 'vuelidate/lib/validators'
+import format from 'date-fns/format'
 
   export default {
     name: 'Modal',
@@ -59,7 +67,7 @@ import { required } from 'vuelidate/lib/validators'
         return{
             installation: {
                 name:"",
-                installation_date:"",
+                installation_date:null,
                 group_id:"",
                 device_base_station_id:"",
             },
@@ -118,7 +126,7 @@ import { required } from 'vuelidate/lib/validators'
           var form = new FormData();
           form.append('image', this.image);
           form.append('name',this.installation.name);
-          form.append('installation_date',this.installation.installation_date);
+          form.append('installation_date',format(this.installation.installation_date,'yyyy-MM-dd'));
           form.append('group_id',this.installation.group_id);
           form.append('device_base_station_id',this.installation.device_base_station_id);
           API.post('/api/installation',form)
@@ -146,7 +154,15 @@ import { required } from 'vuelidate/lib/validators'
                 this.image = this.$refs.pictureInput.file
                 
             }
-        }
+        },
+        getValidationClass (fieldName) {
+          const field = this.$v.installation[fieldName]
+          if (field) {
+            return {
+              'md-invalid': field.$invalid && field.$dirty
+            }
+          }
+    }
     },
   };
 </script>

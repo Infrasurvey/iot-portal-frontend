@@ -15,10 +15,35 @@
   background: #FFFFFF;
   box-shadow: 2px 2px 20px 1px;
   overflow-x: unset;
-  width: 50%;
+  width: 550px;
   height: fit-content;
   display: flex;
   flex-direction: column;
+}
+
+.md-field label {
+  font-size: 16px;
+}
+
+.md-field.md-focused label, .md-field.md-has-value label{
+  font-size: 16px;
+}
+
+.multi-input{
+  padding-top: 46px;
+}
+
+.multi-input .md-error {
+ /*  opacity: initial;
+  transform: none; */
+}
+
+.md-datepicker-dialog{
+  z-index: 9999;
+}
+
+.md-menu-content.md-select-menu{
+  z-index: 9999;
 }
 
 .close{
@@ -33,7 +58,6 @@
 .modal-header {
     padding-left: 40px;
   position: relative;
-  border-bottom: 1px solid #eeeeee;
   color: $primary-color;
   justify-content: space-between;
 }
@@ -112,7 +136,7 @@
 }
  
 .installation-form > input {
-    grid-column: 2 / 3;
+    grid-column: 3 / 3;
 }
 
 .hasError {
