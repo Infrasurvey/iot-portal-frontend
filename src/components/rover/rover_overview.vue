@@ -1,5 +1,5 @@
 <template>
-<div > 
+<div class="main-install overview-inst"> 
     <div class="spinner-container">
       <vue-simple-spinner v-if="!this.isMounted" class="spinner" size="large" line-fg-color="#AB000D" :spacing="55" message="Loading..."></vue-simple-spinner>
     </div>

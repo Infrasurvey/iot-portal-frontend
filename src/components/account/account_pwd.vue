@@ -29,6 +29,7 @@
     <div style="align-self: flex-end;">
         <md-button type="submit" :to="{ name: 'home' }" class="md-raised md-accent btn-login" style="width: 200px;">Close</md-button>
         <md-button type="submit" @click="updatePwd" class="md-raised md-primary btn-login" style="width: 200px;">Apply</md-button>
+        <FlashMessage></FlashMessage>
     </div>
   </div>
 </template>
@@ -80,9 +81,11 @@ export default {
         this.password = '';
         this.c_password = '';
         this.new_password = '';
+        this.displayStatus(true);
       })
       .catch(e => {
-        this.errorMessage = e
+        this.errorMessage = e;
+        this.displayStatus(false);
       })
     },
     getValidationClass (fieldName) {
@@ -93,7 +96,17 @@ export default {
           'md-invalid': field.$invalid && field.$dirty
         }
       }
-    }
+    },
+    displayStatus(status){
+      
+      if(status){
+          this.flashMessage.success({title: 'Success', message: 'User information successfully updated !'});
+      }
+      else
+      {
+          this.flashMessage.show({status: 'error', title: 'Error', message: 'An error occured while user information update'});
+      }
+    },
   }
 }
 </script>

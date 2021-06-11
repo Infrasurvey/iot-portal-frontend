@@ -42,6 +42,7 @@
     <div style="align-self: flex-end;">
         <md-button type="submit" :to="{ name: 'home' }" class="md-raised md-accent btn-login" style="width: 200px;">Close</md-button>
         <md-button type="submit" @click="updateUser" class="md-raised md-primary btn-login" style="width: 200px;">Apply</md-button>
+        <FlashMessage></FlashMessage>
     </div>
   </div>
 </template>
@@ -118,8 +119,10 @@ export default {
       API.put('/api/user/'+this.user.id,this.user)
       .then(response => {
         this.status =response.data
+        this.displayStatus(true)
       })
       .catch(e => {
+        this.displayStatus(false)
         this.errorMessage = e
       })
     },
@@ -131,7 +134,16 @@ export default {
           'md-invalid': field.$invalid && field.$dirty
         }
       }
-    }
+    },
+    displayStatus(status){
+      if(status){
+          this.flashMessage.success({title: 'Success', message: 'User information successfully updated !'});
+      }
+      else
+      {
+          this.flashMessage.show({status: 'error', title: 'Error', message: 'An error occured while user information update'})
+      }
+    },
   }
 }
 </script>
