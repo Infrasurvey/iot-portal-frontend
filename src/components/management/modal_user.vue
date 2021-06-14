@@ -12,9 +12,9 @@
           <form novalidate class="md-layout" @submit.prevent="onSubmit" style="display: flex;align-content: space-around; flex-direction: column; justify-content: center;">
             <md-field  style="width: 300px; margin-right: 50px; margin-left: 50px;">
               <label>User's name</label>
-              <md-input v-model="name" name="name" id="name" maxlength="30" disabled></md-input>
+              <md-input v-model="name" name="name" id="name" disabled></md-input>
             </md-field>
-            <md-field  style="width: 300px; margin-right: 50px; margin-left: 50px;">
+            <md-field class="multi-input" style="width: 300px; margin-right: 50px; margin-left: 50px;">
               <label for="organizations">Is organization admin for</label>
               <multiselect @input="setSelectedGroups" :disabled="group_id !=null ? true : false" @remove="removeOrganization" v-model="organizations_selected" :options="organizations" label="name" :showLabels="true"  selectedLabel="Selected" selectLabel="Select this organization" deselect-label="Remove this organization" track-by="id" :taggable="true" :searchable="false" :close-on-select="true" :multiple="true" ></multiselect> 
             </md-field>
@@ -26,7 +26,7 @@
         </div>
       </section>
       <md-dialog-actions>
-        <md-button class="md-primary" @click="showDeleteAlert">Delete user</md-button>
+        <md-button class="md-primary" v-if="isAdmin" @click="showDeleteAlert">Delete user</md-button>
         <md-button class="md-primary" @click.prevent="onUpdate">Update user</md-button>
       </md-dialog-actions>
     </div>
@@ -38,7 +38,6 @@ import API from '../../http-constants'
 import { required } from 'vuelidate/lib/validators'
 import FormData from 'form-data'
 import Multiselect from 'vue-multiselect'
-//              <v-select :options="groups" label="name" multiple="multiple" v-model="groups_selected"/>
 
 
   export default {
@@ -48,6 +47,7 @@ import Multiselect from 'vue-multiselect'
           type: Object,
           required : true
       },
+      isAdmin : Boolean,
       isUpdate : Boolean,
       organization_id : String,
       group_id : String

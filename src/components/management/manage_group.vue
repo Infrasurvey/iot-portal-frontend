@@ -25,6 +25,7 @@
                 v-if="isUserModalVisible"
                 :row="selectedRow"
                 :isUpdate="true"
+                :isAdmin="isAdmin"
                 :organization_id="null"
                 :group_id="group_id.toString()"
                 @close="closeModal"
@@ -87,6 +88,7 @@ export default {
             users : [],
             tmpusers : [],
             admins: [],
+            isAdmin : false,
             installationcolumns: [
                  {
                 label: 'ID',
@@ -160,6 +162,7 @@ export default {
     watch: {
     async $route(to, from) {
         this.group_id = this.$route.query.id
+        this.isAdmin = this.$store.getters.getAbility.can('manage','all')
         this.getInstallations();
         await this.getUsers();
     }
@@ -178,6 +181,7 @@ export default {
     },
     async created(){
         this.getInstallations();
+        this.isAdmin = this.$store.getters.getAbility.can('manage','all')
         await this.getUsers();
     },
     methods:{

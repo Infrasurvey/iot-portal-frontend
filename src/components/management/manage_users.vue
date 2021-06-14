@@ -7,6 +7,7 @@
       v-if="isModalVisible"
       :row="selectedRow"
       :isUpdate="isUpdate"
+      :isAdmin="isAdmin"
       :organization_id="null"
       :group_id="null"
       @close="closeModal"
@@ -85,12 +86,14 @@ export default {
          hidden: true
         }
       ],
+      isAdmin : false,
       isModalVisible: false,
       selectedRow : Object(),
       isUpdate : false,
     }
   },
   created(){
+    this.isAdmin = this.$store.getters.getAbility.can('manage','all')
     this.getUsers();
   },
   methods:{
