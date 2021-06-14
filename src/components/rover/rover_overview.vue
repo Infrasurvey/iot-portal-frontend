@@ -11,7 +11,7 @@
           Northing : {{latestConvertedPosition.Northing }}m <br>
           Elevation : {{latestConvertedPosition.altitude }}m <br>
           Battery voltage : {{rover.battery_voltage}}V
-          <h3>Total travaled distance</h3>
+          <h3>Total traveled distance</h3>
           Easting distance : {{(latestConvertedPosition.Easting - firstConvertedPosition.Easting).toPrecision(2)}}m<br>
           Northing distance : {{(latestConvertedPosition.Northing - firstConvertedPosition.Northing).toPrecision(2)}}m <br>
           Elevation distance : {{(latestConvertedPosition.altitude - firstConvertedPosition.altitude).toPrecision(2)}}m  <br>
@@ -248,11 +248,17 @@ export default {
             this.d3Distance = Math.sqrt(Math.pow(this.latestConvertedPosition.Easting - this.firstConvertedPosition.Easting,2) 
               + Math.pow(this.latestConvertedPosition.Northing - this.firstConvertedPosition.Northing,2)
               + Math.pow(this.latestConvertedPosition.altitude - this.firstConvertedPosition.altitude,2)).toPrecision(2)
-            this.normalize()
+            
         }
         else{
-          this.displayStatus("Unable to display data overview, map and inclination axis system.")
+          this.displayStatus("Unable to display data overview and map")
         }
+        if(this.measure_rovers.length > 0){
+            this.setInclination()}
+        else{
+            this.displayStatus("Unable to display inclination axis system")
+        }
+
         var bats = []
         dates = []
         if(this.measure_devices.length > 0){
@@ -269,14 +275,21 @@ export default {
           this.displayStatus("Unable to display battery voltage")
         }
       },
-      normalize(){
-        var x = this.latestConvertedPosition.Easting
-        var y = this.latestConvertedPosition.Northing
-        var z = this.latestConvertedPosition.altitude
-        var n = Math.sqrt(Math.pow(x,2) + Math.pow(y,2) + Math.pow(z,2))
-        this.inclination.push(x / n).toPrecision(2)
-        this.inclination.push(y / n).toPrecision(2)
-        this.inclination.push(z / n).toPrecision(2)
+      setInclination(){
+        var latestMeasureRover = this.measure_rovers.slice(-1)[0]
+        var x = latestMeasureRover.raw_acceleration_x
+        var z = latestMeasureRover.raw_acceleration_z 
+        var y = latestMeasureRover.raw_acceleration_y 
+        if(x != null && y != null && z != null){
+          var n = Math.sqrt(Math.pow(x,2) + Math.pow(y,2) + Math.pow(z,2))
+          console.log(x)
+          console.log(y)
+          console.log(z)
+          this.inclination.push((x / n).toPrecision(2))
+          this.inclination.push(-(y / n).toPrecision(2))
+          this.inclination.push((z / n).toPrecision(2))
+        }
+
       },
       downloadCSVData() {
         this.processData()

@@ -80,16 +80,19 @@ export default {
 
             if(this.inclination.length > 0){
                 var from = new THREE.Vector3( 0,0-0.4,0 );
-                console.log(this.inclination)
-                var to = new THREE.Vector3( this.inclination[0],this.inclination[1]-0.4,this.inclination[2] );
+                var resizeFactor = 0.7;
+                var x = this.inclination[0]*resizeFactor;
+                var y = this.inclination[1]*resizeFactor-0.4;
+                var z = this.inclination[2]*resizeFactor;
+                var to = new THREE.Vector3(x,y,z);
                 var direction = to.clone().sub(from);
                 var length = direction.length();
                 var arrowHelper = new THREE.ArrowHelper(direction.normalize(), from, length, 0xff0000,0.1);
                 this.scene.add( arrowHelper );
 
                 var points = [];
-                points.push( new THREE.Vector3(this.inclination[0],0-0.4,this.inclination[2]) );
-                points.push( new THREE.Vector3(this.inclination[0],this.inclination[1]-0.4,this.inclination[2]) );
+                points.push( new THREE.Vector3(x,-0.4,z) );
+                points.push( new THREE.Vector3(x,y,z) );
                 var geometry = new THREE.BufferGeometry().setFromPoints( points );
                 var material = new THREE.LineDashedMaterial( { color: 0x000000, dashSize: 0.01, gapSize:0.01,transparent: true,opacity: 0.5 } );
                 var line = new THREE.Line( geometry, material );
@@ -97,16 +100,16 @@ export default {
                 this.scene.add(line); 
 
                 points = [];
-                points.push( new THREE.Vector3(0,this.inclination[1]-0.4,this.inclination[2]) );
-                points.push( new THREE.Vector3(this.inclination[0],this.inclination[1]-0.4,this.inclination[2]) );
+                points.push( new THREE.Vector3(0,-0.4,z) );
+                points.push( new THREE.Vector3(x,-0.4,z) );
                 geometry = new THREE.BufferGeometry().setFromPoints( points );
                 line = new THREE.Line( geometry, material );
                 line.computeLineDistances();
                 this.scene.add(line); 
 
                 points = [];
-                points.push( new THREE.Vector3(this.inclination[0],this.inclination[1]-0.4,0) );
-                points.push( new THREE.Vector3(this.inclination[0],this.inclination[1]-0.4,this.inclination[2]) );
+                points.push( new THREE.Vector3(x,-0.4,0) );
+                points.push( new THREE.Vector3(x,-0.4,z) );
                 geometry = new THREE.BufferGeometry().setFromPoints( points );
                 line = new THREE.Line( geometry, material );
                 line.computeLineDistances();
