@@ -65,9 +65,7 @@ export default {
             
             this.scene = new THREE.Scene();
             this.scene.background = new THREE.Color( 0xFAFAFA );
-            //this.scene.background = new THREE.Color( 0xcccccc );
-            // let axiss = new THREE.CameraHelper(this.perspectiveCamera);
-            //this.scene.add(axiss); 
+
             let axis = new THREE.AxisHelper();
             var colors = axis.geometry.attributes.color;
             colors.setXYZ( 0, 0, 0, 0 ); // index, R, G, B

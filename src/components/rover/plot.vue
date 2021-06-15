@@ -38,11 +38,7 @@ export default {
                         enabled: true,
                         drag: false,
                         mode: 'x',
-                        speed: 0.99,
-                        threshold: 2,
-
-                        // On category scale, minimal zoom level before actually applying zoom
-                        sensitivity: 1,
+                        
                         
                       }
                     }
