@@ -64,8 +64,8 @@ export default {
             this.perspectiveCamera.position.set(0.8,0.8,1.1);
             
             this.scene = new THREE.Scene();
-
-            this.scene.background = new THREE.Color( 0xcccccc );
+            this.scene.background = new THREE.Color( 0xFAFAFA );
+            //this.scene.background = new THREE.Color( 0xcccccc );
             // let axiss = new THREE.CameraHelper(this.perspectiveCamera);
             //this.scene.add(axiss); 
             let axis = new THREE.AxisHelper();

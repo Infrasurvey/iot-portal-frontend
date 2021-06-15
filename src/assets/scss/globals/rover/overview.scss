@@ -19,8 +19,7 @@
     justify-content: center;
     align-content: space-around;
     flex-direction: column;
-    align-items: flex-start;
-}
+    align-items: stretch;}
 
 .flex-setting-filter{
     display: flex;
@@ -35,14 +34,14 @@
     flex-grow: 0;
     flex-shrink: 0;
     flex-basis: 30%;
-    background-color: lightgray;
+    border-right: 2px solid darkgray;
     padding-left: 15px;
     line-height: normal;
 }
 
 .rover-inclination-panel{
     flex: 0 0 249px;
-    background-color: #cccccc;
+    //background-color: #cccccc;
 
 }
 
@@ -50,7 +49,7 @@
     flex-grow: 0;
     flex-shrink: 0;
     flex-basis: calc(70% - 249px);
-    background-color: darkgray;
+    //background-color: darkgray;
 
 }
 
@@ -65,7 +64,7 @@
 
 .b-r-container{
     padding-top: 20px;
-    background-color: #cccccc;
+    //background-color: #cccccc;
 }
 
 .slider{
