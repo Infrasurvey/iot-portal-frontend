@@ -7,17 +7,21 @@
                     <label for="mode" class="disabled" >Continous mode : </label>
                     <md-checkbox class="input-config"  name="mode" id="mode" v-model="configuration.continuous_mode" disabled></md-checkbox>
                 </div>
-                <div class="basestation-field">
+                <div class="basestation-field" >
                     <label for="wake">Wake up period : </label>
-                    <md-field class="input-config">
-                        <md-input name="wake" id="wake" v-model="configuration.wakeup_period_in_minutes"></md-input>
+                    <md-field class="input-config" :class="getValidationClass('wakeup_period_in_minutes')">
+                        <md-input type="number" min="0" max="65535" name="wake" id="wake" v-model="configuration.wakeup_period_in_minutes"></md-input>
+                        <span class="md-error" style="width: max-content;" v-if="!$v.configuration.wakeup_period_in_minutes.minValue">Min value is 0</span>
+                        <span class="md-error" style="width: max-content;" v-if="!$v.configuration.wakeup_period_in_minutes.maxValue">Max value is 65535</span>
                     </md-field>
                     <span>min.</span>
                 </div>
-                <div class="basestation-field">
+                <div class="basestation-field" >
                     <label for="gps">Reference GPS module : </label>
-                    <md-field class="input-config">
-                        <md-input name="gps" id="gps" v-model="configuration.reference_gps_module"></md-input>
+                    <md-field class="input-config" :class="getValidationClass('reference_gps_module')">
+                        <md-input name="gps" id="gps" type="number" min="0" max="15" v-model="configuration.reference_gps_module"></md-input>
+                        <span class="md-error" style="width: max-content;" v-if="!$v.configuration.reference_gps_module.minValue">Min value is 0</span>
+                        <span class="md-error" style="width: max-content;" v-if="!$v.configuration.reference_gps_module.maxValue">Max value is 15</span>
                     </md-field>
                 </div>
                 <div class="basestation-field">
@@ -26,14 +30,15 @@
                 </div>
                 <div class="basestation-field">
                     <label for="start">Session start time : </label> 
-                    <md-field class="input-config">
+                    <md-field class="input-config" :class="getValidationClass('session_start_time')">
                         <md-input name="start" id="start" v-model="configuration.session_start_time"></md-input>
                     </md-field>
                 </div>
                 <div class="basestation-field">
                     <label for="longitude">Reference longitude : </label>
-                    <md-field class="input-config">
+                    <md-field class="input-config" :class="getValidationClass('reference_longitude')">
                         <md-input name="longitude" id="longitude" v-model="configuration.reference_longitude"></md-input>
+                        <span class="md-error" style="width: max-content;" v-if="!$v.configuration.reference_longitude.isLongitude">Format not valid</span>
                     </md-field>
                 </div>
                 <div class="basestation-field">
@@ -42,29 +47,37 @@
                 </div>
                 <div class="basestation-field">
                     <label for="duration">Session duration : </label>
-                    <md-field class="input-config">
-                        <md-input  name="duration" id="duration" v-model="configuration.session_duration_in_minutes"></md-input>
+                    <md-field class="input-config" :class="getValidationClass('session_duration_in_minutes')">
+                        <md-input  name="duration" id="duration" type="number" min="1" max="255" v-model="configuration.session_duration_in_minutes"></md-input>
+                        <span class="md-error" style="width: max-content;" v-if="!$v.configuration.session_duration_in_minutes.minValue">Min value is 1</span>
+                        <span class="md-error" style="width: max-content;" v-if="!$v.configuration.session_duration_in_minutes.maxValue">Max value is 255</span>
                     </md-field>
                     <span>min.</span>
                 </div>
                 <div class="basestation-field">
                     <label for="latitude">Reference latitude : </label>
-                    <md-field class="input-config">
+                    <md-field class="input-config" :class="getValidationClass('reference_latitude')">
                         <md-input  name="latitude" id="latitude" v-model="configuration.reference_latitude"></md-input>
+                        <span class="md-error" style="width: max-content;" v-if="!$v.configuration.reference_latitude.isLatitude">Format not valid</span>
                     </md-field>
-                    <span>min.</span>
                 </div>
                 <div class="basestation-field">
                     <label for="ncsbs">Non continous store binr to SD : </label>
                     <md-checkbox name="ncsbs" id="ncsbs" v-model="configuration.non_continuous_store_binr_to_sd"></md-checkbox>
                 </div>
                 <div class="basestation-field">
-                    <label for="period" class="disabled">Session period in wakeup period : 1</label>
+                    <label for="period" >Session in wakeup period :</label>
+                    <md-field class="input-config" :class="getValidationClass('session_period_in_wakeup_period')">
+                        <md-input name="spwp" id="spwp" type="number" min="1" max="255" v-model="configuration.session_period_in_wakeup_period"></md-input>
+                        <span class="md-error" style="width: max-content;" v-if="!$v.configuration.session_period_in_wakeup_period.minValue">Min value is 1</span>
+                        <span class="md-error" style="width: max-content;" v-if="!$v.configuration.session_period_in_wakeup_period.maxValue">Max value is 255</span>
+                    </md-field>
                 </div>
                 <div class="basestation-field">
                     <label for="alttitude">Reference altitude : </label>
-                    <md-field class="input-config">
+                    <md-field class="input-config" :class="getValidationClass('reference_altitude')">
                         <md-input  name="alttitude" id="alttitude"  v-model="configuration.reference_altitude"></md-input>
+                        <span class="md-error" style="width: max-content;" v-if="!$v.configuration.reference_altitude.integer">Value must be integer</span>
                     </md-field>
                     <span>m.</span>
                 </div>
@@ -113,14 +126,19 @@
 </template>
 
 <script>
+    import { minValue,maxValue, required,numeric,decimal,integer } from 'vuelidate/lib/validators'
     import API from '../../http-constants'
     import { VueGoodTable } from 'vue-good-table';
     import ConfigModal from './configuration_modal'
     import FormData from 'form-data'
     import SectionTitle from '../template/SectionTitle';
+    const isLatitude = (value) => value.match(/^$|^((\-?|\+?)?\d+(\.\d+)?)$/g) != null
+    const isLongitude = (value) => value.match(/^$|^((\-?|\+?)?\d+(\.\d+)?)$/g) != null
+
     export default {
         name: 'basestation-config',
         data(){
+
             return{
                 installationId : this.$route.params.id,
                 configurations : [],
@@ -136,7 +154,7 @@
                     session_duration_in_minutes : '',
                     reference_latitude :'',
                     non_continuous_store_binr_to_sd: '',
-                    session_period_in_wakeup_period : 1,
+                    session_period_in_wakeup_period : '',
                     reference_altitude : ''
                     
                 },
@@ -145,18 +163,76 @@
                 selectedRow : [],
                 pendingExist : false,
                 columns: [
-                {
-                    label: 'Filename',
-                    field: 'file_name'
-                },
-                {
-                    label: 'Application date',
-                    field: 'configuration_date',
-                }
-            ],
+                    {
+                        label: 'Filename',
+                        field: 'file_name'
+                    },
+                    {
+                        label: 'Application date',
+                        field: 'configuration_date',
+                    }
+                ],
                 uploadedFile : '',
                 fileUrl : '',
                 selectedConfig : '',
+                
+            }
+        },
+        validations: {
+            configuration:{
+                continuous_mode:{
+                    required,
+                },
+                wakeup_period_in_minutes:{
+                    //required,
+                    numeric,
+                    minValue : minValue(0),
+                    maxValue : maxValue(65535)
+                },
+                reference_gps_module:{
+                    //required,
+                    numeric,
+                    minValue : minValue(0),
+                    maxValue : maxValue(15)
+                },
+                session_period_in_wakeup_period:{
+                    //required,
+                    numeric,
+                    minValue : minValue(1),
+                    maxValue : maxValue(255)
+                },
+                reset:{
+                    //required,
+                },
+                session_start_time:{
+                    //required
+                },
+                non_continuous_store_binr_to_ftp:{
+                    //required
+                },
+                non_continuous_store_binr_to_sd:{
+                    //required
+                },
+                session_duration_in_minutes:{
+                    //required,
+                    numeric,
+                    minValue : minValue(1),
+                    maxValue : maxValue(255)
+                },
+                reference_latitude:{
+                    //required,
+                    decimal,
+                    isLatitude
+                },
+                reference_longitude:{
+                    //required,
+                    decimal,
+                    isLongitude
+                },
+                reference_altitude:{
+                    //required,
+                    integer
+                }
             }
         },
         components : {
@@ -185,7 +261,7 @@
                         this.errorMessage = e
                     })
             },
-        getPendingConfiguration(){
+            getPendingConfiguration(){
                 API.get('/api/installation/'+this.installationId+'/basestation/pendingConfiguration')
                     .then(response => {
                         var responseCode = response.status
@@ -217,124 +293,134 @@
                     })
             },
             
-        onConfigClick(params) {
-            this.selectedRow = params.row;
-            this.selectedConfig = this.generateConfigFile(params.row)
-            this.isConfigModalVisible=true
-        },
-        onPendingClick(params){
-            this.selectedRow = params.row;
-            this.selectedConfig = this.generateConfigFile(params.row)
-            this.isPendingModalVisible=true
-        },
-        closeModal() {
-            this.isConfigModalVisible = false;
-            this.isPendingModalVisible = false;
-        },
-        applyConfig(fileContent){
-            
-            var f = new File(fileContent, "config.ini");
-            var form = new FormData();
-            form.append('configuration', f);
-            API.post('/api/installation/'+this.installationId+'/basestation/applyNewConfiguration',form)
-            .then(response => {
-                    var responseCode = response.status
-                    this.displayStatus(responseCode,'applied','applying')
-                    this.getPendingConfiguration()
-                })
-                .catch(e => {
-                this.errorMessage = e
-                })
-        },
-        generateConfigFile(config){
-            var fileContent = []
-            if(config.continuous_mode != null || config.reset != null || config.wakeup_period_in_minutes != null)
-                fileContent.push('[GENERAL]\n')
-            if(config.continuous_mode != null)
-                fileContent.push('CONTINUOUS_MODE='+config.continuous_mode+'\n')
-            if(config.reset != null)
-                fileContent.push('RESET='+config.reset+'\n')
-            if(config.wakeup_period_in_minutes != null)
-                fileContent.push('WAKEUP_PERIOD_IN_MINUTES='+config.wakeup_period_in_minutes+'\n')
-            fileContent.push('\n')
-            if(config.session_start_time != null || config.session_duration_in_minutes != null || config.session_period_in_wakeup_period != null)
-                fileContent.push('[MEASURE]\n')
-            if(config.session_start_time != null)
-                fileContent.push('SESSION_START_TIME='+config.session_start_time+'\n')
-            if(config.session_duration_in_minutes != null)
-                fileContent.push('SESSION_DURATION_IN_MINUTES='+config.session_duration_in_minutes+'\n')
-            if(config.session_period_in_wakeup_period != null)
-                fileContent.push('SESSION_PERIOD_IN_WAKEUP_PERIOD='+config.session_period_in_wakeup_period+'\n')
-            fileContent.push('\n')
-            if(config.reference_gps_module != null || config.reference_latitude != null || config.reference_longitude != null || config.reference_altitude != null)
-                fileContent.push('[GPS_REFERENCE]\n')
-            if(config.reference_gps_module != null)
-                fileContent.push('GPS_MODULE='+config.reference_gps_module+'\n')
-            if(config.reference_latitude != null)
-                fileContent.push('LATITUDE='+config.reference_latitude+'\n')
-            if(config.reference_longitude != null)
-                fileContent.push('LONGITUDE='+config.reference_longitude+'\n')
-            if(config.reference_altitude != null)
-                fileContent.push('ALTITUDE='+config.reference_altitude+'\n')
-            fileContent.push('\n')
-            if(config.non_continuous_store_binr_to_sd != null || config.non_continuous_store_binr_to_ftp != null)
-                fileContent.push('[DEBUG]\n')
-            if(config.non_continuous_store_binr_to_sd != null)
-                fileContent.push('NON_CONTINUOUS_STORE_BINR_TO_SD='+config.non_continuous_store_binr_to_sd+'\n')
-            if(config.non_continuous_store_binr_to_ftp != null)
-                fileContent.push('NON_CONTINUOUS_STORE_BINR_TO_FTP='+config.non_continuous_store_binr_to_ftp+'\n')
-            return fileContent;
-        },
-        displayStatus(status, type,type2){
-            console.log(status)
-            if(parseInt(status) < 204){
-                this.flashMessage.success({title: 'Success', message: 'The configuration has been successfully '+type+' !'});
-            }
-            else
-            {
-                this.flashMessage.show({status: 'error', title: 'Error', message: 'An error occured while '+type2+' configuration'})
-            }
+            onConfigClick(params) {
+                this.selectedRow = params.row;
+                this.selectedConfig = this.generateConfigFile(params.row)
+                this.isConfigModalVisible=true
             },
-        onPickFile () {
-            this.$refs.fileInput.click()
-        },
-        onFilePicked (event) {
-            const files = event.target.files
-            let filename = files[0].name
-            const fileReader = new FileReader()
-            fileReader.addEventListener('load', () => {
-                this.uploadedFile = fileReader.result.split("\n")
-                this.setInputValues(this.uploadedFile)
-            })
-            fileReader.readAsText(files[0])
-            
-            
-        },
-        setInputValues(file){
-            var tmpConfig = {
-                    continuous_mode : 1,
-                    wakeup_period_in_minutes : '',
-                    reference_gps_module : '',
-                    reset : false,
-                    session_start_time : '',
-                    reference_longitude : '',
-                    non_continuous_store_binr_to_ftp :false,
-                    session_duration_in_minutes : '',
-                    reference_latitude :'',
-                    non_continuous_store_binr_to_sd: '',
-                    session_period_in_wakeup_period : 1,
-                    reference_altitude : ''
-                    
+            onPendingClick(params){
+                this.selectedRow = params.row;
+                this.selectedConfig = this.generateConfigFile(params.row)
+                this.isPendingModalVisible=true
+            },
+            closeModal() {
+                this.isConfigModalVisible = false;
+                this.isPendingModalVisible = false;
+            },
+            applyConfig(fileContent){
+                this.$v.$touch();
+                if(this.$v.$error) return
+                var f = new File(fileContent, "config.ini");
+                var form = new FormData();
+                form.append('configuration', f);
+                API.post('/api/installation/'+this.installationId+'/basestation/applyNewConfiguration',form)
+                .then(response => {
+                        var responseCode = response.status
+                        this.displayStatus(responseCode,'applied','applying')
+                        this.getPendingConfiguration()
+                    })
+                    .catch(e => {
+                    this.errorMessage = e
+                    })
+            },
+            generateConfigFile(config){
+                var fileContent = []
+                if(config.continuous_mode != null || config.reset != null || config.wakeup_period_in_minutes != null)
+                    fileContent.push('[GENERAL]\n')
+                if(config.continuous_mode != null)
+                    fileContent.push('CONTINUOUS_MODE='+config.continuous_mode+'\n')
+                if(config.reset != null)
+                    fileContent.push('RESET='+config.reset+'\n')
+                if(config.wakeup_period_in_minutes != null)
+                    fileContent.push('WAKEUP_PERIOD_IN_MINUTES='+config.wakeup_period_in_minutes+'\n')
+                fileContent.push('\n')
+                if(config.session_start_time != null || config.session_duration_in_minutes != null || config.session_period_in_wakeup_period != null)
+                    fileContent.push('[MEASURE]\n')
+                if(config.session_start_time != null)
+                    fileContent.push('SESSION_START_TIME='+config.session_start_time+'\n')
+                if(config.session_duration_in_minutes != null)
+                    fileContent.push('SESSION_DURATION_IN_MINUTES='+config.session_duration_in_minutes+'\n')
+                if(config.session_period_in_wakeup_period != null)
+                    fileContent.push('SESSION_PERIOD_IN_WAKEUP_PERIOD='+config.session_period_in_wakeup_period+'\n')
+                fileContent.push('\n')
+                if(config.reference_gps_module != null || config.reference_latitude != null || config.reference_longitude != null || config.reference_altitude != null)
+                    fileContent.push('[GPS_REFERENCE]\n')
+                if(config.reference_gps_module != null)
+                    fileContent.push('GPS_MODULE='+config.reference_gps_module+'\n')
+                if(config.reference_latitude != null)
+                    fileContent.push('LATITUDE='+config.reference_latitude+'\n')
+                if(config.reference_longitude != null)
+                    fileContent.push('LONGITUDE='+config.reference_longitude+'\n')
+                if(config.reference_altitude != null)
+                    fileContent.push('ALTITUDE='+config.reference_altitude+'\n')
+                fileContent.push('\n')
+                if(config.non_continuous_store_binr_to_sd != null || config.non_continuous_store_binr_to_ftp != null)
+                    fileContent.push('[DEBUG]\n')
+                if(config.non_continuous_store_binr_to_sd != null)
+                    fileContent.push('NON_CONTINUOUS_STORE_BINR_TO_SD='+config.non_continuous_store_binr_to_sd+'\n')
+                if(config.non_continuous_store_binr_to_ftp != null)
+                    fileContent.push('NON_CONTINUOUS_STORE_BINR_TO_FTP='+config.non_continuous_store_binr_to_ftp+'\n')
+                return fileContent;
+            },
+            displayStatus(status, type,type2){
+                console.log(status)
+                if(parseInt(status) < 204){
+                    this.flashMessage.success({title: 'Success', message: 'The configuration has been successfully '+type+' !'});
                 }
-            file.forEach(line => {
-                if(line != '' && !line.includes("[") ){
-                    var key = line.split("=")[0].toLowerCase()
-                    var value = line.split("=")[1]
-                    tmpConfig[key] = value
+                else
+                {
+                    this.flashMessage.show({status: 'error', title: 'Error', message: 'An error occured while '+type2+' configuration'})
                 }
-            });
-            this.configuration = tmpConfig
-        }
+                },
+            onPickFile () {
+                this.$refs.fileInput.click()
+            },
+            onFilePicked (event) {
+                const files = event.target.files
+                let filename = files[0].name
+                const fileReader = new FileReader()
+                fileReader.addEventListener('load', () => {
+                    this.uploadedFile = fileReader.result.split("\n")
+                    this.setInputValues(this.uploadedFile)
+                })
+                fileReader.readAsText(files[0])
+                
+                
+            },
+            getValidationClass (fieldName) {
+                const field = this.$v.configuration[fieldName]
+
+                if (field) {
+                    return {
+                    'md-invalid': field.$invalid && field.$dirty
+                    }
+                }
+            },
+            setInputValues(file){
+                var tmpConfig = {
+                        continuous_mode : 1,
+                        wakeup_period_in_minutes : '',
+                        reference_gps_module : '',
+                        reset : false,
+                        session_start_time : '',
+                        reference_longitude : '',
+                        non_continuous_store_binr_to_ftp :false,
+                        session_duration_in_minutes : '',
+                        reference_latitude :'',
+                        non_continuous_store_binr_to_sd: '',
+                        session_period_in_wakeup_period : '',
+                        reference_altitude : ''
+                        
+                    }
+                file.forEach(line => {
+                    if(line != '' && !line.includes("[") ){
+                        var key = line.split("=")[0].toLowerCase()
+                        var value = line.split("=")[1]
+                        tmpConfig[key] = value
+                    }
+                });
+                this.configuration = tmpConfig
+            }
         }
     }
 </script>
