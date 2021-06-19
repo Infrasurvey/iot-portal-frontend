@@ -10,9 +10,7 @@
       <section class="modal-body">
         <div name="body">
               <div>
-                  <pre class="txtfile">
-                      {{selectedConfig.join('')}}
-                  </pre>
+                  <pre class="txtfile">{{selectedConfig.join('')}}</pre>
               </div>
         </div>
        </section>
@@ -48,6 +46,7 @@ export default {
   },
    methods: {
       close() {
+        console.log(this.selectedConfig)
         this.$emit('close');
       },
       downloadFile(){
