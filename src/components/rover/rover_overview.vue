@@ -61,7 +61,7 @@
       <div class="flex-container">
           <button class="setting-btn apply-btn" @click="processPlot">Apply and plot</button>
           <button class="setting-btn apply-btn" @click="showModal">Download raw data as CSV</button>
-          <button class="setting-btn apply-btn">Download filtered data as CSV</button>
+          <button class="setting-btn apply-btn disabled">Download filtered data as CSV</button>
       </div>
       <Modal
                 v-if="isModalVisible"
@@ -270,20 +270,28 @@ export default {
         }
 
 
-        
+        var acc_x = []
+        var acc_y = []
+        var acc_z = []
+        dates = []
         if(this.measure_rovers.length > 0){
-            this.setInclination()
+          this.setInclination()
             
-            /* this.measure_rovers.forEach(measure_rover => {
+          this.measure_rovers.forEach(measure_rover => {
             var date = moment(measure_rover.date)
             if(moment(this.startDate) < date && date < moment(this.endDate)){
               dates.push(moment(measure_rover.date).format('DD.MM.YYYY'))
-              bats.push(measure_device.battery_voltage)
+              acc_x.push(measure_rover.raw_acceleration_x)
+              acc_y.push(measure_rover.raw_acceleration_y)
+              acc_z.push(measure_rover.raw_acceleration_z)
             }
             
           });
-          this.batteries = {'labels' : dates,'datasets': [{'label':'Easting', 'data' : bats,'fill':false,'borderColor':'rgba(229, 57, 53, 0.51)'}]}   */
-          }
+          this.accelerations = {'labels' : dates,
+          'datasets': [{'label':'Acceleration X', 'data' : acc_x,'fill':false,'borderColor':'rgba(229, 57, 53, 0.51)'},
+          {'label':'Acceleration Y', 'data' : acc_y,'fill':false,'borderColor':'rgba(229, 57, 53, 0.51)'},
+          {'label':'Acceleration Z', 'data' : acc_z,'fill':false,'borderColor':'rgba(229, 57, 53, 0.51)'}]}
+        }
         else{
             this.displayStatus("Unable to display inclination axis system and speed plot")
         }
@@ -312,9 +320,6 @@ export default {
         var y = latestMeasureRover.raw_acceleration_y 
         if(x != null && y != null && z != null){
           var n = Math.sqrt(Math.pow(x,2) + Math.pow(y,2) + Math.pow(z,2))
-          console.log(x)
-          console.log(y)
-          console.log(z)
           this.inclination.push((x / n).toPrecision(2))
           this.inclination.push(-(y / n).toPrecision(2))
           this.inclination.push((z / n).toPrecision(2))

@@ -63,6 +63,7 @@ import moment from 'moment';
         this.$emit('close');
       },
       downloadData() {
+        console.log(this.accelerations)
         if(this.cbPosition){
             var csvPosition = this.buildPositionCSV(this.eastings,this.northings,this.altitudes)
             const anchorPos = document.createElement('a');
@@ -81,13 +82,15 @@ import moment from 'moment';
             anchorBat.click();
         }
         
+        if(this.cbAccel){
+            var csvAccel = this.buildAccelCSV(this.accelerations)
+            const anchorPos = document.createElement('a');
+            anchorPos.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvAccel);
+            anchorPos.target = '_blank';
+            anchorPos.download = moment().format('YYYY-MM-DD')+'_installation_'+this.installationId+'_rover_'+this.roverId+'_accelerations'+'.csv';
+            anchorPos.click();
+        }
 
-        /* var csvPosition = this.buildPositionCSV(this.eastings,this.northings,this.altitudes)
-        const anchorPos = document.createElement('a');
-        anchorPos.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvPosition);
-        anchorPos.target = '_blank';
-        anchorPos.download = moment().format('YYYY-MM-DD')+'_installation_'+this.installationId+'_rover_'+this.roverId+'positions'+'.csv';
-        anchorPos.click(); */
       },
       buildPositionCSV(eastings,northings,altitudes){
         var csv ='Date,Easting,Northing,Altitude\n';
@@ -104,6 +107,14 @@ import moment from 'moment';
         var csv ='Date,Battery voltage\n';
         for (let i = 0; i < batteries.labels.length; i++) {
             csv += batteries.labels[i] +','+batteries.datasets[0].data[i]+'\n';
+        }
+        return csv;
+      },
+      buildAccelCSV(accelerations){
+        
+        var csv ='Date,Raw Acceleration X,Raw Acceleration Y,Raw Acceleration Z\n';
+        for (let i = 0; i < accelerations.labels.length; i++) {
+            csv += accelerations.labels[i] +','+accelerations.datasets[0].data[i]+','+accelerations.datasets[1].data[i]+','+accelerations.datasets[2].data[i]+'\n';
         }
         return csv;
       },
