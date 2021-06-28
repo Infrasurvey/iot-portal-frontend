@@ -50,15 +50,6 @@ export default {
       isUpdate : false
     }
   },
-  created(){
-    //this.getOrganizations()
-    
-  },
-  mounted(){
-    console.log(JSON.stringify(this.$store.getters.getAbility))
-    console.log(this.$store.getters.getAbility.can('manage_orga', '1') )
-    //setDropdownListener('dropdown-btn-main')
-  },
   methods:{
     updateList(){
       this.$emit('updateList');

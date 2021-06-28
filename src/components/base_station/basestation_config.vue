@@ -384,7 +384,6 @@
                 return fileContent;
             },
             displayStatus(status, type,type2){
-                console.log(status)
                 if(parseInt(status) < 204){
                     this.flashMessage.success({title: 'Success', message: 'The configuration has been successfully '+type+' !'});
                 }

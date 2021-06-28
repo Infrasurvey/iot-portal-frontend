@@ -117,16 +117,6 @@ components: {
     updateAbility(){
       this.$store.commit('setAbility')
       this.manageable = this.$store.getters.getAbility.can('manage','organization') || this.$store.getters.getAbility.can('manage','all')
-      /* console.log(this.$store.getters.getOrganizations)
-      console.log(this.$store.getters.getGroups)
-      console.log(this.$store.getters.isAdmin) */
-      /* if (this.$store.getters.getGroups != null && this.$store.getters.getOrganizations != null && this.$store.getters.isAdmin != null){
-        
-        this.$ability = defineRulesFor(this.$store.getters.getGroups,this.$store.getters.getOrganizations,this.$store.getters.isAdmin)
-        this.manageable = this.$ability.can('manage','organization')
-        console.log(this.$ability.can('manage','organization'))
-       /*  console.log(JSON.stringify(this.$ability)) */
-      
       return true;
     }
   }

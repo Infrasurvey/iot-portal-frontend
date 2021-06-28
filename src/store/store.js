@@ -158,7 +158,6 @@ export const store = new Vuex.Store({
             })
               .then(response => {
                 const token = response.data.data.token
-                console.log(response.data)
                 sessionStorage.setItem('token', token)
                 context.commit('retrieveToken', token)
                 API.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
@@ -192,7 +191,6 @@ export const store = new Vuex.Store({
                 resolve(response)
               })
               .catch(error => {
-                //console.log(error)
                 reject(error)
               })
         });

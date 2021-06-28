@@ -69,15 +69,8 @@ export default {
       this.getStations();
       this.$emit('updateUserInfo');
       this.$emit('updateAbility');
-      /* if (this.$store.getters.getGroups != null && this.$store.getters.getOrganizations != null && this.$store.getters.isAdmin != null){
-        this.$ability = defineRulesFor(this.$store.getters.getGroups,this.$store.getters.getOrganizations,this.$store.getters.isAdmin)
-      }  */
-/*       console.log(JSON.stringify(this.$store.getters.getAbility))      // true
- */      var ability = this.$store.getters.getAbility
+      var ability = this.$store.getters.getAbility
       this.manageable = ability.can('manage', 'organization') || ability.can('manage','all')
-    /*   console.log(ability.can('manage', 'organization'))
-      console.log(ability.can('manage_orga', 1) ) 
-      console.log(ability.can('manage_orga', '1') )  */
   },
   methods: {
     getStations () {

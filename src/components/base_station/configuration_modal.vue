@@ -46,7 +46,6 @@ export default {
   },
    methods: {
       close() {
-        console.log(this.selectedConfig)
         this.$emit('close');
       },
       downloadFile(){

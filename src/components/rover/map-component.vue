@@ -53,10 +53,9 @@
         },
         watch: {
             positions (val, oldVal) {
-            if (val !== oldVal){
-                console.log("true")
-                this.createMapOverlay()
-            } 
+                if (val !== oldVal){
+                    this.createMapOverlay()
+                } 
             }
         },
         components :{
@@ -97,7 +96,6 @@
                     this.circles.push({'id':position.id,'date':moment(position.date), 'pos':[position.latitude,position.longitude]})
                 });
                 this.center = [this.positions[0].latitude,this.positions[0].longitude]
-                console.log(this.circles)
                 }
                 
             }

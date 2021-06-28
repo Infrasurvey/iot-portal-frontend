@@ -63,7 +63,6 @@ import moment from 'moment';
         this.$emit('close');
       },
       downloadData() {
-        console.log(this.accelerations)
         if(this.cbPosition){
             var csvPosition = this.buildPositionCSV(this.eastings,this.northings,this.altitudes)
             const anchorPos = document.createElement('a');
@@ -96,7 +95,6 @@ import moment from 'moment';
         var csv ='Date,Easting,Northing,Altitude\n';
         /* if(eastings.labels.length == northings.labels.length == altitudes.labels.length)
         { */
-          console.log("test")
           for (let i = 0; i < eastings.labels.length; i++) {
             csv += eastings.labels[i] +','+eastings.datasets[0].data[i]+','+northings.datasets[0].data[i]+','+altitudes.datasets[0].data[i]+'\n';
           }
