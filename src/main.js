@@ -24,7 +24,7 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import { LMap, LTileLayer, LMarker } from 'vue2-leaflet';
 import 'leaflet/dist/leaflet.css';
 import Vue2LeafletPolylineDecorator from 'vue2-leaflet-polylinedecorator'
-import API from 'http-constants'
+import API from './http-constants'
 
 Vue.component('polyline-decorator', Vue2LeafletPolylineDecorator)
 Vue.component('l-map', LMap);
