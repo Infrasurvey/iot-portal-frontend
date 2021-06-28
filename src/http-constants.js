@@ -16,9 +16,6 @@ let API = axios.create({
 });
 
 API.defaults.withCredentials = true;
-if(store.getters.getToken != null){
-  API.defaults.headers.common['Authorization'] = 'Bearer ' + store.getters.getToken
-}
 
 API.interceptors.response.use(function (response) {
   return response;
