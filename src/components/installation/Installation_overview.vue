@@ -125,7 +125,7 @@
           } else {
             baseURL = 'http://geomon-iot.ch:8080/'
           }
-          this.src = baseURL+'storage/images/'+this.image_path
+          this.src = baseURL+'storage/images/'+this.installation.image_path
         })
         .catch(e => {
         this.errorMessage = e
