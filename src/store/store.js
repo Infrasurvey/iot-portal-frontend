@@ -21,6 +21,9 @@ export const store = new Vuex.Store({
     loggedIn(state) {
       return state.token !== null
     },
+    getToken(state){
+      return state.token
+    },
     getGroups(state){
       return state.groups
     },
@@ -60,13 +63,11 @@ export const store = new Vuex.Store({
     },
     updateAbility(state,{groups,organizations,is_admin}){
       state.ability = defineRulesFor(groups,organizations,is_admin)
-      //sessionStorage.setItem('ability', JSON.stringify(state.ability))
     }, 
     setAbility(state){
       if (state.groups != null && state.organizations != null && state.is_admin != null){
         state.ability = defineRulesFor(state.groups,state.organizations,state.is_admin)
       }
-      //sessionStorage.setItem('ability', JSON.stringify(state.ability))
     }, 
     setIsAdmin(state,is_admin){
       state.is_admin = is_admin
