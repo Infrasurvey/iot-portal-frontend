@@ -119,7 +119,13 @@
         return API.get('/api/installation/'+this.installationId)
         .then(response => {
           this.installation =response.data;
-          this.src = 'http://localhost:8080/storage/images/'+this.installation.image_path
+          let baseURL
+          if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+            baseURL = 'http://localhost:8080/'
+          } else {
+            baseURL = 'http://geomon-iot.ch:8080/'
+          }
+          this.src = baseURL+'storage/images/'+this.image_path
         })
         .catch(e => {
         this.errorMessage = e
