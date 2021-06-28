@@ -49,6 +49,19 @@ store.commit('setAbility');
 if(store.getters.getToken != null){
   API.defaults.headers.common['Authorization'] = 'Bearer ' + store.getters.getToken
 }
+
+//Temporary solution to avoid vue-material bug
+// See https://github.com/vuematerial/vue-material/issues/2285 for more info
+Vue.config.errorHandler = (err, vm, info) => {
+  if (process.env.NODE_ENV !== 'production') {
+    // Show any error but this one
+    if (err.message !== "Cannot read property 'badInput' of undefined") {
+      console.error(err);
+    }
+  }
+};
+
+
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!store.getters.loggedIn) {
