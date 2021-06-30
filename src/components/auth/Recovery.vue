@@ -36,7 +36,6 @@ export default {
     }
   },
   methods: {
-      
     sendMail() {
       this.$v.$touch();
       if(this.$v.$error) return
@@ -47,11 +46,9 @@ export default {
       .catch(e => {
           this.displayStatus(false)
       })
-        
     },
     getValidationClass (fieldName) {
       const field = this.$v[fieldName]
-
       if (field) {
         return {
           'md-invalid': field.$invalid && field.$dirty

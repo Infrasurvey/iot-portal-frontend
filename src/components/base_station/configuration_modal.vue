@@ -9,14 +9,14 @@
       </header>
       <section class="modal-body">
         <div name="body">
-              <div>
-                  <pre class="txtfile">{{selectedConfig.join('')}}</pre>
-              </div>
+          <div>
+              <pre class="txtfile">{{selectedConfig.join('')}}</pre>
+          </div>
         </div>
        </section>
        <footer class="modal-footer config-footer">
-            <button type="button" class="apply-btn" v-if="!is_pending" @click="applyConfig">Apply<font-awesome-icon icon="cloud-upload-alt"/></button>
-            <button type="button" class="apply-btn" @click="downloadFile">Download <font-awesome-icon icon="cloud-download-alt"/></button>
+          <button type="button" class="apply-btn" v-if="!is_pending" @click="applyConfig">Apply<font-awesome-icon icon="cloud-upload-alt"/></button>
+          <button type="button" class="apply-btn" @click="downloadFile">Download <font-awesome-icon icon="cloud-download-alt"/></button>
       </footer>
     </div>
   </div>
@@ -49,7 +49,6 @@ export default {
         this.$emit('close');
       },
       downloadFile(){
-        //var f = new File(this.selectedConfig, this.configuration.file_name);
         var FileSaver = require('file-saver');
         var blob = new Blob(this.selectedConfig, {type: "text/plain;charset=utf-8"});
         FileSaver.saveAs(blob, this.configuration.file_name);

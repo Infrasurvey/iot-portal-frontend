@@ -17,7 +17,6 @@
             :columns="columns"
             :rows="installations"
             @on-row-click="onRowClick"/>
-        
             <div class="manage-footer">
                 <router-link class="basic-link cancel-btn" :to="{ name: 'home' }">Cancel</router-link>
             </div>

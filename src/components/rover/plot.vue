@@ -28,20 +28,17 @@ export default {
                   position :'bottom'
                 },
               plugins: {
-                
                 pan: {
-                          enabled: true,
-                          mode: 'x'
-                        },
+                  enabled: true,
+                  mode: 'x'
+                },
                 zoom: {
-                      zoom: {
-                        enabled: true,
-                        drag: false,
-                        mode: 'x',
-                        
-                        
-                      }
-                    }
+                  zoom: {
+                    enabled: true,
+                    drag: false,
+                    mode: 'x',
+                  }
+                }
               }
             },
         }

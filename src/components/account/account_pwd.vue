@@ -9,14 +9,12 @@
           <span class="md-error" v-if="!$v.password.required">The password is required</span>
           <span class="md-error" v-else-if="!$v.password.minLength">Must contain at least 5 characters</span>
         </md-field>
-    
         <md-field :class="getValidationClass('new_password')" class="input-container" style="width: 300px; margin-right: 20px;">
           <label>New password*</label>
           <md-input type="password" name="new_password" id="new_password" v-model="new_password" maxlength="30"></md-input>
           <span class="md-error" v-if="!$v.new_password.required">The new password is required</span>
           <span class="md-error" v-else-if="!$v.new_password.minLength">Must contain at least 5 characters</span>
         </md-field>
-        
         <md-field :class="getValidationClass('c_password')" class="input-container" style="width: 300px; margin-right: 20px;">
           <label>Confirm new password*</label>
           <md-input type="password" name="c_password" id="c_password" v-model="c_password" maxlength="30"></md-input>
@@ -25,7 +23,6 @@
         </md-field>
       </form>
     </div>
-
     <div style="align-self: flex-end;">
         <md-button type="submit" :to="{ name: 'home' }" class="md-raised md-accent btn-login" style="width: 200px;">Close</md-button>
         <md-button type="submit" @click="updatePwd" class="md-raised md-primary btn-login" style="width: 200px;">Apply</md-button>
@@ -90,7 +87,6 @@ export default {
     },
     getValidationClass (fieldName) {
       const field = this.$v[fieldName]
-
       if (field) {
         return {
           'md-invalid': field.$invalid && field.$dirty
@@ -98,7 +94,6 @@ export default {
       }
     },
     displayStatus(status){
-      
       if(status){
           this.flashMessage.success({title: 'Success', message: 'User information successfully updated !'});
       }

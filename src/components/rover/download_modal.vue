@@ -38,9 +38,6 @@ import moment from 'moment';
       altitudes: Object,
       batteries : Object,
       accelerations : Object,
-  },
-    components:{
-        
     },
     data(){
         return{
@@ -55,9 +52,6 @@ import moment from 'moment';
           maxlength : 30
         }
    },
-    created(){
-
-    },
     methods: {
       close() {
         this.$emit('close');
@@ -71,7 +65,6 @@ import moment from 'moment';
             anchorPos.download = moment().format('YYYY-MM-DD')+'_installation_'+this.installationId+'_rover_'+this.roverId+'_positions'+'.csv';
             anchorPos.click();
         }
-        
         if(this.cbBattery){
             var csvBattery = this.buildBatteryCSV(this.batteries)
             const anchorBat = document.createElement('a');
@@ -80,7 +73,6 @@ import moment from 'moment';
             anchorBat.download = moment().format('YYYY-MM-DD')+'_installation_'+this.installationId+'_rover_'+this.roverId+'_batteries'+'.csv';
             anchorBat.click();
         }
-        
         if(this.cbAccel){
             var csvAccel = this.buildAccelCSV(this.accelerations)
             const anchorPos = document.createElement('a');
@@ -109,20 +101,17 @@ import moment from 'moment';
         return csv;
       },
       buildAccelCSV(accelerations){
-        
         var csv ='Date,Raw Acceleration X,Raw Acceleration Y,Raw Acceleration Z\n';
         for (let i = 0; i < accelerations.labels.length; i++) {
             csv += accelerations.labels[i] +','+accelerations.datasets[0].data[i]+','+accelerations.datasets[1].data[i]+','+accelerations.datasets[2].data[i]+'\n';
         }
         return csv;
       },
-
       onCreate: function() {
         this.$v.$touch();
         if(this.$v.$error) return
         this.downloadData();
       },
-        
     },
   };
 </script>

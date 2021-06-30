@@ -16,9 +16,7 @@
             :columns="installationcolumns"
             :rows="installations"
             @on-row-click="onInstallationClick"/>
-
             <section-title title= "Users list"></section-title>
-                
             <modal-user
                 v-if="isUserModalVisible"
                 :row="selectedRow"
@@ -34,12 +32,10 @@
             :columns="usercolumns"
             :rows="users"
             @on-row-click="onUserClick"/>
-
-                <h1 class="btn-create-install">
-                    <button type="button" class="btn" @click="onAddUserClick" >Add a new user in this organization</button>
-                </h1>
+            <h1 class="btn-create-install">
+                <button type="button" class="btn" @click="onAddUserClick" >Add a new user in this organization</button>
+            </h1>
             <section-title title= "Responsible list"></section-title>
-                
             <add-user
                 v-if="isUserAddModalVisible"
                 :isAdmin="isAdmin"
@@ -49,15 +45,13 @@
                 @updateList="updateUsersLists"
                 @displaySuccess="displayStatus"
                 />
-            
             <vue-good-table
             :columns="usercolumns"
             :rows="admins"
             @on-row-click="onUserClick"/>
-                <h1 class="btn-create-install">
-                    <button type="button" class="btn" @click="onAddAdminClick" >Add a new admin in this organization</button>
-                </h1>
-            
+            <h1 class="btn-create-install">
+                <button type="button" class="btn" @click="onAddAdminClick" >Add a new admin in this organization</button>
+            </h1>
             <div class="manage-footer">
                 <md-button class="md-icon-button del-btn" @click="onDeleteClick">
                     <md-icon style="color :#AB000D">delete</md-icon>
@@ -179,15 +173,15 @@ export default {
     },
     beforeRouteUpdate(to, from, next) {
         var ability = this.$store.getters.getAbility;
-            if(ability.can('manage_orga',to.query.id.toString()) || ability.can('manage','all'))
-            {
+        if(ability.can('manage_orga',to.query.id.toString()) || ability.can('manage','all'))
+        {
             next()
-            }
-            else{
+        }
+        else{
             next({
                 name: 'home',
             })
-            }
+        }
     },
     async created(){
         this.getInstallations();
@@ -233,7 +227,6 @@ export default {
                     user.displayorganizations = tmpOrga.toString()
                     user.organizations = organizations
                 });
-                
             })
             .catch(e => {
             this.errorMessage = e
@@ -261,7 +254,6 @@ export default {
                     admin.displayorganizations = tmpOrga.toString()
                     admin.organizations = organizations
                 });
-                
             })
             .catch(e => {
             this.errorMessage = e
@@ -276,7 +268,6 @@ export default {
                 }
             }
             this.users = this.tmpusers.filter(comparer(this.admins))
-
         },
         onUserClick(params) {
             this.showModal(true,params.row,true);
@@ -342,8 +333,8 @@ export default {
                 .catch(e => {
                     this.errorMessage = e
                     this.displayStatus("delete",false,'organization')
-                })
-                  }
+                    })
+                }
             });
       },
     }

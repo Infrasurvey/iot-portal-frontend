@@ -2,83 +2,71 @@
   <div>
     <div class="auth-subtitle">Create an account</div>
     <form novalidate class="md-layout" @submit.prevent="register">
-
-    <md-field :class="getValidationClass('name')">
-      <label>First Name*</label>
-      <md-input v-model="user.name" maxlength="30"></md-input>
-      <span class="md-error" v-if="!$v.user.name.required">The first name is required</span>
-      <span class="md-error" v-else-if="!$v.user.name.alpha">Must contains only letters</span>
-      <span class="md-error" v-else-if="!$v.user.name.maxLength">Must contains max. 30 characters</span>
-    </md-field>
-
-    <md-field :class="getValidationClass('lastname')">
-      <label>Last Name*</label>
-      <md-input v-model="user.lastname" maxlength="30"></md-input>
-      <span class="md-error" v-if="!$v.user.lastname.required">The last name is required</span>
-      <span class="md-error" v-else-if="!$v.user.lastname.alpha">Must contains only letters</span>
-      <span class="md-error" v-else-if="!$v.user.lastname.maxLength">Must contains max. 30 characters</span>
-    </md-field>
-
-    <md-field :class="getValidationClass('address')">
-      <label>Address*</label>
-      <md-input v-model="user.address" maxlength="30"></md-input>
-      <span class="md-error" v-if="!$v.user.address.required">The address is required</span>
-      <span class="md-error" v-else-if="!$v.user.address.maxLength">Must contains max. 30 characters</span>
-    </md-field>
-
-    <md-field :class="getValidationClass('zip')">
-      <label>ZIP code*</label>
-      <md-input v-model="user.zip" maxlength="6"></md-input>
-      <span class="md-error" v-if="!$v.user.zip.required">The ZIP code is required</span>
-      <span class="md-error" v-else-if="!$v.user.zip.numeric">Must contains only numbers</span>
-      <span class="md-error" v-else-if="!$v.user.zip.maxLength">Must contains max. 6 characters</span>
-    </md-field>
-
-    <md-field :class="getValidationClass('city')">
-      <label>City*</label>
-      <md-input v-model="user.city" maxlength="30"></md-input>
-      <span class="md-error" v-if="!$v.user.city.required">The city code is required</span>
-      <span class="md-error" v-else-if="!$v.user.city.maxLength">Must contains max. 6 characters</span>
-    </md-field>
-
-    <md-autocomplete v-model="user.country" :md-options="countries">
-      <label>Country*</label>
-      <span class="md-error" v-if="!$v.user.country.required">The country is required</span>
-    </md-autocomplete>
-
-    <md-autocomplete v-model="user.language" :md-options="languages">
-      <label>Language*</label>
-      <span class="md-error" v-if="!$v.user.language.required">The language is required</span>
-    </md-autocomplete>
-
-    <md-field :class="getValidationClass('phone')">
-      <label>Phone number*</label>
-      <md-input v-model="user.phone" maxlength="30"></md-input>
-      <span class="md-error" v-if="!$v.user.phone.required">The phone number is required</span>
-    </md-field>
-
-    <md-field :class="getValidationClass('email')">
-      <label>E-mail*</label>
-      <md-input v-model="user.email"></md-input>
-      <span class="md-error" v-if="!$v.user.email.required">The email is required</span>
-      <span class="md-error" v-else-if="!$v.user.email.email">Invalid email</span>
-    </md-field>
-    
-    <md-field :class="getValidationClass('password')">
-      <label>Password*</label>
-      <md-input type="password" name="password" id="password" v-model="user.password" maxlength="30"></md-input>
-      <span class="md-error" v-if="!$v.user.password.required">The password is required</span>
-      <span class="md-error" v-else-if="!$v.user.password.minLength">Must contain at least 5 characters</span>
-    </md-field>
-    
-    <md-field :class="getValidationClass('cpassword')">
-      <label>Confirm password*</label>
-      <md-input type="password" name="cpassword" id="cpassword" v-model="user.cpassword" maxlength="30"></md-input>
-      <span class="md-error" v-if="!$v.user.cpassword.required">Please confirm your password</span>
-      <span class="md-error" v-else-if="!$v.user.cpassword.sameAsPassword">Passwords didn't match. Try again.</span>
-    </md-field>
-
-    <md-button class="md-raised md-primary btn-login" type="submit">Create an account</md-button>
+      <md-field :class="getValidationClass('name')">
+        <label>First Name*</label>
+        <md-input v-model="user.name" maxlength="30"></md-input>
+        <span class="md-error" v-if="!$v.user.name.required">The first name is required</span>
+        <span class="md-error" v-else-if="!$v.user.name.alpha">Must contains only letters</span>
+        <span class="md-error" v-else-if="!$v.user.name.maxLength">Must contains max. 30 characters</span>
+      </md-field>
+      <md-field :class="getValidationClass('lastname')">
+        <label>Last Name*</label>
+        <md-input v-model="user.lastname" maxlength="30"></md-input>
+        <span class="md-error" v-if="!$v.user.lastname.required">The last name is required</span>
+        <span class="md-error" v-else-if="!$v.user.lastname.alpha">Must contains only letters</span>
+        <span class="md-error" v-else-if="!$v.user.lastname.maxLength">Must contains max. 30 characters</span>
+      </md-field>
+      <md-field :class="getValidationClass('address')">
+        <label>Address*</label>
+        <md-input v-model="user.address" maxlength="30"></md-input>
+        <span class="md-error" v-if="!$v.user.address.required">The address is required</span>
+        <span class="md-error" v-else-if="!$v.user.address.maxLength">Must contains max. 30 characters</span>
+      </md-field>
+      <md-field :class="getValidationClass('zip')">
+        <label>ZIP code*</label>
+        <md-input v-model="user.zip" maxlength="6"></md-input>
+        <span class="md-error" v-if="!$v.user.zip.required">The ZIP code is required</span>
+        <span class="md-error" v-else-if="!$v.user.zip.numeric">Must contains only numbers</span>
+        <span class="md-error" v-else-if="!$v.user.zip.maxLength">Must contains max. 6 characters</span>
+      </md-field>
+      <md-field :class="getValidationClass('city')">
+        <label>City*</label>
+        <md-input v-model="user.city" maxlength="30"></md-input>
+        <span class="md-error" v-if="!$v.user.city.required">The city code is required</span>
+        <span class="md-error" v-else-if="!$v.user.city.maxLength">Must contains max. 6 characters</span>
+      </md-field>
+      <md-autocomplete v-model="user.country" :md-options="countries">
+        <label>Country*</label>
+        <span class="md-error" v-if="!$v.user.country.required">The country is required</span>
+      </md-autocomplete>
+      <md-autocomplete v-model="user.language" :md-options="languages">
+        <label>Language*</label>
+        <span class="md-error" v-if="!$v.user.language.required">The language is required</span>
+      </md-autocomplete>
+      <md-field :class="getValidationClass('phone')">
+        <label>Phone number*</label>
+        <md-input v-model="user.phone" maxlength="30"></md-input>
+        <span class="md-error" v-if="!$v.user.phone.required">The phone number is required</span>
+      </md-field>
+      <md-field :class="getValidationClass('email')">
+        <label>E-mail*</label>
+        <md-input v-model="user.email"></md-input>
+        <span class="md-error" v-if="!$v.user.email.required">The email is required</span>
+        <span class="md-error" v-else-if="!$v.user.email.email">Invalid email</span>
+      </md-field>
+      <md-field :class="getValidationClass('password')">
+        <label>Password*</label>
+        <md-input type="password" name="password" id="password" v-model="user.password" maxlength="30"></md-input>
+        <span class="md-error" v-if="!$v.user.password.required">The password is required</span>
+        <span class="md-error" v-else-if="!$v.user.password.minLength">Must contain at least 5 characters</span>
+      </md-field>
+      <md-field :class="getValidationClass('cpassword')">
+        <label>Confirm password*</label>
+        <md-input type="password" name="cpassword" id="cpassword" v-model="user.cpassword" maxlength="30"></md-input>
+        <span class="md-error" v-if="!$v.user.cpassword.required">Please confirm your password</span>
+        <span class="md-error" v-else-if="!$v.user.cpassword.sameAsPassword">Passwords didn't match. Try again.</span>
+      </md-field>
+      <md-button class="md-raised md-primary btn-login" type="submit">Create an account</md-button>
     </form>
     <FlashMessage></FlashMessage>
   </div>

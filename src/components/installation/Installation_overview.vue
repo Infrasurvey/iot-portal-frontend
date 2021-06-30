@@ -23,12 +23,10 @@
         </div>
       </div>
     </div>
-    
     <section-title title = "Battery state"></section-title>
     <div class="flex-container batteries">
       <battery-status v-for="battery in batteryDisplay" :key="battery.system_id" :battery="battery"> </battery-status>
     </div>
-
     <section-title title = "Rovers positions"></section-title>
     <div v-if="isMounted" class="rovers-map">
       <l-map :zoom="zoom"
@@ -87,7 +85,6 @@
       zoom: 11, 
       center: [46.68002385,7.312523534],
       positions:[],
-      //https://wmts20.geo.admin.ch/1.0.0/ch.swisstopo.swissimage/default/current/3857/{z}/{x}/{y}.jpeg*/
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       tmp : '',
@@ -97,17 +94,16 @@
       },
       patterns,
       }
-      
     },
     watch: {
-        async $route(to, from) {
-          this.isMounted = false
-          this.installationId = to.params.id.toString()
-          this.positions =[],
-          await this.getInstallation()
-          await this.getStation(to.params.id)
-          this.isMounted = true
-        }
+      async $route(to, from) {
+        this.isMounted = false
+        this.installationId = to.params.id.toString()
+        this.positions =[],
+        await this.getInstallation()
+        await this.getStation(to.params.id)
+        this.isMounted = true
+      }
     },
     async created(){
       await this.getInstallation()
@@ -138,7 +134,6 @@
           this.rovers = this.station.rovers
           this.batteryDisplay = [{'system_id':this.station.name,'battery_voltage':this.station.battery_voltage,'is_basestation':true}]
           this.batteryDisplay = this.batteryDisplay.concat(this.rovers)
-          
           this.createMapOverlay()
         })
         .catch(e => {
@@ -150,7 +145,6 @@
        this.rovers.forEach(rover => {
          if(rover.default_position != null){
           this.positions.push({'id':rover.system_id, 'pos':[rover.default_position.latitude,rover.default_position.longitude]})
-
          }
         });
       }

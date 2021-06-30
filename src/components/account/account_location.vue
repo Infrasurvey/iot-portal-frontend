@@ -9,7 +9,6 @@
           <span class="md-error" v-if="!$v.user.address.required">The address is required</span>
           <span class="md-error" v-else-if="!$v.user.address.maxLength">Must contains max. 30 characters</span>
         </md-field>
-
         <md-field :class="getValidationClass('zip')" class="input-container" style="width: 300px; margin-right: 20px;">
           <label>ZIP code*</label>
           <md-input v-model="user.zip" maxlength="6"></md-input>
@@ -17,21 +16,18 @@
           <span class="md-error" v-else-if="!$v.user.zip.numeric">Must contains only numbers</span>
           <span class="md-error" v-else-if="!$v.user.zip.maxLength">Must contains max. 6 characters</span>
         </md-field>
-
         <md-field :class="getValidationClass('city')" class="input-container" style="width: 300px; margin-right: 20px;">
           <label>City*</label>
           <md-input v-model="user.city" maxlength="30"></md-input>
           <span class="md-error" v-if="!$v.user.city.required">The city code is required</span>
           <span class="md-error" v-else-if="!$v.user.city.maxLength">Must contains max. 6 characters</span>
         </md-field>
-
         <md-autocomplete v-model="user.country" :md-options="countries" class="input-container" style="width: 300px; margin-right: 20px;">
           <label>Country*</label>
           <span class="md-error" v-if="!$v.user.country.required">The country is required</span>
         </md-autocomplete>
       </form>
     </div>
-
     <div style="align-self: flex-end;">
         <md-button type="submit" :to="{ name: 'home' }" class="md-raised md-accent btn-login" style="width: 200px;">Close</md-button>
         <md-button type="submit" @click="updateUser" class="md-raised md-primary btn-login" style="width: 200px;">Apply</md-button>
@@ -356,7 +352,6 @@ export default {
     },
     getValidationClass (fieldName) {
       const field = this.$v.user[fieldName]
-
       if (field) {
         return {
           'md-invalid': field.$invalid && field.$dirty

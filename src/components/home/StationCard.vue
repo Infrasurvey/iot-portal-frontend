@@ -66,19 +66,15 @@ export default {
     var today = new Date();
     var today = Date.parse(today);
     var lastCommunication = Date.parse(this.station.last_communication);
-
     // Compute the difference
     var difference = today - lastCommunication;
-
     // Compute the number of day of inactivity
     this.inactivityDays = Math.round(difference / 1000  / (24 * 60 * 60));
-
     // Set active or inactive
     if (this.inactivityDays >= 7)
     {
       this.active = false;
     }
-
     // If null, set the station to the center of Switzerland
     if (this.center[0] == null)
     {

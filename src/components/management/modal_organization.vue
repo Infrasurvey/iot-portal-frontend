@@ -42,9 +42,6 @@ import FormData from 'form-data'
           required : true
       },
       isUpdate : Boolean
-  },
-    components:{
-        
     },
     data(){
         return{
@@ -60,9 +57,6 @@ import FormData from 'form-data'
           maxlength : 30
         }
    },
-    created(){
-
-    },
     methods: {
       close() {
         this.$emit('close');
@@ -128,24 +122,24 @@ import FormData from 'form-data'
                   }
             });
       },
-        onCreate: function() {
-            this.$v.$touch();
-            if(this.$v.$error) return
-            this.saveOrganization();
-        },
-        onUpdate: function() {
-            this.$v.$touch();
-            if(this.$v.$error) return
-            this.updateOrganization();
-        },
-        getValidationClass (fieldName) {
-          const field = this.$v[fieldName]
-          if (field) {
-            return {
-              'md-invalid': field.$invalid && field.$dirty
-            }
+      onCreate: function() {
+          this.$v.$touch();
+          if(this.$v.$error) return
+          this.saveOrganization();
+      },
+      onUpdate: function() {
+          this.$v.$touch();
+          if(this.$v.$error) return
+          this.updateOrganization();
+      },
+      getValidationClass (fieldName) {
+        const field = this.$v[fieldName]
+        if (field) {
+          return {
+            'md-invalid': field.$invalid && field.$dirty
           }
         }
+      }
     },
   };
 </script>

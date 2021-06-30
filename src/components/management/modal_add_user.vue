@@ -31,7 +31,6 @@
       <md-dialog-actions>
         <md-button class="md-primary"  @click.prevent="onUpdate">Add user</md-button>
       </md-dialog-actions>
-
     </div>
   </div>
 </template>
@@ -39,7 +38,6 @@
 <script>
 import API from '../../http-constants'
 import { required } from 'vuelidate/lib/validators'
-import FormData from 'form-data'
 import Multiselect from 'vue-multiselect'
 
   export default {
@@ -82,7 +80,6 @@ import Multiselect from 'vue-multiselect'
           await this.getGroups()
         }
         this.setSelectedGroups()
-
     },
     methods: {
       close() {
@@ -99,7 +96,6 @@ import Multiselect from 'vue-multiselect'
           else{
             url = '/api/availableUsersForGroup/'+this.group_id
           }
-            
           return API.get(url)
           .then(response => {
                 this.users = response.data
@@ -116,12 +112,10 @@ import Multiselect from 'vue-multiselect'
                 if(this.isAdmin)
                   this.organization_selected = this.organization
                 this.groups = response.data.groups
-
             })
             .catch(e => {
                 this.errorMessage = e
             })
-          
       },
       getGroups(){
           var url = ''
@@ -129,12 +123,10 @@ import Multiselect from 'vue-multiselect'
           return API.get(url).then(response => {
                 this.groups = [response.data]
                 this.organization = response.data.organization
-
             })
             .catch(e => {
                 this.errorMessage = e
             })
-          
       },
       setSelectedGroups(){
         if(this.isAdmin){
@@ -143,7 +135,6 @@ import Multiselect from 'vue-multiselect'
             });
         }
         this.final_groups_selected = this.groups
-        
       },
       addUser: function (){
           var newUserOrganizationRelations = []
@@ -183,19 +174,19 @@ import Multiselect from 'vue-multiselect'
                 this.$emit('displaySuccess','update',false,'User')
             })
       },
-        onUpdate: function() {
-            this.$v.$touch();
-            if(this.$v.$error) return
-            this.addUser();
-        },
-        getValidationClass (fieldName) {
-          const field = this.$v[fieldName]
-          if (field) {
-            return {
-              'md-invalid': field.$invalid && field.$dirty
-            }
+      onUpdate: function() {
+          this.$v.$touch();
+          if(this.$v.$error) return
+          this.addUser();
+      },
+      getValidationClass (fieldName) {
+        const field = this.$v[fieldName]
+        if (field) {
+          return {
+            'md-invalid': field.$invalid && field.$dirty
           }
         }
+      }
     },
   };
 </script>

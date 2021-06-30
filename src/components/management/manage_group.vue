@@ -2,7 +2,6 @@
     <div>
         <div class="main-install overview-inst">
             <section-title title= "Installations list"></section-title>
-
             <modal-installation
                 v-if="isInstallModalVisible"
                 :row="selectedRow"
@@ -17,10 +16,7 @@
             :columns="installationcolumns"
             :rows="installations"
             @on-row-click="onInstallationClick"/>
-        
-
             <section-title title= "User list"></section-title>
-                
             <modal-user
                 v-if="isUserModalVisible"
                 :row="selectedRow"
@@ -36,11 +32,9 @@
             :columns="usercolumns"
             :rows="users"
             @on-row-click="onUserClick"/>
-
             <h1 class="btn-create-install">
                     <button type="button" class="btn" @click="onAddUserClick" >Add a new user in this group</button>
             </h1>
-
             <add-user
                 v-if="isUserAddModalVisible"
                 :isAdmin="false"
@@ -160,24 +154,24 @@ export default {
         }
     },
     watch: {
-    async $route(to, from) {
-        this.group_id = this.$route.query.id
-        this.isAdmin = this.$store.getters.getAbility.can('manage','all')
-        this.getInstallations();
-        await this.getUsers();
-    }
+        async $route(to, from) {
+            this.group_id = this.$route.query.id
+            this.isAdmin = this.$store.getters.getAbility.can('manage','all')
+            this.getInstallations();
+            await this.getUsers();
+        }
     },
     beforeRouteUpdate(to, from, next) {
         var ability = this.$store.getters.getAbility;
-            if(ability.can('manage_group',to.query.id.toString()) || ability.can('manage','all'))
-            {
+        if(ability.can('manage_group',to.query.id.toString()) || ability.can('manage','all'))
+        {
             next()
-            }
-            else{
+        }
+        else{
             next({
                 name: 'home',
             })
-            }
+        }
     },
     async created(){
         this.getInstallations();

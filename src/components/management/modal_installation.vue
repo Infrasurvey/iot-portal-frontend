@@ -43,7 +43,6 @@
 <script>
 import API from '../../http-constants'
 import { required } from 'vuelidate/lib/validators'
-import FormData from 'form-data'
 import SectionTitle from '../template/SectionTitle.vue';
 
   export default {
@@ -56,36 +55,34 @@ import SectionTitle from '../template/SectionTitle.vue';
       isUpdate : Boolean,
       organization_id : String,
       group_id : String
-  },
+    },
     components:{
         SectionTitle
-        
     },
     data(){
-        return{
-            installation:{
-                name: this.row.name || '',
-                id : this.row.id || '',
-                group_id : this.row.group_id || '',
-                device_base_station_id : this.row.device_base_station_id || ''
-            },
-            errorMessage: '',
-            errors: [],
-            responseMessage: '',
-            groups : [],
-            basestations : [],
-        }
+      return{
+        installation:{
+            name: this.row.name || '',
+            id : this.row.id || '',
+            group_id : this.row.group_id || '',
+            device_base_station_id : this.row.device_base_station_id || ''
+        },
+        errorMessage: '',
+        errors: [],
+        responseMessage: '',
+        groups : [],
+        basestations : [],
+      }
     },
     validations: {
-        installation:{
-            group_id:{
-                required
-            },
-            device_base_station_id:{
-                required
-            }
-        }
-
+      installation:{
+          group_id:{
+              required
+          },
+          device_base_station_id:{
+              required
+          }
+      }
    },
     created(){
         this.getGroups()
@@ -150,15 +147,15 @@ import SectionTitle from '../template/SectionTitle.vue';
                 if (result.value) { // <-- if confirmed
                   API.delete('/api/installation/'+this.row.id)
                     .then(response => {
-                          this.responseMessage = response.data
-                          this.$emit('close');
-                          this.$emit('updateList');
-                          this.$emit('displaySuccess','deleted',true,'Installation')
+                        this.responseMessage = response.data
+                        this.$emit('close');
+                        this.$emit('updateList');
+                        this.$emit('displaySuccess','deleted',true,'Installation')
                       })
                       .catch(e => {
-                          this.errorMessage = e
-                          this.$emit('close');
-                          this.$emit('displaySuccess','delete',false,'Installation')
+                        this.errorMessage = e
+                        this.$emit('close');
+                        this.$emit('displaySuccess','delete',false,'Installation')
                       })
                   }
             });

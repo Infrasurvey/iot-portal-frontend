@@ -5,7 +5,6 @@
       <md-list-item :to="{ name: 'ManageInstallations' }">Installations</md-list-item>
       <md-list-item :to="{ name: 'ManageUsers'}">Users</md-list-item>
     </md-list>
-
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
       <div style="font-weight: bold;">Organizations</div>
       <md-button v-if="this.$store.getters.getAbility.can('manage', 'all')" class="md-icon-button" @click="onCreateClick">
@@ -13,23 +12,19 @@
       </md-button>
     </div>
     <organization-item v-for="organization in organizations" :key="organization.id" :organization="organization" @updateList="updateList"/>
-
-  <Modal
-    v-if="isModalVisible"
-    :row="selectedRow"
-    :isUpdate="isUpdate"
-    @close="closeModal"
-    @updateList="updateList"
-    @displaySuccess="displayStatus"
-    />
+    <Modal
+      v-if="isModalVisible"
+      :row="selectedRow"
+      :isUpdate="isUpdate"
+      @close="closeModal"
+      @updateList="updateList"
+      @displaySuccess="displayStatus"
+      />
   </div>
 </template>
 
 <script>
-//                <div class="nav-group"><router-link class="basic-link" :to="{ name: 'ManageGroups'}">Groups</router-link></div> 
-import API from '../../http-constants'
 import OrganizationItem from './sidenav_organization_element' 
-import setDropdownListener from '../../assets/js/dropdown_sidenav'
 import Modal from './modal_organization';
 
 export default {

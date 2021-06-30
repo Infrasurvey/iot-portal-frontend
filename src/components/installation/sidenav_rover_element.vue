@@ -10,8 +10,6 @@
 </template>
 
 <script>
-import setDropdownListener from '../../assets/js/dropdown_sidenav'
-
 export default {
     name: 'organization-item',
     props:{
@@ -19,9 +17,6 @@ export default {
           type: Object,
           required : true
       }
-    },
-    mounted(){
-        //setDropdownListener('dropdown-rover-'+this.rover.id)
-    },
+    }
 }
 </script>

@@ -4,16 +4,13 @@
       <section-title title="My installations"></section-title>
       <div><md-button v-if="manageable" class="md-raised md-primary create-installation-button" type="button" @click="showModal">Create a new installation</md-button></div>
     </div>
-
     <Modal
       v-if="isModalVisible"
       @close="closeModal"
       @updateList="getStations"
       @displaySuccess="displayStatus"
     />
-
     <FlashMessage></FlashMessage>
-
     <div class="station-card-container">
       <station-card v-for="station in stations" :key="station.id" :station="station"></station-card>
     </div>
@@ -49,7 +46,7 @@ import StationCard from './StationCard'
 import Modal from '../installation/create_installation';
 import PictureInput from 'vue-picture-input'
 import SectionTitle from '../template/SectionTitle';
-import defineRulesFor from '../../assets/js/abilityBuild'
+
 export default {
   components:{
       StationCard,

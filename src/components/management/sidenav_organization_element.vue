@@ -3,8 +3,6 @@
     <md-list-item>
       <span class="md-list-item-text">
       <md-button style="text-transform: inherit; text-align: inherit; color: inherit; font-size: inherit;" :to="{ name: 'ManageOrganization', query: { id: organization.id }}">{{ organization.name }}</md-button>
-
-        <!-- <router-link style="color: inherit; text-decoration: none;" :to="{ name: 'ManageOrganization', query: { id: organization.id }}">{{ organization.name }}</router-link> -->
       </span>
       <md-button class="md-icon-button" @click="expandMore">
         <md-icon v-if="myExpand == false">expand_more</md-icon>
@@ -17,7 +15,6 @@
     <div v-if="myExpand == true">
       <md-list-item  v-for="group in organization.groups" :key="group.id" :to="{ name: 'ManageGroup', query: { id: group.id }}" class="md-inset">{{ group.name }}</md-list-item>
     </div>
-
     <Modal
       v-if="isModalVisible"
       :row="selectedRow"

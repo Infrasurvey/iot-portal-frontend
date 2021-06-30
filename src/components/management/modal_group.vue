@@ -49,64 +49,63 @@ import FormData from 'form-data'
           required : true
       },
       isUpdate : Boolean
-  },
+    },
     components:{
-        
     },
     data(){
-        return{
-            name:this.row.name || '',
-            organization_id : this.row.organization_id,
-            errorMessage: '',
-            errors: [],
-            responseMessage: '',
-            organizations : []
-        }
+      return{
+          name:this.row.name || '',
+          organization_id : this.row.organization_id,
+          errorMessage: '',
+          errors: [],
+          responseMessage: '',
+          organizations : []
+      }
     },
     validations: {
-        name:{
-          required,
-          maxlength : 30
-        },
-        organization_id:{
-          required
-        }
-   },
+      name:{
+        required,
+        maxlength : 30
+      },
+      organization_id:{
+        required
+      }
+    },
     created(){
-        this.getOrganizations()
+      this.getOrganizations()
     },
     methods: {
       close() {
         this.$emit('close');
       },
       showDeleteAlert(){
-          this.$swal({
-              title: "Delete this group?",
-              text: "Are you sure? You won't be able to revert this!",
-              type: "warning",
-              icon:"warning",
-              customClass:{
-                container :'swa-container' 
-              },
-              showCancelButton: true,
-              confirmButtonColor: "#E53935",
-              confirmButtonText: "Yes, Delete it!"
-          }).then((result) => { // <--
-                if (result.value) { // <-- if confirmed
-                      API.delete('/api/group/'+this.row.id)
-                .then(response => {
-                      this.responseMessage = response.data
-                      this.$emit('close');
-                      this.$emit('updateList');
-                      this.$emit('displaySuccess','deleted',true,'Group')
-                  })
-                  .catch(e => {
-                      this.errorMessage = e
-                      this.$emit('close');
-                      this.$emit('displaySuccess','delete',false,'Group')
-                  })
-                  }
-            });
+        this.$swal({
+            title: "Delete this group?",
+            text: "Are you sure? You won't be able to revert this!",
+            type: "warning",
+            icon:"warning",
+            customClass:{
+              container :'swa-container' 
+            },
+            showCancelButton: true,
+            confirmButtonColor: "#E53935",
+            confirmButtonText: "Yes, Delete it!"
+        }).then((result) => { // <--
+              if (result.value) { // <-- if confirmed
+                    API.delete('/api/group/'+this.row.id)
+              .then(response => {
+                    this.responseMessage = response.data
+                    this.$emit('close');
+                    this.$emit('updateList');
+                    this.$emit('displaySuccess','deleted',true,'Group')
+                })
+                .catch(e => {
+                    this.errorMessage = e
+                    this.$emit('close');
+                    this.$emit('displaySuccess','delete',false,'Group')
+                })
+                }
+          });
       },
       getOrganizations: function (){
           API.get('/api/organization')

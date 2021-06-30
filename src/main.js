@@ -7,14 +7,12 @@ import router from './router'
 import { store } from './store/store'
 import FlashMessage from '@smartweb/vue-flash-message';
 import VueMaterialSlider from 'vue-material-slider';
-
 import 'vue-material-slider/dist/vue-material-slider.css';
 import './assets/scss/index.scss'
 import './assets/js/tools.js';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faBatteryEmpty,faBatteryHalf,faBatteryFull,faBatteryQuarter,faBatteryThreeQuarters,faUserCircle,faCheckCircle, faExclamationCircle,faTimes,faChevronDown, faCaretDown, faPlusCircle,faCloudUploadAlt,faCloudDownloadAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { Ability } from '@casl/ability'
 import Vodal from 'vodal';
 import Vuelidate from 'vuelidate'
 import vSelect from 'vue-select'

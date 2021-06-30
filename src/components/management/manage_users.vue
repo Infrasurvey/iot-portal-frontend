@@ -18,7 +18,6 @@
     :columns="columns"
     :rows="users"
     @on-row-click="onRowClick"/>
-
     <div class="manage-footer">
       <router-link class="basic-link cancel-btn" :to="{ name: 'home' }">Cancel</router-link>
     </div>
@@ -119,7 +118,6 @@ export default {
           user.displayorganizations = tmpOrga.toString()
           user.organizations = organizations
         });
-        
       })
       .catch(e => {
       this.errorMessage = e
@@ -137,13 +135,13 @@ export default {
       this.isModalVisible = false;
     },
     displayStatus(type,status){
-    if(status){
-      this.flashMessage.success({title: 'Success', message: 'User has been succesfully '+type+' !'});
-    }
-    else
-    {
-      this.flashMessage.show({status: 'error', title: 'Error', message: 'An error occured during user '+type+'.'})
-    }
+      if(status){
+        this.flashMessage.success({title: 'Success', message: 'User has been succesfully '+type+' !'});
+      }
+      else
+      {
+        this.flashMessage.show({status: 'error', title: 'Error', message: 'An error occured during user '+type+'.'})
+      }
     }
   }
 }

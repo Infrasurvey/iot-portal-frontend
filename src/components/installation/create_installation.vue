@@ -100,7 +100,6 @@ import format from 'date-fns/format'
         this.getGroups();
     },
     methods: {
-    
       close() {
         this.$emit('close');
       },
@@ -145,14 +144,11 @@ import format from 'date-fns/format'
         onSubmit: function() {
             this.$v.installation.$touch();
             if(this.$v.installation.$error) return
-            // to form submit after this
-            //alert('Form submitted')
             this.saveInstallation();
         },
         onChanged (image) {
             if (image) {
                 this.image = this.$refs.pictureInput.file
-                
             }
         },
         getValidationClass (fieldName) {
@@ -162,7 +158,7 @@ import format from 'date-fns/format'
               'md-invalid': field.$invalid && field.$dirty
             }
           }
-    }
+      }
     },
   };
 </script>

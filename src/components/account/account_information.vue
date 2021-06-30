@@ -10,7 +10,6 @@
           <span class="md-error" v-else-if="!$v.user.name.alpha">Must contains only letters</span>
           <span class="md-error" v-else-if="!$v.user.name.maxLength">Must contains max. 30 characters</span>
         </md-field>
-
         <md-field :class="getValidationClass('lastname')" class="input-container" style="width: 300px;">
           <label>Last Name*</label>
           <md-input v-model="user.lastname" maxlength="30"></md-input>
@@ -18,27 +17,23 @@
           <span class="md-error" v-else-if="!$v.user.lastname.alpha">Must contains only letters</span>
           <span class="md-error" v-else-if="!$v.user.lastname.maxLength">Must contains max. 30 characters</span>
         </md-field>
-
         <md-field :class="getValidationClass('phone')" class="input-container" style="width: 300px;">
           <label>Phone number*</label>
           <md-input v-model="user.phone" maxlength="30"></md-input>
           <span class="md-error" v-if="!$v.user.phone.required">The phone number is required</span>
         </md-field>
-
         <md-field :class="getValidationClass('email')" class="input-container" style="width: 300px;">
           <label>E-mail*</label>
           <md-input v-model="user.email"></md-input>
           <span class="md-error" v-if="!$v.user.email.required">The email is required</span>
           <span class="md-error" v-else-if="!$v.user.email.email">Invalid email</span>
         </md-field>
-
         <md-autocomplete v-model="user.language" :md-options="languages" class="input-container" style="width: 300px;">
           <label>Language*</label>
           <span class="md-error" v-if="!$v.user.language.required">The language is required</span>
         </md-autocomplete>
       </form>
     </div>
-
     <div style="align-self: flex-end;">
         <md-button type="submit" :to="{ name: 'home' }" class="md-raised md-accent btn-login" style="width: 200px;">Close</md-button>
         <md-button type="submit" @click="updateUser" class="md-raised md-primary btn-login" style="width: 200px;">Apply</md-button>
@@ -128,7 +123,6 @@ export default {
     },
     getValidationClass (fieldName) {
       const field = this.$v.user[fieldName]
-
       if (field) {
         return {
           'md-invalid': field.$invalid && field.$dirty

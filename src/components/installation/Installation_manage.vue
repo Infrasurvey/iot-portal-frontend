@@ -22,13 +22,11 @@
                             </picture-input>
                         </div>
                     </div>
-                    
                 </div>
             </div>
             <div class="apply-container">
                 <button type="submit" @click="updateInstallation" class="apply-btn">Update informations</button>
             </div>
-
             <div class="disabled">
               <section-title title= "Maintenance"></section-title>
               <div>
@@ -40,7 +38,6 @@
                   <button type="submit">Register new human intervention</button>
               </div>  
             </div>
-            
             <section-title title= "Contacts"></section-title>
             <vue-good-table
             :columns="columns"
@@ -110,44 +107,44 @@ export default {
       this.getUsers()
   },
   methods: {
-          getInstallation: function () {
-              API.get('/api/installation/'+this.installationId)
-                  .then(response => {
-                      this.installation = response.data
-                      this.image_path = this.installation.image_path
-                      let baseURL
-                      if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-                        baseURL = 'http://localhost:8080/'
-                      } else {
-                        baseURL = 'http://geomon-iot.ch:8080/'
-                      }
-                      this.src = baseURL+'storage/images/'+this.image_path
-                  })
-                  .catch(e => {
-                      this.errorMessage = e
-                  })
-              },
-          getUsers(){
-              API.get('/api/getUsersByInstallation/'+this.installationId)
-              .then(response => {
-                  this.users =response.data
-      })
-      .catch(e => {
-      this.errorMessage = e
-      })
+        getInstallation: function () {
+            API.get('/api/installation/'+this.installationId)
+            .then(response => {
+                this.installation = response.data
+                this.image_path = this.installation.image_path
+                let baseURL
+                if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+                baseURL = 'http://localhost:8080/'
+                } else {
+                baseURL = 'http://geomon-iot.ch:8080/'
+                }
+                this.src = baseURL+'storage/images/'+this.image_path
+            })
+            .catch(e => {
+                this.errorMessage = e
+            })
+        },
+        getUsers(){
+            API.get('/api/getUsersByInstallation/'+this.installationId)
+            .then(response => {
+                this.users =response.data
+            })
+            .catch(e => {
+            this.errorMessage = e
+            })
         },
         updateInstallation(){
-                var form = new FormData();
-                form.append('image', this.image);
-                form.append('name',this.installation.name);
-                API.post('/api/updateInstallationImage/'+this.installationId,form)
-                .then(response => {
-                    this.displayStatus(true)
-                })
-                .catch(e => {
-                    this.errorMessage = e
-                    this.displayStatus(false)
-                })
+            var form = new FormData();
+            form.append('image', this.image);
+            form.append('name',this.installation.name);
+            API.post('/api/updateInstallationImage/'+this.installationId,form)
+            .then(response => {
+                this.displayStatus(true)
+            })
+            .catch(e => {
+                this.errorMessage = e
+                this.displayStatus(false)
+            })
         },
         onChanged (image) {
             if (image) {

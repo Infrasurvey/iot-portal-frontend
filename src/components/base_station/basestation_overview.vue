@@ -28,7 +28,6 @@
           </p>
         </md-content>
       </div>
-
       <section-title title= "Current configuration"></section-title>
       <div class="flex-left">
         <div class="overview-actual-p">
@@ -50,7 +49,6 @@
           Reference altitude : {{ configuration.reference_altitude || 'Null' }}
         </div>
       </div>
-      
       <vue-slider class="slider-1" v-model="value" :min="min" :max="max" :marks="marks" :enable-cross="false" :tooltip="showTooltip" :tooltip-formatter="formatter" :disabled="true">
       </vue-slider>
     </div>
@@ -58,7 +56,6 @@
 </template>
 
 <script>
-//https://github.com/IonDen/ion.rangeSlider
   import API from '../../http-constants'
   import VueSlider from 'vue-slider-component'
   import moment from 'moment'
@@ -130,13 +127,10 @@
           var today = new Date();
           var today = Date.parse(today);
           var lastCommunication = Date.parse(this.basestation.last_communication);
-
           // Compute the difference
           var difference = today - lastCommunication;
-
           // Compute the number of day of inactivity
           this.inactivityDays = Math.round(difference / 1000  / (24 * 60 * 60));
-
           // Set active or inactive
           if (this.inactivityDays >= 7)
           {

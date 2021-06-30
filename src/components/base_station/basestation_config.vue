@@ -108,13 +108,11 @@
                     />
                 </div>
             </div>
-            
             <section-title title= "History"></section-title>
             <vue-good-table
             :columns="columns"
             :rows="configurations"
             @on-row-click="onConfigClick"/>
-
             <config-modal
                 v-if="isConfigModalVisible"
                 :is_pending="false"
@@ -141,7 +139,6 @@
     export default {
         name: 'basestation-config',
         data(){
-
             return{
                 installationId : this.$route.params.id,
                 configurations : [],
@@ -178,7 +175,6 @@
                 uploadedFile : '',
                 fileUrl : '',
                 selectedConfig : '',
-                
             }
         },
         validations: {
@@ -187,54 +183,41 @@
                     required,
                 },
                 wakeup_period_in_minutes:{
-                    //required,
                     numeric,
                     minValue : minValue(0),
                     maxValue : maxValue(65535)
                 },
                 gps_module:{
-                    //required,
                     numeric,
                     minValue : minValue(0),
                     maxValue : maxValue(15)
                 },
                 session_period_in_wakeup_period:{
-                    //required,
                     numeric,
                     minValue : minValue(1),
                     maxValue : maxValue(255)
                 },
-                reset:{
-                    //required,
-                },
                 session_start_time:{
-                    //required
                     isTime
                 },
                 non_continuous_store_binr_to_ftp:{
-                    //required
                 },
                 non_continuous_store_binr_to_sd:{
-                    //required
                 },
                 session_duration_in_minutes:{
-                    //required,
                     numeric,
                     minValue : minValue(1),
                     maxValue : maxValue(255)
                 },
                 latitude:{
-                    //required,
                     decimal,
                     isLatitude
                 },
                 longitude:{
-                    //required,
                     decimal,
                     isLongitude
                 },
                 altitude:{
-                    //required,
                     integer
                 }
             }
@@ -278,7 +261,6 @@
                         }else{
                             this.pendingExist = false;
                         }
-                        
                     })
                     .catch(e => {
                         this.errorMessage = e
@@ -290,13 +272,11 @@
                        var responseCode = response.status
                         this.displayStatus(responseCode,'removed','removing pending')
                         this.getPendingConfiguration()
-                        //this.$emit('getPendingConfiguration');
                     })
                     .catch(e => {
                         this.errorMessage = e
                     })
             },
-            
             onConfigClick(params) {
                 this.selectedRow = params.row;
                 this.selectedConfig = this.generateConfigFile(params.row)
@@ -334,7 +314,6 @@
             },
             generateConfigFile(config){
                 var fileContent = []
-                
                 if(config.hasOwnProperty('continuous_mode') || config.hasOwnProperty('reset') || config.hasOwnProperty('wakeup_period_in_minutes') ){
                     if(this.isFieldNotEmpty(config.continuous_mode) || this.isFieldNotEmpty(config.reset) || this.isFieldNotEmpty(config.wakeup_period_in_minutes))
                         fileContent.push('[GENERAL]\n')
@@ -391,7 +370,7 @@
                 {
                     this.flashMessage.show({status: 'error', title: 'Error', message: 'An error occured while '+type2+' configuration'})
                 }
-                },
+            },
             onPickFile () {
                 this.$refs.fileInput.click()
             },
@@ -404,12 +383,9 @@
                     this.setInputValues(this.uploadedFile)
                 })
                 fileReader.readAsText(files[0])
-                
-                
             },
             getValidationClass (fieldName) {
                 const field = this.$v.configuration[fieldName]
-
                 if (field) {
                     return {
                     'md-invalid': field.$invalid && field.$dirty

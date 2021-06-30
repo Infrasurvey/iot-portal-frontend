@@ -1,39 +1,13 @@
 <template>
     <div id="container-three">
-
     </div>
-
 </template>
 <script>
 import * as THREE from 'three';
 import { TrackballControls } from 'three-trackballcontrols-ts';
-/*         <input type="range" name="s1" id="s1" v-model="s1" step="0.01" min="-5" max="5">
-        <input type="range" name="s2" id="s2" v-model="s2" step="0.01" min="-5" max="5">
-        <input type="range" name="s3" id="s3" v-model="s3" step="0.01" min="-5" max="5">
-        <vgl-renderer class="getting-started" camera="camera" scene="scene">
-        <vgl-scene name="scene">
-            <vgl-arrow-helper
-            :dir="`4 3 3`"
-            :length="1"
-            :head-length="0.2"
-            :head-width="0.1"
-            />
-            <vgl-axes-helper :size="size" />
-        </vgl-scene>
-        <vgl-perspective-camera :orbit-position="s1+' '+s2+' '+ s3" name="camera"></vgl-perspective-camera>
-        </vgl-renderer>*/
-//const { VglRenderer,VglPerspectiveCamera,VglAxesHelper,VglArrowHelper,VglMesh,VglBoxGeometry, VglScene} = require('vue-gl');
+
 export default {
     name : 'inclination-component',
-    components :{
-       /* VglRenderer,
-        VglPerspectiveCamera,
-        VglMesh,
-        VglBoxGeometry,
-        VglAxesHelper,
-        VglArrowHelper,
-        VglScene*/
-    },
     props :{
         inclination :{
             required : true
@@ -49,20 +23,15 @@ export default {
             controls : null,
             renderer : null
         }
-    }
-    ,
+    },
     mounted(){
         this.setUpThree()        
     },
     methods:{
         setUpThree(){
-
-            
             const aspect = 250 / 300;
-
             this.perspectiveCamera = new THREE.PerspectiveCamera(45,aspect,0.1,1000 );
             this.perspectiveCamera.position.set(0.8,0.8,1.1);
-            
             this.scene = new THREE.Scene();
             this.scene.background = new THREE.Color( 0xFAFAFA );
 
@@ -113,11 +82,7 @@ export default {
                 line.computeLineDistances();
                 this.scene.add(line); 
             }
-            else{
-                //this.$emit('displayStatus','Unable to display inclination axis system.');
-            }
             
-
             material = new THREE.LineBasicMaterial( { color: 0x000000 } );
 
             points = [];
@@ -157,9 +122,8 @@ export default {
         },
         animate(){
             requestAnimationFrame( this.animate);
-
-				this.controls.update();
-               this.renderer.render( this.scene, this.perspectiveCamera );
+			    this.controls.update();
+                this.renderer.render( this.scene, this.perspectiveCamera );
         },
     }
 }

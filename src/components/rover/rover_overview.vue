@@ -64,15 +64,14 @@
           <button class="setting-btn apply-btn disabled">Download filtered data as CSV</button>
       </div>
       <Modal
-                v-if="isModalVisible"
-                :eastings="eastings"
-                :northings="northings"
-                :altitudes="altitudes"
-                :batteries="batteries"
-                :accelerations="accelerations"
-                @close="closeModal"
-                />
-      
+        v-if="isModalVisible"
+        :eastings="eastings"
+        :northings="northings"
+        :altitudes="altitudes"
+        :batteries="batteries"
+        :accelerations="accelerations"
+        @close="closeModal"
+      />
     </div>
     <div v-if="isMounted" :class="loadClass">
       <section-title title= "Plots"></section-title>
@@ -93,10 +92,6 @@
           <h4>Battery</h4>
           <plot class="plot" v-if="isMounted" :height="150" :chart-data="batteries"></plot>
         </div>
-        <div>
-          Plot 1
-        </div>
-
       </div>
     </div>
     <FlashMessage></FlashMessage>
@@ -104,17 +99,16 @@
 </template>
 
 <script>
-    import API from '../../http-constants'
-    import InclinationComponent from './inclination-component'
-    import MapComponent from './map-component'
-    import Modal from './download_modal'
-    import Plot from './plot'
-    import moment from 'moment';
-    import SectionTitle from '../template/SectionTitle';
-    import Spinner from 'vue-simple-spinner'
+import API from '../../http-constants'
+import InclinationComponent from './inclination-component'
+import MapComponent from './map-component'
+import Modal from './download_modal'
+import Plot from './plot'
+import moment from 'moment';
+import SectionTitle from '../template/SectionTitle';
+import Spinner from 'vue-simple-spinner'
 
 export default {
-  
   name: 'rover-overview',
   components :{
     'inclination-component':InclinationComponent,
@@ -164,8 +158,6 @@ export default {
       enable_low_pass : false,
       enable_outlier : false,
       loadClass : 'grayed'
-
-
     }
   },
   async created(){
@@ -226,7 +218,6 @@ export default {
           })
           .catch(e => {
               this.errorMessage = e
-              
           })
       },
       processData(){
@@ -246,9 +237,8 @@ export default {
                 tmp.date = position.date  
                 this.convertedPositions.push(tmp)
 
-              dates.push(moment(position.date).format('DD.MM.YYYY'))
-              //dates.push(i)
-              i +=1
+                dates.push(moment(position.date).format('DD.MM.YYYY'))
+                i +=1
                 easts.push(Number(tmp.Easting))
                 norths.push(Number(tmp.Northing))
                 altis.push(Number(tmp.altitude))
@@ -263,12 +253,10 @@ export default {
             this.d3Distance = Math.sqrt(Math.pow(this.latestConvertedPosition.Easting - this.firstConvertedPosition.Easting,2) 
               + Math.pow(this.latestConvertedPosition.Northing - this.firstConvertedPosition.Northing,2)
               + Math.pow(this.latestConvertedPosition.altitude - this.firstConvertedPosition.altitude,2)).toPrecision(2)
-            
         }
         else{
           this.displayStatus("Unable to display data overview, map and position plot")
         }
-
 
         var acc_x = []
         var acc_y = []
@@ -276,7 +264,6 @@ export default {
         dates = []
         if(this.measure_rovers.length > 0){
           this.setInclination()
-            
           this.measure_rovers.forEach(measure_rover => {
             var date = moment(measure_rover.date)
             if(moment(this.startDate) < date && date < moment(this.endDate)){
@@ -285,7 +272,6 @@ export default {
               acc_y.push(measure_rover.raw_acceleration_y)
               acc_z.push(measure_rover.raw_acceleration_z)
             }
-            
           });
           this.accelerations = {'labels' : dates,
           'datasets': [{'label':'Acceleration X', 'data' : acc_x,'fill':false,'borderColor':'rgba(229, 57, 53, 0.51)'},
@@ -305,13 +291,11 @@ export default {
               dates.push(moment(measure_device.date).format('DD.MM.YYYY'))
               bats.push(measure_device.battery_voltage)
             }
-            
           });
           this.batteries = {'labels' : dates,'datasets': [{'label':'Easting', 'data' : bats,'fill':false,'borderColor':'rgba(229, 57, 53, 0.51)'}]}
         }else{
           this.displayStatus("Unable to display battery voltage plot")
         }
-
       },
       setInclination(){
         var latestMeasureRover = this.measure_rovers.slice(-1)[0]
@@ -324,9 +308,7 @@ export default {
           this.inclination.push(-(y / n).toPrecision(2))
           this.inclination.push((z / n).toPrecision(2))
         }
-
       },
-      
       showModal(){
             this.isModalVisible = true;
       },

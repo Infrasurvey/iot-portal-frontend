@@ -1,5 +1,8 @@
 import { AbilityBuilder, Ability } from '@casl/ability'
 
+/**
+ * Create and return a Ability
+ */
 export default function defineRulesFor(groups,organizations,is_admin){
   const { can, cannot, build } = new AbilityBuilder(Ability);
     if(is_admin != 0){

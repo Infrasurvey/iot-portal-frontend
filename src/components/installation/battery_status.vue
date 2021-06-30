@@ -27,7 +27,6 @@ export default {
           'battery_voltage' : this.battery.battery_voltage,
           'is_basestation' : this.battery.is_basestation || false,
           'system_id' : this.battery.system_id,
-
       }
   }
 }

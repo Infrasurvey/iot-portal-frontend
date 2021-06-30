@@ -39,7 +39,6 @@ import { required } from 'vuelidate/lib/validators'
 import FormData from 'form-data'
 import Multiselect from 'vue-multiselect'
 
-
   export default {
     name: 'Modal',
     props:{
@@ -90,7 +89,6 @@ import Multiselect from 'vue-multiselect'
           }
         })
         this.setSelectedGroups()
-
     },
     methods: {
       close() {
@@ -106,7 +104,7 @@ import Multiselect from 'vue-multiselect'
               else
                 url = '/api/getGroupsByOrganization/'+this.organization_id     
           }
-     
+    
           return API.get(url)
           .then(response => {
                 if(!Array.isArray(response.data))
@@ -120,7 +118,6 @@ import Multiselect from 'vue-multiselect'
       },
       getOrganizations(){
         var url = ''
-
         if(this.group_id !=null){
              url = '/api/getGroupWithOrganization/'+this.group_id
              return API.get(url).then(response => {
@@ -140,7 +137,6 @@ import Multiselect from 'vue-multiselect'
                 this.organizations = [response.data]
             else
                 this.organizations = response.data
-
             })
             .catch(e => {
                 this.errorMessage = e
@@ -148,13 +144,11 @@ import Multiselect from 'vue-multiselect'
         }
       },
       setSelectedGroups(){
-        
         var selectedGroups = Array()
         if(this.organizations_selected.length > 0)
         {
           this.organizations_of_user = this.organizations_selected
         }
-
         this.organizations_of_user.forEach(organization => {
           var orga = this.organizations.find(function(orga) {
             return orga.id === this.id;
@@ -167,7 +161,6 @@ import Multiselect from 'vue-multiselect'
               selectedGroups = selectedGroups.concat(orga.groups);
           }
         })
-        
         
         this.groups_selected.forEach(group => {
             if (selectedGroups.some(function(gr) {return gr.id === this.id;}, group)) {
