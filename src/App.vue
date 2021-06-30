@@ -80,7 +80,6 @@
 
 <script>
 import Breadcrumb from './components/template/Breadcrumb'
-import defineRulesFor from './assets/js/abilityBuild'
 
 export default {
     name: 'App'
