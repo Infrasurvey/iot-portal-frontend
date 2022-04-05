@@ -114,9 +114,9 @@ export default {
                 this.image_path = this.installation.image_path
                 let baseURL
                 if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-                baseURL = 'http://localhost:8080/'
+                baseURL = 'http://localhost:8003/'
                 } else {
-                baseURL = 'http://geomon-iot.ch:8080/'
+                baseURL = 'http://geomon-iot.ch:8003/'
                 }
                 this.src = baseURL+'storage/images/'+this.image_path
             })
