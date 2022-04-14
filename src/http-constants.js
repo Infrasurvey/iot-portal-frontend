@@ -7,7 +7,7 @@ let baseURL
 if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
   baseURL = 'http://localhost:8003/'
 } else {
-  baseURL = 'http://geomon-iot.ch:8003/'
+  baseURL = 'http://geomon-iot.ch:8080/'
 }
 
 
