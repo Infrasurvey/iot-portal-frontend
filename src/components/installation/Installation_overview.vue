@@ -1,6 +1,9 @@
 <template>
   <div class="main-install overview-inst">
-    <section-title v-if="isMounted" :title="installation.name +' installation'"></section-title>
+    <div class="title-container">
+      <section-title v-if="isMounted" :title="installation.name +' installation'"></section-title>
+      <div><md-button class="md-raised md-primary create-installation-button" type="button" @click="refreshInstallation">Refresh data</md-button></div>
+    </div>
     <div class="flex-container overview">
       <div class="overview-container md-elevation-3">
       <img :src="src" alt="" width="230px" height="230px">
@@ -49,6 +52,15 @@
     <div class="bottom"></div>
   </div>
 </template>
+
+<style scoped>
+.title-container{
+  display:flex;
+  width: 100%;
+  align-items: center;
+  padding: 20px;
+}
+</style>
   
 <script>
   import BatteryStatus from './battery_status'
@@ -111,6 +123,16 @@
       this.isMounted = true
     },
     methods: {
+      refreshInstallation(){
+        API.get('/api/installation/' + this.installationId + '/basestation/device')
+        .then(response => {
+          API.post('/api/device/basestation/'+ response.data.system_id)
+          .then(response => {
+          })
+          .catch(e => {
+          })
+        })
+      },
       getInstallation(){
         return API.get('/api/installation/'+this.installationId)
         .then(response => {
@@ -119,7 +141,7 @@
           if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
             baseURL = 'http://localhost:8003/'
           } else {
-            baseURL = 'http://geomon-iot.ch:8003/'
+            baseURL = 'http://geomon-iot.ch:8080/'
           }
           this.src = baseURL+'storage/images/'+this.installation.image_path
         })
