@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="app">
     <div v-if="loggedIn" class="navigation">
       <md-toolbar class="md-accent navigation-title" md-elevation="5">
         <h3>Geomon IoT Portal</h3>
@@ -33,15 +33,28 @@
         </div>
       </md-toolbar>
     </div>
-    <router-view class="main-app" v-if="isMounted" @updateUserInfo="updateUserInfo" @updateAbility="updateAbility"></router-view>
+    <router-view style="position: fixed; top: 81px;" v-if="isMounted" @updateUserInfo="updateUserInfo" @updateAbility="updateAbility"></router-view>
   </div>
 </template>
 
 <style scoped>
+element {
+  --navigation-bar-height: 80px;
+}
+
+.router{
+  position: fixed;
+  top: var(--navigation-bar-height);
+}
+
 .navigation{
+  position: fixed;
+  top: 0;
+  left: 0;
   display: flex;
   align-items: stretch;
-  height: 80px;
+  height: var(--navigation-bar-height);
+  width: 100%;
 }
 
 .navigation-title{
@@ -94,7 +107,6 @@ components: {
       mail:'',
       isMounted : false,
       manageable : false
-
     }
   },
   created(){

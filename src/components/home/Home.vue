@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="home">
     <div class="title-container">
       <section-title title="My installations"></section-title>
       <div><md-button v-if="manageable" class="md-raised md-primary create-installation-button" type="button" @click="showModal">Create a new installation</md-button></div>
@@ -18,6 +18,18 @@
 </template>
 
 <style scoped>
+.home{
+  overflow-y: scroll;
+  height: calc(100vh - 80px);
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.home::-webkit-scrollbar {
+  display: none;
+}
+
 .title-container{
   display:flex;
   width: 100%;
