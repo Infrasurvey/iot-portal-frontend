@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="app">
+  <div id="app">
     <div v-if="loggedIn" class="navigation">
       <md-toolbar class="md-accent navigation-title" md-elevation="5">
         <h3>Geomon IoT Portal</h3>
@@ -33,7 +33,8 @@
         </div>
       </md-toolbar>
     </div>
-    <router-view style="position: fixed; top: 81px;" v-if="isMounted" @updateUserInfo="updateUserInfo" @updateAbility="updateAbility"></router-view>
+    <router-view v-if="loggedIn === false"></router-view>
+    <router-view v-else-if="isMounted" style="position: fixed; top: 81px;" @updateUserInfo="updateUserInfo" @updateAbility="updateAbility"></router-view>
   </div>
 </template>
 
