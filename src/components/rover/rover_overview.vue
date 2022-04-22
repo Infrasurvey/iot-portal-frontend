@@ -7,14 +7,14 @@
       <div class="rover-overview-panel">
           <h3>Latest data overview</h3>
           Date : {{rover.last_communication | formatDate}} <br>
-          Easting : {{latestConvertedPosition.Easting}}m <br>
-          Northing : {{latestConvertedPosition.Northing }}m <br>
-          Elevation : {{latestConvertedPosition.altitude }}m <br>
+          Easting : {{Number(lastPosition.relative_easting.toPrecision(2))}} m<br>
+          Northing : {{Number(lastPosition.relative_northing.toPrecision(2))}} m<br>
+          Elevation : {{Number(lastPosition.relative_up.toPrecision(2))}} m<br>
           Battery voltage : {{rover.battery_voltage}}V
           <h3>Total traveled distance</h3>
-          Easting distance : {{(latestConvertedPosition.Easting - firstConvertedPosition.Easting).toPrecision(2)}}m<br>
-          Northing distance : {{(latestConvertedPosition.Northing - firstConvertedPosition.Northing).toPrecision(2)}}m <br>
-          Elevation distance : {{(latestConvertedPosition.altitude - firstConvertedPosition.altitude).toPrecision(2)}}m  <br>
+          Easting distance : {{(lastPosition.relative_easting - firstPosition.relative_easting).toPrecision(2)}} m<br>
+          Northing distance : {{(lastPosition.relative_northing - firstPosition.relative_northing).toPrecision(2)}} m<br>
+          Elevation distance : {{(lastPosition.relative_up - firstPosition.relative_up).toPrecision(2)}} m<br>
           3D distance : {{d3Distance}}m
       </div>
       <div class="rover-inclination-panel">
@@ -124,14 +124,14 @@ export default {
       roverId : this.$route.params.roverid,
       isModalVisible: false,
       isMounted : false,
-      rover : '',
+      rover : [],
       startDate : '2015-01-01',
       endDate : moment().format('YYYY-MM-DD'),
       positions : [],
-      convertedPositions :[],
-      latestConvertedPosition : '',
-      firstConvertedPosition : '',
-      d3Distance :0,
+      filteredPositions : [],
+      lastPosition : [],
+      firstPosition : [],
+      d3Distance : 0,
       inclination : [],
       eastings : {
         labels :[],
@@ -178,83 +178,60 @@ export default {
   },
   methods : {
       resetData(){
-        this.rover = '',
+        this.rover = [],
         this.positions = [],
-        this.convertedPositions =[],
-        this.latestConvertedPosition = '',
-        this.firstConvertedPosition = '',
-        this.d3Distance =0,
+        this.filteredPositions = [],
+        this.lastPosition = [],
+        this.firstPosition = [],
+        this.d3Distance = 0,
         this.inclination = [],
         this.eastings = {
-          labels :[],
+          labels : [],
           datasets : []
         },
         this.northings = {
-          labels :[],
+          labels : [],
           datasets : []
         },
         this.altitudes= {
-          labels :[],
+          labels : [],
           datasets : []
         },
         this.batteries = {
-          labels :[],
+          labels : [],
           datasets : []
         },
-        this.measure_rovers = '',
+        this.measure_rovers = [],
         this.measure_devices = []
       },
       processPlot(){
-        this.processData()
-      },
-      getRover(){
-          return API.get('/api/installation/'+this.installationId+'/basestation/rovers/'+this.roverId)
-          .then(response => {
-              this.rover =response.data;
-              this.positions = this.rover.r_positions
-              this.measure_rovers = this.rover.r_measure_rovers
-              this.measure_devices = this.rover.r_measure_devices
-              this.processData()
-          })
-          .catch(e => {
-              this.errorMessage = e
-          })
-      },
-      processData(){
-        var utmObj = require('utm-latlng');
-        var utm=new utmObj();
         var easts = []
         var norths = []
         var altis = []
         var dates = []
-        var i =1
         if(this.positions.length > 0){
             this.positions.forEach(position => {
               var date = moment(position.date)
-              if(moment(this.startDate) < date && date < moment(this.endDate)){
-                var tmp = utm.convertLatLngToUtm(position.latitude, position.longitude,2);
-                tmp.altitude = position.height      
-                tmp.date = position.date  
-                this.convertedPositions.push(tmp)
-
+              if(moment(this.startDate) <= date && date <= moment(this.endDate)){
+                this.filteredPositions.push(position)
                 dates.push(moment(position.date).format('DD.MM.YYYY'))
-                i +=1
-                easts.push(Number(tmp.Easting))
-                norths.push(Number(tmp.Northing))
-                altis.push(Number(tmp.altitude))
+                easts.push(Number(position.relative_easting))
+                norths.push(Number(position.relative_northing))
+                altis.push(Number(position.relative_up))
               }
             });
+            
             this.eastings = {'labels' : dates,'datasets': [{'label':'Easting','fill':false, 'data' : easts,'borderColor':'rgba(229, 57, 53, 0.51)'}]}
             this.northings = {'labels' : dates,'datasets': [{'label':'Northing','fill':false, 'data' : norths,'borderColor':'rgba(229, 57, 53, 0.51)'}]}
             this.altitudes = {'labels' : dates,'datasets': [{'label':'Elevation','fill':false, 'data' : altis,'borderColor':'rgba(229, 57, 53, 0.51)'}]}
 
-            this.latestConvertedPosition = this.convertedPositions.slice(-1)[0]
-            this.firstConvertedPosition = this.convertedPositions[0]
-            this.d3Distance = Math.sqrt(Math.pow(this.latestConvertedPosition.Easting - this.firstConvertedPosition.Easting,2) 
-              + Math.pow(this.latestConvertedPosition.Northing - this.firstConvertedPosition.Northing,2)
-              + Math.pow(this.latestConvertedPosition.altitude - this.firstConvertedPosition.altitude,2)).toPrecision(2)
+            this.lastPosition = this.filteredPositions.slice(-1)[0]
+            this.firstPosition = this.filteredPositions[0]
+            this.d3Distance = Math.sqrt(Math.pow(this.lastPosition.relative_easting - this.firstPosition.relative_easting, 2)
+                            + Math.pow(this.lastPosition.relative_northing - this.firstPosition.relative_northing, 2)
+                            + Math.pow(this.lastPosition.relative_up - this.firstPosition.relative_up, 2)).toPrecision(2)
         }
-        else{
+        else {
           this.displayStatus("Unable to display data overview, map and position plot")
         }
 
@@ -296,6 +273,19 @@ export default {
         }else{
           this.displayStatus("Unable to display battery voltage plot")
         }
+      },
+      getRover(){
+          return API.get('/api/installation/'+this.installationId+'/basestation/rovers/'+this.roverId)
+          .then(response => {
+              this.rover = response.data;
+              this.positions = this.rover.r_positions
+              this.measure_rovers = this.rover.r_measure_rovers
+              this.measure_devices = this.rover.r_measure_devices
+              this.processPlot()
+          })
+          .catch(e => {
+              this.errorMessage = e
+          })
       },
       setInclination(){
         var latestMeasureRover = this.measure_rovers.slice(-1)[0]

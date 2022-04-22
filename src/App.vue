@@ -34,7 +34,7 @@
       </md-toolbar>
     </div>
     <router-view v-if="loggedIn === false"></router-view>
-    <router-view v-else-if="isMounted" style="position: fixed; top: 81px;" @updateUserInfo="updateUserInfo" @updateAbility="updateAbility"></router-view>
+    <router-view v-else-if="isMounted" style="position: fixed; top: 80px; width: 100%;" @updateUserInfo="updateUserInfo" @updateAbility="updateAbility"></router-view>
   </div>
 </template>
 
