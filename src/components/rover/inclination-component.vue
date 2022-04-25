@@ -35,7 +35,7 @@ export default {
             this.scene = new THREE.Scene();
             this.scene.background = new THREE.Color( 0xFAFAFA );
 
-            let axis = new THREE.AxisHelper();
+            let axis = new THREE.AxesHelper();
             var colors = axis.geometry.attributes.color;
             colors.setXYZ( 0, 0, 0, 0 ); // index, R, G, B
             colors.setXYZ( 1,  0, 0, 0 ); // red

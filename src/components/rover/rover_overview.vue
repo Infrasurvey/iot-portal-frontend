@@ -129,8 +129,16 @@ export default {
       endDate : moment().format('YYYY-MM-DD'),
       positions : [],
       filteredPositions : [],
-      lastPosition : [],
-      firstPosition : [],
+      lastPosition : {
+        relative_easting: 0,
+        relative_northing: 0,
+        relative_up: 0
+      },
+      firstPosition : {
+        relative_easting: 0,
+        relative_northing: 0,
+        relative_up: 0
+      },
       d3Distance : 0,
       inclination : [],
       eastings : {
@@ -153,14 +161,21 @@ export default {
         labels :[],
         datasets : []
       },
-      measure_rovers : '',
+      measure_rovers : [],
       measure_devices : [],
       enable_low_pass : false,
       enable_outlier : false,
       loadClass : 'grayed'
     }
   },
-  async created(){
+  async mounted(){
+    await API.get('/api/installation/'+this.installationId+'/basestation/configuration/lastReferencePositionChange')
+    .then(response => {
+        this.startDate = response.data.configuration_date.slice(0, 10);
+    })
+    .catch(e => {
+        this.errorMessage = e
+    })
     await this.getRover()
     this.loadClass = ''
     this.isMounted = true
@@ -181,8 +196,12 @@ export default {
         this.rover = [],
         this.positions = [],
         this.filteredPositions = [],
-        this.lastPosition = [],
-        this.firstPosition = [],
+        this.lastPosition.relative_easting = 0,
+        this.lastPosition.relative_northing = 0,
+        this.lastPosition.relative_up = 0,
+        this.firstPosition.relative_easting = 0,
+        this.firstPosition.relative_northing = 0,
+        this.firstPosition.relative_up = 0,
         this.d3Distance = 0,
         this.inclination = [],
         this.eastings = {
@@ -211,8 +230,8 @@ export default {
         var dates = []
         if(this.positions.length > 0){
             this.positions.forEach(position => {
-              var date = moment(position.date)
-              if(moment(this.startDate) <= date && date <= moment(this.endDate)){
+              var date = position.date.slice(0, 10)
+              if(this.startDate <= date && date <= this.endDate){
                 this.filteredPositions.push(position)
                 dates.push(moment(position.date).format('DD.MM.YYYY'))
                 easts.push(Number(position.relative_easting))
@@ -225,11 +244,14 @@ export default {
             this.northings = {'labels' : dates,'datasets': [{'label':'Northing','fill':false, 'data' : norths,'borderColor':'rgba(229, 57, 53, 0.51)'}]}
             this.altitudes = {'labels' : dates,'datasets': [{'label':'Elevation','fill':false, 'data' : altis,'borderColor':'rgba(229, 57, 53, 0.51)'}]}
 
-            this.lastPosition = this.filteredPositions.slice(-1)[0]
-            this.firstPosition = this.filteredPositions[0]
-            this.d3Distance = Math.sqrt(Math.pow(this.lastPosition.relative_easting - this.firstPosition.relative_easting, 2)
-                            + Math.pow(this.lastPosition.relative_northing - this.firstPosition.relative_northing, 2)
-                            + Math.pow(this.lastPosition.relative_up - this.firstPosition.relative_up, 2)).toPrecision(2)
+            if (this.filteredPositions.length != 0)
+            {
+              this.lastPosition = this.filteredPositions.slice(-1)[0]
+              this.firstPosition = this.filteredPositions[0]
+              this.d3Distance = Math.sqrt(Math.pow(this.lastPosition.relative_easting - this.firstPosition.relative_easting, 2)
+                              + Math.pow(this.lastPosition.relative_northing - this.firstPosition.relative_northing, 2)
+                              + Math.pow(this.lastPosition.relative_up - this.firstPosition.relative_up, 2)).toPrecision(2)
+            }
         }
         else {
           this.displayStatus("Unable to display data overview, map and position plot")
