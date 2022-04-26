@@ -1,7 +1,7 @@
 <template>
   <div style="display: flex; ">
     <sidenav-installation style="max-width: 300px; min-width: 300px; background-color: #EEEEEE;" :installationId="installationId"></sidenav-installation>
-    <router-view  style="width: calc(100% - 300px); height: 100vh"></router-view>
+    <router-view  style="width: calc(100% - 300px); height: calc(100vh - 80px);"></router-view>
   </div>
 </template>
 

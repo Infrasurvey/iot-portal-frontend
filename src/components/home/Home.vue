@@ -21,13 +21,6 @@
 .home{
   overflow-y: scroll;
   height: calc(100vh - 80px);
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
-}
-
-/* Hide scrollbar for Chrome, Safari and Opera */
-.home::-webkit-scrollbar {
-  display: none;
 }
 
 .title-container{
