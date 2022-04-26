@@ -92,9 +92,9 @@
       src : '',
       isMounted : false,
       batteryDisplay : '',
-      rovers : '',
+      rovers : [],
       errorMessage: '',
-      zoom: 11, 
+      zoom: 14, 
       center: [46.68002385,7.312523534],
       positions:[],
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -163,12 +163,17 @@
         })
       },
       createMapOverlay(){
-        this.center = [this.rovers[0].default_position.latitude,this.rovers[0].default_position.longitude]
-       this.rovers.forEach(rover => {
-         if(rover.default_position != null){
-          this.positions.push({'id':rover.system_id, 'pos':[rover.default_position.latitude,rover.default_position.longitude]})
-         }
+        var cLat = 0;
+        var cLon = 0;
+        // Calculate center
+        this.rovers.forEach(rover => {
+          if(rover.default_position != null){
+            cLat = cLat === 0 ? rover.default_position.latitude : cLat;
+            cLon = cLon === 0 ? rover.default_position.longitude : cLon;
+            this.positions.push({'id':rover.system_id, 'pos':[rover.default_position.latitude, rover.default_position.longitude]})
+          }
         });
+        this.center = [cLat, cLon];
       }
     }
   }
