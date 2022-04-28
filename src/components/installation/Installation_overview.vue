@@ -150,7 +150,7 @@
         })
       },
       getStation: function (installationId) {
-      return API.get('/api/installation/'+installationId+'/basestation/roversPositions')
+        return API.get('/api/installation/'+installationId+'/basestation/roversPositions')
         .then(response => {
           this.station =response.data[0];
           this.rovers = this.station.rovers
@@ -159,7 +159,7 @@
           this.createMapOverlay()
         })
         .catch(e => {
-        this.errorMessage = e
+          this.errorMessage = e
         })
       },
       createMapOverlay(){

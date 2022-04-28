@@ -13,13 +13,12 @@
     </md-list>
     <div style="font-weight: bold; margin-bottom: 10px; margin-top: 10px;">Rovers</div>
     <md-list style="background-color: inherit;">
-      <rover-item v-for="rover in rovers" :key="rover.system_id" :rover="rover" @updateList="getRovers"/>
+      <rover-item v-for="rover in rovers" :key="rover.system_id" :rover="rover"/>
     </md-list>
   </div>
 </template>
 
 <script>
-import API from '../../http-constants'
 import RoverItem from '../installation/sidenav_rover_element' 
 
 export default {
@@ -29,34 +28,13 @@ export default {
      type: String,
      required : true
    },
+   rovers: {
+     type: Array,
+     required : true
+   },
   },
   components : {
     'rover-item':RoverItem,
-  },
-  data(){
-    return{
-      rovers : [],
-      basestation : ''
-    }
-  },
-  watch: {
-    async $route(to, from) {
-      this.getRovers()
-      }
-  },
-  async created(){
-    this.getRovers()
-  },
-  methods:{
-    getRovers(){
-      API.get('/api/installation/'+this.installationId+'/basestation/rovers')
-      .then(response => {
-        this.rovers =response.data
-      })
-      .catch(e => {
-        this.errorMessage = e
-      })
-    }
   }
 }
 </script>

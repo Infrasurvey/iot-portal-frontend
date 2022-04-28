@@ -11,7 +11,7 @@
 
 <script>
 export default {
-    name: 'organization-item',
+    name: 'rover-item',
     props:{
       rover: {
           type: Object,

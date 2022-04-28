@@ -297,7 +297,7 @@ export default {
         }
       },
       getRover(){
-          return API.get('/api/installation/'+this.installationId+'/basestation/rovers/'+this.roverId)
+          return API.get('/api/installation/'+this.installationId+'/basestation/rover/'+this.roverId)
           .then(response => {
               this.rover = response.data;
               this.positions = this.rover.r_positions
