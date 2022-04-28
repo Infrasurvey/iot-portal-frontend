@@ -6,16 +6,16 @@
     <div v-if="isMounted" :class="loadClass" class="flex-container">
       <div class="rover-overview-panel">
           <h3>Latest data overview</h3>
-          Date : {{rover.last_communication | formatDate}} <br>
-          Easting : {{Number(lastPosition.relative_easting.toPrecision(2))}} m<br>
-          Northing : {{Number(lastPosition.relative_northing.toPrecision(2))}} m<br>
-          Elevation : {{Number(lastPosition.relative_up.toPrecision(2))}} m<br>
-          Battery voltage : {{rover.battery_voltage}}V
+          Date : {{rover.last_communication | formatDate}}<br>
+          Easting : {{Number(lastPosition.relative_easting.toPrecision(2))}} [cm]<br>
+          Northing : {{Number(lastPosition.relative_northing.toPrecision(2))}} [cm]<br>
+          Elevation : {{Number(lastPosition.relative_up.toPrecision(2))}} [cm]<br>
+          Battery voltage : {{rover.battery_voltage}} [V]<br>
           <h3>Total traveled distance</h3>
-          Easting distance : {{(lastPosition.relative_easting - firstPosition.relative_easting).toPrecision(2)}} m<br>
-          Northing distance : {{(lastPosition.relative_northing - firstPosition.relative_northing).toPrecision(2)}} m<br>
-          Elevation distance : {{(lastPosition.relative_up - firstPosition.relative_up).toPrecision(2)}} m<br>
-          3D distance : {{d3Distance}}m
+          Easting distance : {{(lastPosition.relative_easting - firstPosition.relative_easting).toPrecision(2)}} [cm]<br>
+          Northing distance : {{(lastPosition.relative_northing - firstPosition.relative_northing).toPrecision(2)}} [cm]<br>
+          Elevation distance : {{(lastPosition.relative_up - firstPosition.relative_up).toPrecision(2)}} [cm]<br>
+          3D distance : {{d3Distance}} [cm]<br>
       </div>
       <div class="rover-inclination-panel">
         <inclination-component @displayStatus="displayStatus" v-if="isMounted" :inclination="inclination"></inclination-component>
