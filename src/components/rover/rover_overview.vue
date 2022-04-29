@@ -231,7 +231,7 @@ export default {
         if(this.positions.length > 0){
             this.positions.forEach(position => {
               var date = position.date.slice(0, 10)
-              if(this.startDate <= date && date <= this.endDate){
+              if(this.startDate <= date && date <= this.endDate && position.n18 >= 5 && position.n90 >= 20 && position.iqrh90 <= 0.015){
                 this.filteredPositions.push(position)
                 dates.push(moment(position.date).format('DD.MM.YYYY'))
                 easts.push(Number(position.relative_easting))
